@@ -35,7 +35,7 @@ def recv(s):
 def Main():
     try:
         print 'Client'
-        host = '' #my ip addres
+        host = '' #server ip addres
         port = 12345
         s.connect((host,port))
         start_new_thread(recv, (s,))

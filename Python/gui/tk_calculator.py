@@ -7,17 +7,55 @@ winHeight = '600'
 window.geometry(winWidth + 'x' + winHeight)
 
 sv = StringVar()
+def callback(*args):
+    result = sv.get()
+    if len(result) > 1 and result[len(result) - 1] == '=':
+        calculate()
+sv.trace("w", callback)
 
-def callback():
-    print('yeet')
-
-resultTextInput = Entry(window, width=winWidth, font=10, textvariable=sv, validate="focusout", validatecommand=callback)
+resultTextInput = Entry(window, width=winWidth, font=10, textvariable=sv)
 resultTextInput.grid(row=0, column=0)
 
 buttonFrame = Frame(window)
 buttonFrame.grid(row=1, column=0, columnspan=2, sticky='w')
 
 reset = False
+
+
+def calculate():
+    digits = ['']
+    operators = []
+    digIndex = 0
+    optIndex = 0
+    result = 0
+    for char in resultTextInput.get():
+        if char.isdigit():
+            digits[digIndex] = digits[digIndex] + char
+        if char == '=':
+            operators.append(char)
+            break
+        if not char.isdigit():
+            digits.append('')
+            digIndex += 1
+            operators.append(char)
+    digits = [dig for dig in digits if dig.isdigit()]
+    if len(digits) != len(operators): #should have the same amount of number (groups) to operators
+        resultTextInput.delete(0,END)
+    else:
+        # caculate from string
+        for opr in operators:
+            if opr == '+':
+                digits[0] = int(digits[0]) + int(digits[1])
+                digits.remove(digits[1])
+            if opr == '-':
+                digits[0] = int(digits[0]) - int(digits[1])
+                digits.remove(digits[1])
+            if opr == '/':
+                digits[0] = int(digits[0]) / int(digits[1])
+                digits.remove(digits[1])
+            if opr == '=':
+                resultTextInput.insert(len(resultTextInput.get()), digits[0])
+
 
 class numButtons:
     def __init__(self,numName='',x=0,y=0):
@@ -39,40 +77,7 @@ class numButtons:
             reset = False
         resultTextInput.insert(len(resultTextInput.get()), self.text)
         if self.text == '=':
-            digits = ['']
-            operators = []
-            digIndex = 0
-            optIndex = 0
-            result = 0
-            for char in resultTextInput.get():
-                if char.isdigit():
-                    digits[digIndex] = digits[digIndex] + char
-                if char == '=':
-                    operators.append(char)
-                    break
-                if not char.isdigit():
-                    digits.append('')
-                    digIndex += 1
-                    operators.append(char)
-            digits = [dig for dig in digits if dig.isdigit()]
-            if len(digits) != len(operators): #should have the same amount of number (groups) to operators
-                resultTextInput.delete(0,END)
-            else:
-                # caculate from string
-                for opr in operators:
-                    if opr == '+':
-                        digits[0] = int(digits[0]) + int(digits[1])
-                        digits.remove(digits[1])
-                    if opr == '-':
-                        digits[0] = int(digits[0]) - int(digits[1])
-                        digits.remove(digits[1])
-                    if opr == '/':
-                        digits[0] = int(digits[0]) / int(digits[1])
-                        digits.remove(digits[1])
-                    if opr == '=':
-                        resultTextInput.insert(len(resultTextInput.get()), digits[0])
-                        reset = True
-
+            reset = True
 
 row = 1
 col = 1

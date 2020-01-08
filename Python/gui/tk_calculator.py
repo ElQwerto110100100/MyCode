@@ -9,8 +9,7 @@ window.geometry(winWidth + 'x' + winHeight)
 sv = StringVar()
 def callback(*args):
     result = sv.get()
-    if result.find('=') > 1:
-        calculate()
+    calculate()
 sv.trace("w", callback)
 
 resultTextInput = Entry(window, width=winWidth, font=10, textvariable=sv)
@@ -23,6 +22,10 @@ reset = False
 
 
 def calculate():
+    #if keyboard deletes the last number on left side of '=' delete all
+    if resultTextInput.get().find('=') == 0:
+        resultTextInput.delete(0,END)
+        return
     digits = ['']
     operators = []
     digIndex = 0
@@ -39,9 +42,6 @@ def calculate():
             digIndex += 1
             operators.append(char)
     digits = [dig for dig in digits if dig.isdigit()]
-    # if len(digits) != len(operators): #should have the same amount of number (groups) to operators
-    #     resultTextInput.delete(0,END)
-    # else:
 
     # caculate from string
     for opr in operators:

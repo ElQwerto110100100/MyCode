@@ -6,11 +6,18 @@ winWidth = '350'
 winHeight = '600'
 window.geometry(winWidth + 'x' + winHeight)
 
-resultTextInput = Entry(window, width=winWidth,font=10)
+sv = StringVar()
+
+def callback():
+    print('yeet')
+
+resultTextInput = Entry(window, width=winWidth, font=10, textvariable=sv, validate="focusout", validatecommand=callback)
 resultTextInput.grid(row=0, column=0)
 
 buttonFrame = Frame(window)
 buttonFrame.grid(row=1, column=0, columnspan=2, sticky='w')
+
+reset = False
 
 class numButtons:
     def __init__(self,numName='',x=0,y=0):
@@ -25,6 +32,11 @@ class numButtons:
         ).grid(row=x, column=y, sticky='w')
 
     def addInput(self):
+        # make it intuitive to input another equation
+        global reset
+        if reset:
+            resultTextInput.delete(0,END)
+            reset = False
         resultTextInput.insert(len(resultTextInput.get()), self.text)
         if self.text == '=':
             digits = ['']
@@ -43,24 +55,25 @@ class numButtons:
                     digIndex += 1
                     operators.append(char)
             digits = [dig for dig in digits if dig.isdigit()]
-            if len(digits) != len(operators):
+            if len(digits) != len(operators): #should have the same amount of number (groups) to operators
                 resultTextInput.delete(0,END)
-'''
-            print(resultTextInput.get())
-            for index,char in enumerate(resultTextInput.get()):
-                try:
-                    if char.isdigit():
-                        cnt = index
-                        while resultTextInput.get()[cnt].isdigit():
-                            numGroup += char
-                            cnt+=1
-                        print(numGroup, index, cnt)
-                        digits.append(int(numGroup))
-                        numGroup = ''
-                except:
-                    continue
-            print(digits)
-'''
+            else:
+                # caculate from string
+                for opr in operators:
+                    if opr == '+':
+                        digits[0] = int(digits[0]) + int(digits[1])
+                        digits.remove(digits[1])
+                    if opr == '-':
+                        digits[0] = int(digits[0]) - int(digits[1])
+                        digits.remove(digits[1])
+                    if opr == '/':
+                        digits[0] = int(digits[0]) / int(digits[1])
+                        digits.remove(digits[1])
+                    if opr == '=':
+                        resultTextInput.insert(len(resultTextInput.get()), digits[0])
+                        reset = True
+
+
 row = 1
 col = 1
 num = 1
@@ -71,7 +84,11 @@ while num != 10:
         col = 0
     col += 1
     num += 1
+#any button will automatically set its self with its function
+#be better two have two class were one inherents from a parent
 numButtons('+',1,4)
+numButtons('-',2,4)
+numButtons('/',3,4)
 numButtons('0',row+1,2)
 numButtons('=',row+1,4)
 

@@ -45,15 +45,18 @@ def calculate():
 
     # caculate from string
     for opr in operators:
-        if opr == '+':
-            digits[0] = int(digits[0]) + int(digits[1])
-            digits.remove(digits[1])
-        if opr == '-':
-            digits[0] = int(digits[0]) - int(digits[1])
-            digits.remove(digits[1])
-        if opr == '/':
-            digits[0] = int(digits[0]) / int(digits[1])
-            digits.remove(digits[1])
+        try:
+            if opr == '+':
+                digits[0] = int(digits[0]) + int(digits[1])
+                digits.remove(digits[1])
+            if opr == '-':
+                digits[0] = int(digits[0]) - int(digits[1])
+                digits.remove(digits[1])
+            if opr == '/':
+                digits[0] = int(digits[0]) / int(digits[1])
+                digits.remove(digits[1])
+        except:
+            pass
         if opr == '=':
             #this will update the entry to corect the output
             rti = resultTextInput.get()

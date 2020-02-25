@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,15 @@ namespace TRotS
             {
                 //the first item will be invalid as it trys to read the first line from the xml witch has no useful infomation
             }
+        }
+
+        public Rectangle GetRect()
+        {
+            return new Rectangle(PosX, PosY, Width, Height);
+        }
+        public Vector2 GetVec()
+        {
+            return new Vector2(PosX, PosY);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace TRotS
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteSheetExtract UiSpriteSheet;
 
         public Game1()
         {
@@ -27,7 +28,8 @@ namespace TRotS
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            SpriteSheetExtract UiSprite = new SpriteSheetExtract(graphics, 
+            //this will load in kenny's sprites and automatically be able to find them and refrence them by name
+            UiSpriteSheet = new SpriteSheetExtract(graphics, 
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\uipack_rpg_sheet.png",
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\uipack_rpg_sheet.xml");
             base.Initialize();
@@ -78,7 +80,8 @@ namespace TRotS
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

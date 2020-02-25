@@ -81,6 +81,8 @@ namespace TRotS
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+            Vector2 position = new Vector2(0,0);
+            UiSpriteSheet.Draw(spriteBatch, position, "panel_blue.png");
             spriteBatch.End();
             base.Draw(gameTime);
         }

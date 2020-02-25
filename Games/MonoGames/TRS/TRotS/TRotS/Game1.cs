@@ -27,7 +27,9 @@ namespace TRotS
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            SpriteSheetExtract UiSprite = new SpriteSheetExtract(graphics, 
+                @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\uipack_rpg_sheet.png",
+                @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\uipack_rpg_sheet.xml");
             base.Initialize();
         }
 

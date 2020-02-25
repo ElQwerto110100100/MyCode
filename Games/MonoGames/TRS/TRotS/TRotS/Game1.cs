@@ -13,6 +13,8 @@ namespace TRotS
         SpriteBatch spriteBatch;
         SpriteSheetExtract UiSpriteSheet;
 
+        Button start;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -33,6 +35,8 @@ namespace TRotS
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\uipack_rpg_sheet.png",
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\uipack_rpg_sheet.xml");
             base.Initialize();
+
+            start = new Button("buttonLong_beige.png", "Start", 100,100);
         }
 
         /// <summary>
@@ -78,11 +82,14 @@ namespace TRotS
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             Vector2 position = new Vector2(0,0);
-            UiSpriteSheet.Draw(spriteBatch, position, "panel_blue.png");
+            Vector2 scale = new Vector2(1, 1);
+            //UiSpriteSheet.Draw(spriteBatch, position, scale, "panel_blue.png");
+            start.Draw(spriteBatch, UiSpriteSheet, new Vector2(100, 10), scale);
+  
             spriteBatch.End();
             base.Draw(gameTime);
         }

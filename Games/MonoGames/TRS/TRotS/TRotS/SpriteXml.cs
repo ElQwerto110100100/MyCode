@@ -31,9 +31,5 @@ namespace TRotS
         {
             return new Rectangle(PosX, PosY, Width, Height);
         }
-        public Vector2 GetVec()
-        {
-            return new Vector2(PosX, PosY);
-        }
     }
 }

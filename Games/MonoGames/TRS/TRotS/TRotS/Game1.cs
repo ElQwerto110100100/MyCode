@@ -35,8 +35,8 @@ namespace TRotS
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\uipack_rpg_sheet.png",
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\uipack_rpg_sheet.xml");
             base.Initialize();
-
-            start = new Button("buttonLong_beige.png", "Start", 100,100);
+            
+            start = new Button(this.Content, UiSpriteSheet, "buttonLong_beige.png", "START", 200, 100, new Vector2(200, 200), "menuFont");
         }
 
         /// <summary>
@@ -85,11 +85,10 @@ namespace TRotS
             
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            Vector2 position = new Vector2(0,0);
-            Vector2 scale = new Vector2(1, 1);
+            
             //UiSpriteSheet.Draw(spriteBatch, position, scale, "panel_blue.png");
-            start.Draw(spriteBatch, UiSpriteSheet, new Vector2(100, 10), scale);
-  
+            start.Draw(spriteBatch);
+
             spriteBatch.End();
             base.Draw(gameTime);
         }

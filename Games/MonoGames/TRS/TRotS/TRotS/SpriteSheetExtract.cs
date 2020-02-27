@@ -29,10 +29,23 @@ namespace TRotS
         {
             return texFromFile(graphics.GraphicsDevice, spriteSheetPath);
         }
-        public void Draw(SpriteBatch spriteBatch, Vector2 pos, Vector2 imgScale, string spriteName)
+
+        public float GetSpritWidth(string spriteName)
         {
             SpriteXml sprite = spriteList.Find(x => x.Name == spriteName);
-            spriteBatch.Draw(texture: GetSpriteSheet(), position: pos, sourceRectangle: sprite.GetRect(), color: Color.White, scale: imgScale);
+            return (float)sprite.Width;
+        }
+
+        public float  GetSpritHeight(string spriteName)
+        {
+            SpriteXml sprite = spriteList.Find(x => x.Name == spriteName);
+            return (float)sprite.Height;
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Vector2 pos, Vector2 imgScale, string spriteName, Color? color = null)
+        {
+            SpriteXml sprite = spriteList.Find(x => x.Name == spriteName);
+            spriteBatch.Draw(texture: GetSpriteSheet(), position: pos, sourceRectangle: sprite.GetRect() ,scale: imgScale);
         }
         public void ReadXml(string xmlPath)
         {

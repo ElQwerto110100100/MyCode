@@ -13,6 +13,11 @@ namespace TRotS
         SpriteBatch spriteBatch;
         SpriteSheetExtract UiSpriteSheet;
 
+        MouseState currentMouseState;
+        MouseState previousMouseState;
+
+        Texture2D mouseTexture;
+
         Button start;
 
         public Game1()
@@ -35,7 +40,7 @@ namespace TRotS
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\uipack_rpg_sheet.png",
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\uipack_rpg_sheet.xml");
             base.Initialize();
-            
+            mouseTexture = this.Content.Load<Texture2D>("cursorGauntlet_blue");
             start = new Button(this.Content, UiSpriteSheet, "buttonLong_beige.png", "START", 200, 100, new Vector2(200, 200), "menuFont");
         }
 
@@ -71,7 +76,19 @@ namespace TRotS
                 Exit();
 
             // TODO: Add your update logic here
+            currentMouseState = Mouse.GetState();
+            previousMouseState = currentMouseState;
 
+            start.IsPressed(currentMouseState);
+
+            if (currentMouseState.LeftButton == ButtonState.Pressed)
+            {
+                mouseTexture = this.Content.Load<Texture2D>("cursorHand_blue");
+            } else
+            {
+                //the sprite isnt really ment for this but looks fine
+                mouseTexture = this.Content.Load<Texture2D>("cursorGauntlet_blue");
+            }
             base.Update(gameTime);
         }
 
@@ -86,9 +103,8 @@ namespace TRotS
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             
-            //UiSpriteSheet.Draw(spriteBatch, position, scale, "panel_blue.png");
             start.Draw(spriteBatch);
-
+            spriteBatch.Draw(mouseTexture, new Vector2(this.currentMouseState.X, this.currentMouseState.Y), null, Color.White, 0.0f, Vector2.Zero, 1, SpriteEffects.None, 0.0f);
             spriteBatch.End();
             base.Draw(gameTime);
         }

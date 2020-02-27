@@ -19,6 +19,7 @@ namespace TRotS
         public bool isPressed = false;
         string FontName;
         Vector2 Pos;
+        int textOffset = 5;
         SpriteSheetExtract SpriteSheetExtract;
         SpriteFont fontstyle;
 
@@ -40,10 +41,36 @@ namespace TRotS
 
             Vector2 stringMeasurement = fontstyle.MeasureString(Message);
             //makeing the text size and positon relative to the button object
-            Vector2 centre = new Vector2((Width / 2), Height / 2 - 5) - (stringMeasurement / 2) + Pos;
+            Vector2 centre = new Vector2((Width / 2), (Height / 2 - textOffset)) - (stringMeasurement / 2) + Pos;
 
             SpriteSheetExtract.Draw(spriteBatch, Pos, scale, SpriteTextureName, color);
             spriteBatch.DrawString(fontstyle, Message, centre, Color.White);
+        }
+
+        public bool IsPressed(MouseState currentMouseState)
+        {
+            if (currentMouseState.LeftButton == ButtonState.Pressed && 
+                currentMouseState.X >= Pos.X && 
+                currentMouseState.X <= (Width + Pos.X) && 
+                currentMouseState.Y >= Pos.Y && 
+                currentMouseState.Y <= (Height + Pos.Y))
+            {
+                if (!SpriteTextureName.Contains("_pressed.png"))
+                {
+                    SpriteTextureName = SpriteTextureName.Replace(".png", "_pressed.png");
+                    textOffset = 0;
+                    return true;
+                } else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                this.SpriteTextureName = this.SpriteTextureName.Replace("_pressed.png", ".png");
+                textOffset = 5;
+                return false;
+            }
         }
     }
 }

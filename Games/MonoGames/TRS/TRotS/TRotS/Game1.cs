@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using TRotS.GamesStates;
+using TRotS.GamesStates.States;
 
 namespace TRotS
 {
@@ -54,6 +56,8 @@ namespace TRotS
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            StateManager.Instance.SetContent(this.Content);
+            StateManager.Instance.AddScreen(new StartMenu(GraphicsDevice));
         }
 
         /// <summary>
@@ -79,7 +83,11 @@ namespace TRotS
             currentMouseState = Mouse.GetState();
             previousMouseState = currentMouseState;
 
-            start.IsPressed(currentMouseState);
+
+            if (start.IsPressed(currentMouseState))
+            {
+                StateManager.Instance.Draw(spriteBatch);
+            }
 
             if (currentMouseState.LeftButton == ButtonState.Pressed)
             {
@@ -89,6 +97,7 @@ namespace TRotS
                 //the sprite isnt really ment for this but looks fine
                 mouseTexture = this.Content.Load<Texture2D>("cursorGauntlet_blue");
             }
+
             base.Update(gameTime);
         }
 
@@ -98,7 +107,7 @@ namespace TRotS
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            //GraphicsDevice.Clear(Color.CornflowerBlue);
             
             // TODO: Add your drawing code here
             spriteBatch.Begin();

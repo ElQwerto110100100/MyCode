@@ -17,34 +17,45 @@ namespace TRotS
         public int Width;
         public int Height;
         public bool isPressed = false;
+        public bool visable = true;
         string FontName;
         Vector2 Pos;
         int textOffset = 5;
-        SpriteSheetExtract SpriteSheetExtract;
+        SpriteSheet SpriteSheetExtract;
         SpriteFont fontstyle;
 
-        public Button(ContentManager content, SpriteSheetExtract spriteSheetExtract, string spriteTextureName, string message, int width, int height, Vector2 pos, string fontName)
+        public Button(ContentManager content, string spriteTextureName, string message, int width, int height, Vector2 pos, string fontName)
         {
             this.SpriteTextureName = spriteTextureName;
             this.Message = message;
             this.Width = width;
             this.Height = height;
             this.FontName = fontName;
-            this.SpriteSheetExtract = spriteSheetExtract;
             this.Pos = pos;
             fontstyle = content.Load<SpriteFont>("Fonts/menuFont_20");
         }
 
         public void Draw(SpriteBatch spriteBatch, Color? color = null)
         {
-            Vector2 scale = new Vector2(Width / SpriteSheetExtract.GetSpritWidth(this.SpriteTextureName), Height / SpriteSheetExtract.GetSpritHeight(this.SpriteTextureName));
+            if (visable == true)
+            {
+                Vector2 scale = new Vector2(Width / SpriteSheet.Instance.GetSpritWidth(this.SpriteTextureName), Height / SpriteSheet.Instance.GetSpritHeight(this.SpriteTextureName));
 
-            Vector2 stringMeasurement = fontstyle.MeasureString(Message);
-            //makeing the text size and positon relative to the button object
-            Vector2 centre = new Vector2((Width / 2), (Height / 2 - textOffset)) - (stringMeasurement / 2) + Pos;
+                Vector2 stringMeasurement = fontstyle.MeasureString(Message);
+                //makeing the text size and positon relative to the button object
+                Vector2 centre = new Vector2((Width / 2), (Height / 2 - textOffset)) - (stringMeasurement / 2) + Pos;
 
-            SpriteSheetExtract.Draw(spriteBatch, Pos, scale, SpriteTextureName, color);
-            spriteBatch.DrawString(fontstyle, Message, centre, Color.White);
+                SpriteSheet.Instance.Draw(spriteBatch, Pos, scale, SpriteTextureName, color);
+                spriteBatch.DrawString(fontstyle, Message, centre, Color.White);
+            } else
+            {
+                //dont draw it
+            }
+        }
+
+        public void IsVisable(bool flag)
+        {
+            visable = flag;
         }
 
         public bool IsPressed(MouseState currentMouseState)

@@ -13,14 +13,6 @@ namespace TRotS
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        SpriteSheetExtract UiSpriteSheet;
-
-        MouseState currentMouseState;
-        MouseState previousMouseState;
-
-        Texture2D mouseTexture;
-
-        Button start;
 
         public Game1()
         {
@@ -38,12 +30,9 @@ namespace TRotS
         {
             // TODO: Add your initialization logic here
             //this will load in kenny's sprites and automatically be able to find them and refrence them by name
-            UiSpriteSheet = new SpriteSheetExtract(graphics, 
-                @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\uipack_rpg_sheet.png",
-                @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\uipack_rpg_sheet.xml");
+            SpriteSheet.Instance.SetGraphicsManager(graphics);
+            MouseClass.Instance.SetTexture(this.Content.Load<Texture2D>("cursorGauntlet_blue"));
             base.Initialize();
-            mouseTexture = this.Content.Load<Texture2D>("cursorGauntlet_blue");
-            start = new Button(this.Content, UiSpriteSheet, "buttonLong_beige.png", "START", 200, 100, new Vector2(200, 200), "menuFont");
         }
 
         /// <summary>
@@ -57,7 +46,7 @@ namespace TRotS
 
             // TODO: use this.Content to load your game content here
             StateManager.Instance.SetContent(this.Content);
-            StateManager.Instance.AddScreen(new StartMenu(GraphicsDevice));
+            StateManager.Instance.AddScreen(new StartMenu(GraphicsDevice, graphics));
         }
 
         /// <summary>
@@ -80,22 +69,17 @@ namespace TRotS
                 Exit();
 
             // TODO: Add your update logic here
-            currentMouseState = Mouse.GetState();
-            previousMouseState = currentMouseState;
 
-
-            if (start.IsPressed(currentMouseState))
+            //the mouse will be use universally accross the whole game
+            MouseClass.Instance.Update();
+            StateManager.Instance.Update(gameTime);
+            if (MouseClass.Instance.GetState().LeftButton == ButtonState.Pressed)
             {
-                StateManager.Instance.Draw(spriteBatch);
-            }
-
-            if (currentMouseState.LeftButton == ButtonState.Pressed)
-            {
-                mouseTexture = this.Content.Load<Texture2D>("cursorHand_blue");
+                MouseClass.Instance.SetTexture(this.Content.Load<Texture2D>("cursorHand_blue"));
             } else
             {
                 //the sprite isnt really ment for this but looks fine
-                mouseTexture = this.Content.Load<Texture2D>("cursorGauntlet_blue");
+                MouseClass.Instance.SetTexture(this.Content.Load<Texture2D>("cursorGauntlet_blue"));
             }
 
             base.Update(gameTime);
@@ -107,13 +91,9 @@ namespace TRotS
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            //GraphicsDevice.Clear(Color.CornflowerBlue);
-            
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            
-            start.Draw(spriteBatch);
-            spriteBatch.Draw(mouseTexture, new Vector2(this.currentMouseState.X, this.currentMouseState.Y), null, Color.White, 0.0f, Vector2.Zero, 1, SpriteEffects.None, 0.0f);
+            StateManager.Instance.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

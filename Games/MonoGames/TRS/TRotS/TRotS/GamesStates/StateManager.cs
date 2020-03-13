@@ -17,6 +17,9 @@ namespace TRotS.GamesStates
         private static StateManager _instance;
         private ContentManager _content;
 
+        //this will tell the draw comnand in the first sprtie batch either to draw the next screen.
+        private bool drawNext = false;
+
         // Stack for the screens     
         //can use stack methods to maipulate and move screens around
         private Stack<GameState> _screens = new Stack<GameState>();
@@ -95,6 +98,11 @@ namespace TRotS.GamesStates
             {
                 _screens.Peek().Draw(spriteBatch);
             }
+        }
+
+        public void DrawNextScreen(bool flag)
+        {
+            drawNext = flag;
         }
 
         // Unloads the content from the screen

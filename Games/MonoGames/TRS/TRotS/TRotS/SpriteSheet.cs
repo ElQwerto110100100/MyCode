@@ -11,17 +11,40 @@ using System.Xml;
 
 namespace TRotS
 {
-    class SpriteSheetExtract
+    class SpriteSheet
     {
+        //allows for this to be called from anywhere
+        private static SpriteSheet _instance;
+
         public List<SpriteXml> spriteList = new List<SpriteXml>();
-        //public List<SpriteImage> spriteImageList = new List<SpriteImage>();
         public GraphicsDeviceManager graphics;
         public string spriteSheetPath;
 
-        public SpriteSheetExtract(GraphicsDeviceManager gd, string sSPath, string xmlPath)
+        public static SpriteSheet Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new SpriteSheet();
+                }
+                return _instance;
+            }
+        }
+        /*
+         GraphicsDeviceManager gd, string sSPath, string xmlPath
+         spriteSheetPath = sSPath;
+            graphics = gd;
+            ReadXml(xmlPath);
+        */
+        public void SetGraphicsManager(GraphicsDeviceManager gd)
+        {
+            graphics = gd;
+        }
+
+        public void AddSpriteSheet(string sSPath, string xmlPath)
         {
             spriteSheetPath = sSPath;
-            graphics = gd;
             ReadXml(xmlPath);
         }
 

@@ -51,6 +51,18 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/menuFont_20.spritefont
 
+#begin Rooms/Test_Room.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Rooms/Test_Room.png
+
 #begin uipack_rpg_sheet.png
 /importer:TextureImporter
 /processor:TextureProcessor

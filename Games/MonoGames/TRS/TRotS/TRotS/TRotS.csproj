@@ -44,6 +44,7 @@
     <Compile Include="Button.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GamesStates\GameStates.cs" />
+    <Compile Include="GamesStates\Rooms.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="GamesStates\IGameState.cs" />
     <Compile Include="GamesStates\StateManager.cs" />

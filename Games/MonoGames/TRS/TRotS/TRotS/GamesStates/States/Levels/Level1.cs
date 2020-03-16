@@ -11,6 +11,8 @@ namespace TRotS.GamesStates.States.Levels
 {
     class Level1 : GameState
     {
+        Rooms testRoom;
+
         public Level1(GraphicsDevice graphicsDevice) : base(graphicsDevice)
         {
         }
@@ -24,7 +26,7 @@ namespace TRotS.GamesStates.States.Levels
         // Load all content here
         public override void LoadContent(ContentManager content)
         {
-
+            testRoom = new Rooms(content.Load<Texture2D>("Rooms/Test_Room"), 0, 0, 50,50);
         }
 
         // Unload any content here
@@ -35,12 +37,14 @@ namespace TRotS.GamesStates.States.Levels
         // Updates the game
         public override void Update(GameTime gameTime)
         {
+            testRoom.MoveRoom();
         }
 
         // Draws the game
         public override void Draw(SpriteBatch spriteBatch)
         {
             _graphicsDevice.Clear(Color.Brown);
+            spriteBatch.Draw(testRoom.GetTex(), testRoom.GetRect(), Color.White);
             Grid.Instance.DrawGrid(spriteBatch);
         }
     }

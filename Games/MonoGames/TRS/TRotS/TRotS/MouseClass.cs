@@ -41,9 +41,15 @@ namespace TRotS
         {
             return currentMouseState;
         }
+
         public MouseState GetPrevState()
         {
             return previousMouseState;
+        }
+
+        public Rectangle GetRec()
+        {
+            return new Rectangle(currentMouseState.Position.X, currentMouseState.Position.Y, mouseTexture.Width, mouseTexture.Height);
         }
 
         public void SetTexture(Texture2D MouseTexture)

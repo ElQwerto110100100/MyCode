@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace TRotS.GamesStates.States.Levels
 {
@@ -20,7 +21,7 @@ namespace TRotS.GamesStates.States.Levels
         // Initialize the game settings here      
         public override void Initialize()
         {
-            Grid.Instance.MakeGrid(5,5,_graphicsDevice.Viewport.Width, _graphicsDevice.Viewport.Height);
+            Grid.Instance.MakeGrid(3,3,300,300, 50, 50);
         }
 
         // Load all content here
@@ -38,6 +39,7 @@ namespace TRotS.GamesStates.States.Levels
         public override void Update(GameTime gameTime)
         {
             testRoom.MoveRoom();
+            testRoom.SetRect(Grid.Instance.PlaceInSlot(testRoom.GetRect()));
         }
 
         // Draws the game
@@ -46,6 +48,7 @@ namespace TRotS.GamesStates.States.Levels
             _graphicsDevice.Clear(Color.Brown);
             spriteBatch.Draw(testRoom.GetTex(), testRoom.GetRect(), Color.White);
             Grid.Instance.DrawGrid(spriteBatch);
+            RC_Framework.LineBatch.drawLineRectangle(spriteBatch, testRoom.GetRect(), Color.Black);
         }
     }
 }

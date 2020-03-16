@@ -26,23 +26,22 @@ namespace TRotS.GamesStates
             }
         }
 
-        public void MakeGrid(int numOfSlotsX, int numOfSlotsY, int screenWidth, int screenHeight)
+        public void MakeGrid(int numOfSlotsX, int numOfSlotsY, int gridWidth, int gridHeight, int gridPosX = 0, int gridPosY = 0)
         {
             int xPos = 0;
             int yPos = 0;
-            int width = screenWidth / numOfSlotsX;
-            int height = screenHeight / numOfSlotsY;
+            int width = gridWidth / numOfSlotsX;
+            int height = gridHeight / numOfSlotsY;
             slots = new List<Rectangle>();
 
             for (int i = 0; i < numOfSlotsX; i++)
             {
-                xPos = (screenWidth / numOfSlotsX) * i;
-                yPos = 0;
-                slots.Add(new Rectangle(xPos, yPos, width, height));
+                xPos = (gridWidth / numOfSlotsX) * i;
+                slots.Add(new Rectangle(xPos + gridPosX, yPos + gridPosY, width, height));
                 for (int j = 0; j < numOfSlotsY; j++)
                 {
-                    yPos = (screenHeight / numOfSlotsY) * j;
-                    slots.Add(new Rectangle(xPos, yPos, width, height));
+                    yPos = (gridHeight / numOfSlotsY) * j;
+                    slots.Add(new Rectangle(xPos + gridPosX, yPos + gridPosY, width, height));
                 }
             }
         }

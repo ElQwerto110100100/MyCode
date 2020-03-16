@@ -15,9 +15,6 @@ namespace TRotS.GamesStates.States
         SpriteFont fontstyle;
         GraphicsDeviceManager graphics;
         Button start;
-
-        List<Rectangle> grid;
-
         public StartMenu(GraphicsDevice graphicsDevice, GraphicsDeviceManager Graphics) : base(graphicsDevice)
         {
             graphics = Graphics;

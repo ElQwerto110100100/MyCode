@@ -32,14 +32,18 @@ namespace TRotS
 
         public void Update()
         {
-            currentMouseState = Mouse.GetState();
+            //prevents the next button being clicked after the page loads
             previousMouseState = currentMouseState;
-
+            currentMouseState = Mouse.GetState();
         }
 
         public MouseState GetState()
         {
             return currentMouseState;
+        }
+        public MouseState GetPrevState()
+        {
+            return previousMouseState;
         }
 
         public void SetTexture(Texture2D MouseTexture)

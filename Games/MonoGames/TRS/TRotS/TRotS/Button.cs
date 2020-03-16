@@ -21,7 +21,6 @@ namespace TRotS
         string FontName;
         Vector2 Pos;
         int textOffset = 5;
-        SpriteSheet SpriteSheetExtract;
         SpriteFont fontstyle;
 
         public Button(ContentManager content, string spriteTextureName, string message, int width, int height, Vector2 pos, string fontName)
@@ -58,9 +57,10 @@ namespace TRotS
             visable = flag;
         }
 
-        public bool IsPressed(MouseState currentMouseState)
+        public bool IsPressed(MouseState currentMouseState, MouseState previousMouseState)
         {
-            if (currentMouseState.LeftButton == ButtonState.Pressed && 
+            if (previousMouseState.LeftButton != ButtonState.Pressed &&
+                currentMouseState.LeftButton == ButtonState.Pressed && 
                 currentMouseState.X >= Pos.X && 
                 currentMouseState.X <= (Width + Pos.X) && 
                 currentMouseState.Y >= Pos.Y && 

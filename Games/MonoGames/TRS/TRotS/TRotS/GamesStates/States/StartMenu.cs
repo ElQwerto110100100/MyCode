@@ -15,11 +15,14 @@ namespace TRotS.GamesStates.States
         SpriteFont fontstyle;
         GraphicsDeviceManager graphics;
         Button start;
-        int num = 0;
+
+        List<Rectangle> grid;
+
         public StartMenu(GraphicsDevice graphicsDevice, GraphicsDeviceManager Graphics) : base(graphicsDevice)
         {
             graphics = Graphics;
         }
+
         public override void Initialize()
         {
         }
@@ -30,8 +33,9 @@ namespace TRotS.GamesStates.States
             SpriteSheet.Instance.AddSpriteSheet(
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\uipack_rpg_sheet.png",
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\uipack_rpg_sheet.xml");
-            start = new Button(content, "buttonLong_beige.png", "START", 200, 100, new Vector2(200, 200), "menuFont");
+            start = new Button(content, "buttonLong_beige.png", "START", 200, 100, new Vector2((_graphicsDevice.Viewport.Width/ 2) - 100 , (_graphicsDevice.Viewport.Height / 2) - 50), "menuFont");
             fontstyle = content.Load<SpriteFont>("Fonts/menuFont_20");
+
         }
 
         public override void UnloadContent()
@@ -40,19 +44,18 @@ namespace TRotS.GamesStates.States
 
         public override void Update(GameTime gameTime)
         {
-            num++;
-            if (start.IsPressed(MouseClass.Instance.GetState()))
+            if (start.IsPressed(MouseClass.Instance.GetState(), MouseClass.Instance.GetPrevState()))
             {
-                StateManager.Instance.AddScreen(new basic(_graphicsDevice));
+                StateManager.Instance.AddScreen(new LevelSelect(_graphicsDevice));
             }
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            _graphicsDevice.Clear(Color.PaleVioletRed);
+            _graphicsDevice.Clear(Color.White);
             start.Draw(spriteBatch);
-            spriteBatch.DrawString(fontstyle, num.ToString(), new Vector2(0,0), Color.White);
-            MouseClass.Instance.Draw(spriteBatch);
+            
         }
     }
 }

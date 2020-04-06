@@ -12,7 +12,7 @@ namespace TRotS.GamesStates.States
 {
     class basic : GameState
     {
-        public basic(GraphicsDevice graphicsDevice) : base(graphicsDevice)
+        public basic(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager) : base(graphicsDevice, graphicsDeviceManager)
         {
         }
 

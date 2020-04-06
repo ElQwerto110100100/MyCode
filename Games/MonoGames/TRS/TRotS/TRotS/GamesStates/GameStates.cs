@@ -15,9 +15,11 @@ namespace TRotS.GamesStates
     {
         public string Name;
         protected GraphicsDevice _graphicsDevice;
-        public GameState(GraphicsDevice graphicsDevice)
+        protected GraphicsDeviceManager _graphicsDeviceManager;
+        public GameState(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager)
         {
             _graphicsDevice = graphicsDevice;
+            _graphicsDeviceManager = graphicsDeviceManager;
         }
         public abstract void Initialize();
         public abstract void LoadContent(ContentManager content);

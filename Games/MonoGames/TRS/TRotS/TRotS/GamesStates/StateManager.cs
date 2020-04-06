@@ -39,6 +39,7 @@ namespace TRotS.GamesStates
         // Sets the content manager
         public void SetContent(ContentManager content)
         {
+
             _content = content;
         }
 

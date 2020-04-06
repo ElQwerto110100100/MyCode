@@ -13,12 +13,11 @@ namespace TRotS.GamesStates.States
     class StartMenu : GameState
     {
         SpriteFont fontstyle;
-        GraphicsDeviceManager graphics;
         Button start;
-        public StartMenu(GraphicsDevice graphicsDevice, GraphicsDeviceManager Graphics) : base(graphicsDevice)
+
+        public StartMenu(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager) : base(graphicsDevice, graphicsDeviceManager)
         {
             Name = "StartMenu";
-            graphics = Graphics;
         }
 
         public override void Initialize()
@@ -44,7 +43,7 @@ namespace TRotS.GamesStates.States
         {
             if (start.IsPressed(MouseClass.Instance.GetState(), MouseClass.Instance.GetPrevState()))
             {
-                StateManager.Instance.AddScreen(new LevelSelect(_graphicsDevice));
+                StateManager.Instance.AddScreen(new LevelSelect(_graphicsDevice, _graphicsDeviceManager));
             }
         }
 

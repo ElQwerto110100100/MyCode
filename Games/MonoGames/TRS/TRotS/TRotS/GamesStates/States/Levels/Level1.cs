@@ -12,25 +12,28 @@ namespace TRotS.GamesStates.States.Levels
 {
     class Level1 : GameState
     {
-        Texture2D roomPlaceholder;
-        Rooms testRoom;
+        bool freeze = false;
         private object previouseKeyboardState;
         private object currentKeyboardState;
 
-        public Level1(GraphicsDevice graphicsDevice) : base(graphicsDevice)
+        Texture2D obj;
+        int xx = 0;
+        int yy = 0;
+
+        public Level1(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager) : base(graphicsDevice, graphicsDeviceManager)
         {
         }
+
 
         // Initialize the game settings here      
         public override void Initialize()
         {
-            Grid.Instance.MakeGrid(3,3,300,300, 50, 50);
         }
 
         // Load all content here
         public override void LoadContent(ContentManager content)
         {
-            testRoom = new Rooms(content.Load<Texture2D>("Rooms/Test_Room"), 0, 0, 50,50);
+            obj = RC_Framework.Util.texFromFile(_graphicsDevice, @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\Test_Room.png");
         }
 
         // Unload any content here
@@ -41,15 +44,24 @@ namespace TRotS.GamesStates.States.Levels
         // Updates the game
         public override void Update(GameTime gameTime)
         {
-            testRoom.MoveRoom();
-            testRoom.SetRect(Grid.Instance.PlaceInSlot(testRoom.GetRect()));
-
-            previouseKeyboardState = currentKeyboardState;
-            currentKeyboardState = Keyboard.GetState();
-
-            if (Keyboard.GetState().IsKeyDown(Keys.P))
+            if (!freeze)
             {
-                StateManager.Instance.ChangeScreen(new Pause(_graphicsDevice));
+                previouseKeyboardState = currentKeyboardState;
+                currentKeyboardState = Keyboard.GetState();
+
+                if (Keyboard.GetState().IsKeyDown(Keys.P))
+                {
+                    StateManager.Instance.AddScreen(new Pause(_graphicsDevice, _graphicsDeviceManager));
+                    freeze = !freeze;
+                }
+
+                xx += 2;
+                yy += 2;
+            }
+            else if (StateManager.Instance._screens.Peek().Name != "Pause")
+            {
+                //do nthing and wait for the pause to finish
+                freeze = !freeze;
             }
         }
 
@@ -57,9 +69,7 @@ namespace TRotS.GamesStates.States.Levels
         public override void Draw(SpriteBatch spriteBatch)
         {
             _graphicsDevice.Clear(Color.Brown);
-            spriteBatch.Draw(testRoom.GetTex(), testRoom.GetRect(), Color.White);
-            Grid.Instance.DrawGrid(spriteBatch);
-            RC_Framework.LineBatch.drawLineRectangle(spriteBatch, testRoom.GetRect(), Color.Black);
+            spriteBatch.Draw(obj,new Rectangle(xx,yy,200,200),Color.White);
         }
     }
 }

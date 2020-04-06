@@ -16,7 +16,7 @@ namespace TRotS.GamesStates.States
         private object previouseKeyboardState;
         private object currentKeyboardState;
 
-        public LevelSelect(GraphicsDevice graphicsDevice) : base(graphicsDevice)
+        public LevelSelect(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager) : base(graphicsDevice, graphicsDeviceManager)
         {
             Name = "LevelSelect";
         }
@@ -43,7 +43,7 @@ namespace TRotS.GamesStates.States
         {
             if (level1.IsPressed(MouseClass.Instance.GetState(), MouseClass.Instance.GetPrevState()))
             {
-                StateManager.Instance.AddScreen(new Levels.Level1(_graphicsDevice));
+                StateManager.Instance.AddScreen(new Levels.Level1(_graphicsDevice, _graphicsDeviceManager));
             }
 
         }

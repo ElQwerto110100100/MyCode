@@ -24,7 +24,6 @@ namespace TRotS.GamesStates.States
         // Load all content here
         public override void LoadContent(ContentManager content)
         {
-            //SpriteSheet.Instance.AddSpriteSheet();
         }
 
         // Unload any content here

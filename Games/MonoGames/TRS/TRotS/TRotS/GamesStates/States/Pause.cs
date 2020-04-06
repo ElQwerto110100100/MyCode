@@ -6,19 +6,14 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace TRotS.GamesStates.States
 {
-    class LevelSelect : GameState
+    class Pause : GameState
     {
-        Button level1;
-        private object previouseKeyboardState;
-        private object currentKeyboardState;
-
-        public LevelSelect(GraphicsDevice graphicsDevice) : base(graphicsDevice)
+        SpriteFont font;
+        public Pause(GraphicsDevice graphicsDevice) : base(graphicsDevice)
         {
-            Name = "LevelSelect";
         }
 
         // Initialize the game settings here      
@@ -29,8 +24,7 @@ namespace TRotS.GamesStates.States
         // Load all content here
         public override void LoadContent(ContentManager content)
         {
-            //need a more effectient solution, somehow in a list
-            level1 = new Button(content, "buttonLong_beige.png", "Level1", 200, 100, new Vector2((_graphicsDevice.Viewport.Width / 2) - 100, 50), "menuFont");
+            font = content.Load<SpriteFont>("Fonts/menuFont_20");
         }
 
         // Unload any content here
@@ -41,18 +35,13 @@ namespace TRotS.GamesStates.States
         // Updates the game
         public override void Update(GameTime gameTime)
         {
-            if (level1.IsPressed(MouseClass.Instance.GetState(), MouseClass.Instance.GetPrevState()))
-            {
-                StateManager.Instance.AddScreen(new Levels.Level1(_graphicsDevice));
-            }
-
         }
 
         // Draws the game
         public override void Draw(SpriteBatch spriteBatch)
         {
-            _graphicsDevice.Clear(Color.Aqua);
-            level1.Draw(spriteBatch);
+            _graphicsDevice.Clear(Color.Black);
+            spriteBatch.DrawString(font, "Pause screen", new Vector2(0,0), Color.White);
         }
     }
 }

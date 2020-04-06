@@ -13,6 +13,8 @@ namespace TRotS
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        private object previouseKeyboardState;
+        private object currentKeyboardState;
 
         public Game1()
         {
@@ -74,6 +76,7 @@ namespace TRotS
             //the mouse will be use universally accross the whole game
             MouseClass.Instance.Update();
             StateManager.Instance.Update(gameTime);
+
             if (MouseClass.Instance.GetState().LeftButton == ButtonState.Pressed)
             {
                 MouseClass.Instance.SetTexture(this.Content.Load<Texture2D>("cursorHand_blue"));
@@ -82,7 +85,6 @@ namespace TRotS
                 //the sprite isnt really ment for this but looks fine
                 MouseClass.Instance.SetTexture(this.Content.Load<Texture2D>("cursorGauntlet_blue"));
             }
-
             base.Update(gameTime);
         }
 

@@ -12,7 +12,10 @@ namespace TRotS.GamesStates.States.Levels
 {
     class Level1 : GameState
     {
+        Texture2D roomPlaceholder;
         Rooms testRoom;
+        private object previouseKeyboardState;
+        private object currentKeyboardState;
 
         public Level1(GraphicsDevice graphicsDevice) : base(graphicsDevice)
         {
@@ -40,6 +43,14 @@ namespace TRotS.GamesStates.States.Levels
         {
             testRoom.MoveRoom();
             testRoom.SetRect(Grid.Instance.PlaceInSlot(testRoom.GetRect()));
+
+            previouseKeyboardState = currentKeyboardState;
+            currentKeyboardState = Keyboard.GetState();
+
+            if (Keyboard.GetState().IsKeyDown(Keys.P))
+            {
+                StateManager.Instance.ChangeScreen(new Pause(_graphicsDevice));
+            }
         }
 
         // Draws the game

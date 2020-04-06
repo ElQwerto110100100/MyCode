@@ -13,6 +13,7 @@ namespace TRotS.GamesStates
 {
     public abstract class GameState : IGameState
     {
+        public string Name;
         protected GraphicsDevice _graphicsDevice;
         public GameState(GraphicsDevice graphicsDevice)
         {

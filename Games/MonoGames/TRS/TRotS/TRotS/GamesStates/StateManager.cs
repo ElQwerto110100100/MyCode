@@ -22,7 +22,7 @@ namespace TRotS.GamesStates
 
         // Stack for the screens     
         //can use stack methods to maipulate and move screens around
-        private Stack<GameState> _screens = new Stack<GameState>();
+        public Stack<GameState> _screens = new Stack<GameState>();
 
         public static StateManager Instance
         {
@@ -80,6 +80,11 @@ namespace TRotS.GamesStates
         {
             ClearScreens();
             AddScreen(screen);
+        }
+
+        public bool CurrentScreenIs(string name)
+        {
+            return _screens.Peek().Name == name;
         }
 
         // Updates the top screen. 

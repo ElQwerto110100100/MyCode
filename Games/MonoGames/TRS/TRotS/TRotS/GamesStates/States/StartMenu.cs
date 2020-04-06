@@ -17,6 +17,7 @@ namespace TRotS.GamesStates.States
         Button start;
         public StartMenu(GraphicsDevice graphicsDevice, GraphicsDeviceManager Graphics) : base(graphicsDevice)
         {
+            Name = "StartMenu";
             graphics = Graphics;
         }
 
@@ -45,7 +46,6 @@ namespace TRotS.GamesStates.States
             {
                 StateManager.Instance.AddScreen(new LevelSelect(_graphicsDevice));
             }
-
         }
 
         public override void Draw(SpriteBatch spriteBatch)

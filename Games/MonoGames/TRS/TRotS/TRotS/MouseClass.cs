@@ -14,6 +14,8 @@ namespace TRotS
         private static MouseClass _instance;
         private MouseState currentMouseState;
         private MouseState previousMouseState;
+        private KeyboardState previouseKeyboardState;
+        private KeyboardState currentKeyboardState;
         private Texture2D mouseTexture;
 
         //this will alow the mouse to be called anytime
@@ -35,6 +37,19 @@ namespace TRotS
             //prevents the next button being clicked after the page loads
             previousMouseState = currentMouseState;
             currentMouseState = Mouse.GetState();
+            //added in keyboard got tierd of haveing to repeat this
+            previouseKeyboardState = currentKeyboardState;
+            currentKeyboardState = Keyboard.GetState();
+        }
+
+        public KeyboardState GetKeyState()
+        {
+            return currentKeyboardState;
+        }
+
+        public KeyboardState GetPrevKeyState()
+        {
+            return previouseKeyboardState;
         }
 
         public MouseState GetState()

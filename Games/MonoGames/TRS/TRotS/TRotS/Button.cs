@@ -19,7 +19,8 @@ namespace TRotS
         public bool isPressed = false;
         public bool visable = true;
         string FontName;
-        Vector2 Pos;
+        public Vector2 Pos;
+        public Vector2 BottomPos;
         int textOffset = 5;
         SpriteFont fontstyle;
 
@@ -32,6 +33,7 @@ namespace TRotS
             this.FontName = fontName;
             this.Pos = pos;
             fontstyle = content.Load<SpriteFont>("Fonts/menuFont_20");
+            BottomPos = new Vector2(pos.X + width, pos.Y + height);
         }
 
         public void Draw(SpriteBatch spriteBatch, Color? color = null)

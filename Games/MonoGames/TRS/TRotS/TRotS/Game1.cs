@@ -21,7 +21,6 @@ namespace TRotS
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
-
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -32,9 +31,10 @@ namespace TRotS
         {
             // TODO: Add your initialization logic here
             //this will load in kenny's sprites and automatically be able to find them and refrence them by name
+            RC_Framework.LineBatch.init(GraphicsDevice);
             SpriteSheet.Instance.SetGraphicsManager(graphics);
             MouseClass.Instance.SetTexture(this.Content.Load<Texture2D>("cursorGauntlet_blue"));
-            RC_Framework.LineBatch.init(GraphicsDevice);
+
             base.Initialize();
         }
 

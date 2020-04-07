@@ -7,38 +7,43 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MarkTut1.Resources;
+using TRotS.Entity;
 
 namespace TRotS.GamesStates.States.Levels
 {
     class Level1 : GameState
     {
         bool freeze = false;
-        private object previouseKeyboardState;
-        private object currentKeyboardState;
+        Texture2D background;
 
-        Texture2D obj;
-        int xx = 0;
-        int yy = 0;
+        Player MainPlayer;
+        Enemy Enemies;
 
         public Level1(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager) : base(graphicsDevice, graphicsDeviceManager)
         {
         }
 
-
         // Initialize the game settings here      
         public override void Initialize()
         {
+            Enemies = new Enemy(_graphicsDevice, RC_Framework.Util.texFromFile(_graphicsDevice, @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\COVID-19.png"))
+            {
+                NumOfEnimes = 4
+            };
+            MainPlayer = new Player(_graphicsDevice, RC_Framework.Util.texFromFile(_graphicsDevice, @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\plane.png"));
+            background = RC_Framework.Util.texFromFile(_graphicsDevice, @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\SkyBg.jpeg");
         }
 
         // Load all content here
         public override void LoadContent(ContentManager content)
         {
-            obj = RC_Framework.Util.texFromFile(_graphicsDevice, @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\Test_Room.png");
         }
 
         // Unload any content here
         public override void UnloadContent()
         {
+            StateManager.Instance.RemoveScreen();
         }
 
         // Updates the game
@@ -46,17 +51,15 @@ namespace TRotS.GamesStates.States.Levels
         {
             if (!freeze)
             {
-                previouseKeyboardState = currentKeyboardState;
-                currentKeyboardState = Keyboard.GetState();
-
-                if (Keyboard.GetState().IsKeyDown(Keys.P))
+                if (MouseClass.Instance.GetKeyState().IsKeyDown(Keys.P))
                 {
                     StateManager.Instance.AddScreen(new Pause(_graphicsDevice, _graphicsDeviceManager));
                     freeze = !freeze;
                 }
 
-                xx += 2;
-                yy += 2;
+                MainPlayer.UpdatePlayer(gameTime);
+                Enemies.EnemyUpdate(gameTime);
+
             }
             else if (StateManager.Instance._screens.Peek().Name != "Pause")
             {
@@ -69,7 +72,10 @@ namespace TRotS.GamesStates.States.Levels
         public override void Draw(SpriteBatch spriteBatch)
         {
             _graphicsDevice.Clear(Color.Brown);
-            spriteBatch.Draw(obj,new Rectangle(xx,yy,200,200),Color.White);
+            spriteBatch.Draw(background, new Rectangle(0,0,_graphicsDevice.Viewport.Width,_graphicsDevice.Viewport.Height),Color.White);
+            MainPlayer.PlayerDraw(spriteBatch);
+            Enemies.EnemyDraw(spriteBatch);
+
         }
     }
 }

@@ -14,10 +14,17 @@ namespace TRotS.Entity
     {
         private readonly GraphicsDevice graphicsDevice;
         private readonly Texture2D charSheet;
-        int moveSpeed = 3;
+        int moveSpeed = 5;
         int bulletSpeed = 6;
+        public int score = 0;
+        public int ammunation = 20;
+
+        private Color planeColor = Color.White;
 
         public List<Sprite> bullets = new List<Sprite>();
+        public bool Hit = false;
+        private int waitTimer = 0;
+        public int health = 3;
 
         public Player(GraphicsDevice graphicsDevice, Texture2D charSheet) : base(graphicsDevice, charSheet)
         {
@@ -56,11 +63,30 @@ namespace TRotS.Entity
             if (currentKeyState.IsKeyDown(Keys.Space) && !previousKeyState.IsKeyDown(Keys.Space))
             {
                 Sprite newBullet = new Sprite(graphicsDevice, RC_Framework.Util.texFromFile(graphicsDevice, @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\plane-bullet.png"));
-                newBullet.AddAnimation("fire",28,12,1,0,0.01,false);
-                newBullet.SetAnimation("fire");
-                newBullet.SetPosXY(this.PosX + this.sourceRectangle.Width, this.PosY + this.sourceRectangle.Height);
-                newBullet.borderOn = this.borderOn;
-                bullets.Add(newBullet);
+
+                if (ammunation != 0)
+                {
+                    newBullet.AddAnimation("fire", 28, 12, 1, 0, 0.01, false);
+                    newBullet.SetAnimation("fire");
+                    newBullet.SetPosXY(this.PosX + this.sourceRectangle.Width, this.PosY + this.sourceRectangle.Height - 12);
+                    newBullet.borderOn = this.borderOn;
+                    bullets.Add(newBullet);
+                    ammunation -= 1;
+                }
+            }
+
+            if (Hit)
+            {
+                if (waitTimer % 5 == 0)
+                {
+                    planeColor = Color.Red;
+                } 
+                else
+                {
+                    planeColor = Color.White;
+                }
+                waitTimer--;
+                if (waitTimer == 0) Hit = false;
             }
 
             foreach (Sprite bullet in bullets) {
@@ -70,9 +96,16 @@ namespace TRotS.Entity
             bullets.RemoveAll(bullet => bullet.PosX > graphicsDevice.Viewport.Width);
         }
 
+        public void PlaneHit()
+        {
+            Hit = true;
+            waitTimer = 60 * 3;
+            health--;
+        }
+
         public void PlayerDraw(SpriteBatch spriteBatch)
         {
-            Draw(spriteBatch);
+            Draw(spriteBatch, planeColor);
 
             foreach (Sprite bullet in bullets)
             {

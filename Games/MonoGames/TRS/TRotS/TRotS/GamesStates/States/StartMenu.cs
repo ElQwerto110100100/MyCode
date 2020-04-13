@@ -49,8 +49,9 @@ namespace TRotS.GamesStates.States
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            _graphicsDevice.Clear(Color.White);
+            _graphicsDevice.Clear(Color.Black);
             start.Draw(spriteBatch);
+            spriteBatch.DrawString(fontstyle, "Shoot down COVID-19!!!!", new Vector2(50, 50), Color.White);
             
         }
     }

@@ -17,7 +17,7 @@ namespace MarkTut1.Resources
         public int PosY { get; set; }
         public int Scale { get; set; } = 1;
 
-        Animations CurrentAnimation { get; set; }
+        public Animations CurrentAnimation { get; set; }
         public GraphicsDevice GraphicsDevice { get; }
 
         public Rectangle sourceRectangle;
@@ -61,17 +61,17 @@ namespace MarkTut1.Resources
             {
                 newAnime.AddFrame(new Rectangle((frameX * 0), (animationLine * 0), frameX, frameY), TimeSpan.FromSeconds(timeSpaceing), false);
                 animations.Add(newAnime);
-                if (playOnce)
-                {
-                    newAnime.AddFrame(new Rectangle(0, 0, 0, 0), TimeSpan.FromSeconds(timeSpaceing), playOnce);
-                    animations.Add(newAnime);
-                }
             }
             else
             {
                 for (int cnt = 1; cnt < numOfFrames; cnt++)
                 {
-                    newAnime.AddFrame(new Rectangle((frameX * cnt), (animationLine * frameY), frameX, frameY), TimeSpan.FromSeconds(timeSpaceing), playOnce);
+                    newAnime.AddFrame(new Rectangle((frameX * cnt), (animationLine * frameY), frameX, frameY), TimeSpan.FromSeconds(timeSpaceing), false);
+                }
+                if (playOnce)
+                {
+                    newAnime.AddFrame(new Rectangle(0, 0, 0, 0), TimeSpan.FromSeconds(timeSpaceing), playOnce);
+                    animations.Add(newAnime);
                 }
                 animations.Add(newAnime);
             }
@@ -99,6 +99,9 @@ namespace MarkTut1.Resources
         {
             CurrentAnimation.Update(gameTime);
             sourceRectangle = CurrentAnimation.CurrentRectangle;
+            tempRect = sourceRectangle;
+            tempRect.X = PosX;
+            tempRect.Y = PosY;
 
             if (TRotS.MouseClass.Instance.GetKeyState().IsKeyDown(Keys.B) && !TRotS.MouseClass.Instance.GetPrevKeyState().IsKeyDown(Keys.B))
             {

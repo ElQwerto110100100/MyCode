@@ -12,6 +12,7 @@ namespace MarkTut1
         public string AniamtionName { get; set; }
         List<AnimationFrame> frames = new List<AnimationFrame>();
         TimeSpan timeIntoAnimation;
+        public bool stop = false;
 
         public Animations(string aniamtionName)
         {
@@ -39,7 +40,7 @@ namespace MarkTut1
                 SourceRectangle = rectangle,
                 Duration = duration,
                 Playonce = playOnce
-                
+
             };
 
             frames.Add(newFrame);
@@ -58,6 +59,10 @@ namespace MarkTut1
         {
             get
             {
+                if (stop)
+                {
+                    return new Rectangle(0,0,0,0);
+                }
                 AnimationFrame currentFrame = null;
 
                 // See if we can find the frame
@@ -84,8 +89,12 @@ namespace MarkTut1
 
                 // If we found a frame, return its rectangle, otherwise
                 // return an empty rectangle (one with no width or height)
-                if (currentFrame != null )
+                if (currentFrame != null)
                 {
+                    if (currentFrame.Playonce)
+                    {
+                        stop = true;
+                    }
                     return currentFrame.SourceRectangle;
                 }
                 else

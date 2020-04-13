@@ -49,6 +49,7 @@
     <Compile Include="Entity\Sprite.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GamesStates\GameStates.cs" />
+    <Compile Include="GamesStates\States\GameOver.cs" />
     <Compile Include="GamesStates\States\Pause.cs" />
     <Compile Include="Rooms.cs" />
     <Compile Include="Grid.cs" />
@@ -102,6 +103,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
+    <Content Include="Resource\AmmoCrate.png" />
+    <Content Include="Resource\cloud.png" />
     <Content Include="Resource\COVID-19.png" />
     <Content Include="Resource\plane-bullet.png" />
     <Content Include="Resource\plane.png" />

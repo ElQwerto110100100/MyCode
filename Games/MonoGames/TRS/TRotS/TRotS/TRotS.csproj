@@ -41,12 +41,14 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Button.cs" />
+    <Compile Include="Entitys\Button.cs" />
+    <Compile Include="Entitys\Rooms\BasicRoom.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GamesStates\GameStates.cs" />
+    <Compile Include="GamesStates\States\Overlays\RoomSelector.cs" />
     <Compile Include="GamesStates\States\Pause.cs" />
-    <Compile Include="Rooms.cs" />
-    <Compile Include="Grid.cs" />
+    <Compile Include="Entitys\Rooms\Room.cs" />
+    <Compile Include="Entitys\Grid.cs" />
     <Compile Include="GamesStates\IGameState.cs" />
     <Compile Include="GamesStates\StateManager.cs" />
     <Compile Include="GamesStates\States\LevelSelect.cs" />

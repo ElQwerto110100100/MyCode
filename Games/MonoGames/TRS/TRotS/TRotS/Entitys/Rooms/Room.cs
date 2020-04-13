@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace TRotS.GamesStates
 {
-    class Rooms
+    class Room
     {
         public Rectangle Rec;
         public bool draging = false;
 
-        public Rooms(Texture2D sprite, int posX, int posY, int width, int height)
+        public Room(Texture2D sprite, int posX, int posY, int width, int height)
         {
             Sprite = sprite;
             PosX = posX;
@@ -29,7 +29,7 @@ namespace TRotS.GamesStates
         public int PosY { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public bool placeDown { get; set; }
+        public bool PlaceDown { get; set; } 
 
         public void OrignalRect()
         {
@@ -39,7 +39,7 @@ namespace TRotS.GamesStates
         public void SetRect(Rectangle newRec)
         {
             Rec = newRec;
-            placeDown = true;
+            PlaceDown = true;
         }
 
         public Rectangle GetRect()
@@ -52,7 +52,7 @@ namespace TRotS.GamesStates
             return Sprite;
         }
 
-        public void MoveRoom()
+        public void MouseMove()
         {
             if (MouseClass.Instance.GetState().LeftButton != ButtonState.Pressed)
             {
@@ -64,13 +64,13 @@ namespace TRotS.GamesStates
             {
                 draging = true;
                 //if it was allready place down return to orignal size and centre on curosr
-                if (placeDown == true)
+                if (PlaceDown == true)
                 {
                     OrignalRect();
                     Rec.X = MouseClass.Instance.GetState().Position.X - (Rec.Width / 2);
                     Rec.Y = MouseClass.Instance.GetState().Position.Y - (Rec.Height / 2);
 
-                    placeDown = false;
+                    PlaceDown = false;
                 }
                 int diffrentX = MouseClass.Instance.GetState().Position.X - MouseClass.Instance.GetPrevState().Position.X;
                 int diffrentY = MouseClass.Instance.GetState().Position.Y - MouseClass.Instance.GetPrevState().Position.Y;
@@ -78,7 +78,11 @@ namespace TRotS.GamesStates
                 PosX += diffrentX;
                 PosY += diffrentY;
             }
+        }
 
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(Sprite, Rec, Color.White);
         }
     }
 }

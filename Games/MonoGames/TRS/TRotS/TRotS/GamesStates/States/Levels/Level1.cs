@@ -12,8 +12,8 @@ namespace TRotS.GamesStates.States.Levels
 {
     class Level1 : GameState
     {
-        Texture2D roomPlaceholder;
-        Rooms testRoom;
+        
+        
         private object previouseKeyboardState;
         private object currentKeyboardState;
 
@@ -25,12 +25,13 @@ namespace TRotS.GamesStates.States.Levels
         public override void Initialize()
         {
             Grid.Instance.MakeGrid(3,3,300,300, 50, 50);
+            
         }
 
         // Load all content here
         public override void LoadContent(ContentManager content)
         {
-            testRoom = new Rooms(content.Load<Texture2D>("Rooms/Test_Room"), 0, 0, 50,50);
+            StateManager.Instance.AddScreen(new Overlays.RoomSelector(_graphicsDevice));
         }
 
         // Unload any content here
@@ -41,8 +42,7 @@ namespace TRotS.GamesStates.States.Levels
         // Updates the game
         public override void Update(GameTime gameTime)
         {
-            testRoom.MoveRoom();
-            testRoom.SetRect(Grid.Instance.PlaceInSlot(testRoom.GetRect()));
+
 
             previouseKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
@@ -57,9 +57,7 @@ namespace TRotS.GamesStates.States.Levels
         public override void Draw(SpriteBatch spriteBatch)
         {
             _graphicsDevice.Clear(Color.Brown);
-            spriteBatch.Draw(testRoom.GetTex(), testRoom.GetRect(), Color.White);
-            Grid.Instance.DrawGrid(spriteBatch);
-            RC_Framework.LineBatch.drawLineRectangle(spriteBatch, testRoom.GetRect(), Color.Black);
+            Grid.Instance.DrawGrid(spriteBatch);            
         }
     }
 }

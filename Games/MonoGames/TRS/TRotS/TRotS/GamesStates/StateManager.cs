@@ -15,7 +15,7 @@ namespace TRotS.GamesStates
 
         // Instance of the game state manager     
         private static StateManager _instance;
-        private ContentManager _content;
+        public ContentManager _content;
 
         //this will tell the draw comnand in the first sprtie batch either to draw the next screen.
         private bool drawNext = false;

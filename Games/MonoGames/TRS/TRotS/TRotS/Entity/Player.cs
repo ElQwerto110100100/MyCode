@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MarkTut1.Resources;
+using Microsoft.Xna.Framework.Audio;
 
 namespace TRotS.Entity
 {
@@ -26,10 +27,17 @@ namespace TRotS.Entity
         private int waitTimer = 0;
         public int health = 3;
 
+        static List<SoundEffect> soundEffects;
+        static int occurances = 0;
+
         public Player(GraphicsDevice graphicsDevice, Texture2D charSheet) : base(graphicsDevice, charSheet)
         {
             this.graphicsDevice = graphicsDevice;
             this.charSheet = charSheet;
+
+            soundEffects = new List<SoundEffect>();
+            soundEffects.Add(MouseClass.Instance._content.Load<SoundEffect>("Sounds/Effects/planeGun"));
+            SoundEffect.MasterVolume = 1f;
 
             AddAnimation("movement",100,60,5,0);
             SetAnimation("movement");
@@ -66,6 +74,12 @@ namespace TRotS.Entity
 
                 if (ammunation != 0)
                 {
+                    if (occurances != 3)
+                    {
+                        occurances += 1;
+                        soundEffects[0].Play();
+                        occurances -= 1;
+                    }
                     newBullet.AddAnimation("fire", 28, 12, 1, 0, 0.01, false);
                     newBullet.SetAnimation("fire");
                     newBullet.SetPosXY(this.PosX + this.sourceRectangle.Width, this.PosY + this.sourceRectangle.Height - 12);

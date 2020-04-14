@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using TRotS.GamesStates;
 using TRotS.GamesStates.States;
 
@@ -15,6 +16,7 @@ namespace TRotS
         SpriteBatch spriteBatch;
         private object previouseKeyboardState;
         private object currentKeyboardState;
+        Song backfroundMusic;
 
         public Game1()
         {
@@ -34,6 +36,7 @@ namespace TRotS
             RC_Framework.LineBatch.init(GraphicsDevice);
             SpriteSheet.Instance.SetGraphicsManager(graphics);
             MouseClass.Instance.SetTexture(this.Content.Load<Texture2D>("cursorGauntlet_blue"));
+            MouseClass.Instance._content = this.Content;
 
             base.Initialize();
         }
@@ -50,6 +53,12 @@ namespace TRotS
             // TODO: use this.Content to load your game content here
             StateManager.Instance.SetContent(this.Content);
             StateManager.Instance.AddScreen(new StartMenu(GraphicsDevice, graphics));
+
+            this.backfroundMusic = Content.Load<Song>("Sounds/Music/cupheadOST");
+            MediaPlayer.Play(backfroundMusic);
+            //  Uncomment the following line will also loop the song
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.2f;
         }
 
         /// <summary>

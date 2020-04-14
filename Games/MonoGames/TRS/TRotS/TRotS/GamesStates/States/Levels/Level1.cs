@@ -22,7 +22,7 @@ namespace TRotS.GamesStates.States.Levels
         int numOfEnemies = 3;
 
         List<Sprite> tempList = new List<Sprite>();
-        List<Sprite> Clouds = new List<Sprite>();
+        Ammo AmmoCrates;
 
         private SpriteFont font;
 
@@ -40,6 +40,11 @@ namespace TRotS.GamesStates.States.Levels
                     @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\COVID-19.png")
                     ));
             }
+
+            AmmoCrates = new Ammo(_graphicsDevice, RC_Framework.Util.texFromFile(
+                _graphicsDevice, 
+                @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\AmmoCrate.png")
+                );
 
             MainPlayer = new Player(_graphicsDevice, RC_Framework.Util.texFromFile(
                 _graphicsDevice, 
@@ -100,6 +105,18 @@ namespace TRotS.GamesStates.States.Levels
                         enemy.Reset(enemy);
                     }
                 }
+
+                if (MainPlayer.tempRect.Intersects(AmmoCrates.tempRect))
+                {
+                    AmmoCrates.Reset();
+                    MainPlayer.ammunation += AmmoCrates.ammoRefill;
+                    if (MainPlayer.ammunation > 20)
+                    {
+                        MainPlayer.ammunation = 20;
+                    }
+                }
+
+                AmmoCrates.AmmoUpdate(gameTime);
             }
             else if (StateManager.Instance._screens.Peek().Name != "Pause")
             {
@@ -118,6 +135,8 @@ namespace TRotS.GamesStates.States.Levels
             {
                 enemy.EnemyDraw(spriteBatch);
             }
+
+            AmmoCrates.Draw(spriteBatch);
 
             spriteBatch.DrawString(font, 
                 "Score: " + MainPlayer.score.ToString() + 

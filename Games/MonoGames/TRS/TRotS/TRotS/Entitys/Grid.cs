@@ -60,18 +60,31 @@ namespace TRotS.GamesStates
             }
         }
 
-        public Rectangle PlaceInSlot(Rectangle item)
+        public Rectangle PlaceInSlot(Room room)
         {
-            foreach(Rectangle slot in slots)
+            foreach (Rectangle slot in slots)
             {
-                if (item.Intersects(slot) && MouseClass.Instance.GetState().LeftButton != ButtonState.Pressed)
+                if (room.Rec.Intersects(slot) && MouseClass.Instance.GetState().LeftButton != ButtonState.Pressed)
                 {
                     //change the items position to match that slot
                     return slot;
                 }
             }
-            return item;
+            return room.Rec;
+        }
+
+        public bool IsInSlot(Room room)
+        {
+            foreach (Rectangle slot in slots)
+            {
+                if (room.Rec.Intersects(slot) && MouseClass.Instance.GetState().LeftButton != ButtonState.Pressed)
+                {
+                    //change the items position to match that slot
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
-
 }

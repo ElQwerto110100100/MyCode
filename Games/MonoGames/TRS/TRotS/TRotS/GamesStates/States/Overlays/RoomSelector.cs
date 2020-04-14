@@ -12,6 +12,7 @@ namespace TRotS.GamesStates.States.Overlays
     class RoomSelector : GameState
     {
         List<Room> LevelsRooms = new List<Room>();
+        List<Room> TempList = new List<Room>();
 
         Rectangle ToolboxRec;
         int ToolboxWidth { get; set; }
@@ -50,7 +51,7 @@ namespace TRotS.GamesStates.States.Overlays
             foreach (Room room in LevelsRooms)
             {
                 room.MouseMove();
-                room.SetRect(Grid.Instance.PlaceInSlot(room.GetRect()));
+                //room.SetRect(Grid.Instance.PlaceInSlot(room));
             }
 
             StateManager.Instance._screens.Skip(1).First().Update(gameTime);
@@ -64,7 +65,7 @@ namespace TRotS.GamesStates.States.Overlays
             foreach (Room room in LevelsRooms)
             {
                 room.Draw(spriteBatch);
-                RC_Framework.LineBatch.drawLineRectangle(spriteBatch, room.GetRect(), Color.Black);
+                RC_Framework.LineBatch.drawLineRectangle(spriteBatch, room.Rec, Color.Black);
             }
         }
     }

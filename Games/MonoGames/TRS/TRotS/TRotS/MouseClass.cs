@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -17,6 +18,8 @@ namespace TRotS
         private KeyboardState previouseKeyboardState;
         private KeyboardState currentKeyboardState;
         private Texture2D mouseTexture;
+
+        public ContentManager _Content;
 
         //this will alow the mouse to be called anytime
         //if a instance of mouse hasnt been called than crete one else use the current one

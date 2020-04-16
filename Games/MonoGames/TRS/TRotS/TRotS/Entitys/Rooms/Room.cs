@@ -14,9 +14,8 @@ namespace TRotS.GamesStates
         public Rectangle Rec;
         public bool draging = false;
 
-        public Room(Texture2D sprite, int posX, int posY, int width, int height)
+        public Room(int posX, int posY, int width, int height)
         {
-            Sprite = sprite;
             OrginalPosX = posX;
             OrginalPosY = posY;
             Width = width;
@@ -27,8 +26,6 @@ namespace TRotS.GamesStates
         public Texture2D Sprite { get; set; }
         public int OrginalPosX { get; set; }
         public int OrginalPosY { get; set; }
-        public int TempPosX { get; set; }
-        public int TempPosY { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
         public bool PlaceDown { get; set; }
@@ -44,7 +41,7 @@ namespace TRotS.GamesStates
             PlaceDown = true;
         }
 
-        public void MouseMove()
+        public void Update()
         {
             if (MouseClass.Instance.GetState().LeftButton != ButtonState.Pressed)
             {
@@ -58,9 +55,7 @@ namespace TRotS.GamesStates
                 if (PlaceDown == true)
                 {
                     OrignalRect();
-                    Rec.X = MouseClass.Instance.GetState().Position.X - (Rec.Width / 2);
-                    Rec.Y = MouseClass.Instance.GetState().Position.Y - (Rec.Height / 2);
-
+                    ResetSize();
                     PlaceDown = false;
                 }
             }
@@ -69,8 +64,15 @@ namespace TRotS.GamesStates
             {
                 Rec.X = OrginalPosX;
                 Rec.Y = OrginalPosY;
+                OrignalRect();
             }
             SetRect(Grid.Instance.PlaceInSlot(this));
+        }
+
+        public void ResetSize()
+        {
+            Rec.X = MouseClass.Instance.GetState().Position.X - (Rec.Width / 2);
+            Rec.Y = MouseClass.Instance.GetState().Position.Y - (Rec.Height / 2);
         }
 
         public void Draw(SpriteBatch spriteBatch)

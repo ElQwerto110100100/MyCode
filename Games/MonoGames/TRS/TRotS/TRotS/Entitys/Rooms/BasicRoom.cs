@@ -10,9 +10,9 @@ namespace TRotS.Entitys.Rooms
 {
     class BasicRoom : Room
     {
-        public BasicRoom(Texture2D sprite, int posX, int posY, int width, int height) : base(sprite, posX, posY, width, height)
+        public BasicRoom(int posX, int posY, int width, int height) : base(posX, posY, width, height)
         {
-
+            Sprite = MouseClass.Instance._Content.Load<Texture2D>("Rooms/Test_Room");
         }
     }
 }

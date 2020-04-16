@@ -34,6 +34,7 @@ namespace TRotS
             //this will load in kenny's sprites and automatically be able to find them and refrence them by name
             SpriteSheet.Instance.SetGraphicsManager(graphics);
             MouseClass.Instance.SetTexture(this.Content.Load<Texture2D>("cursorGauntlet_blue"));
+            MouseClass.Instance._Content = this.Content;
             RC_Framework.LineBatch.init(GraphicsDevice);
             base.Initialize();
         }

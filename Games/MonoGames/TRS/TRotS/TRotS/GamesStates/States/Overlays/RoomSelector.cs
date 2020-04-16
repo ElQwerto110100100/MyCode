@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TRotS.Entitys.Rooms;
 
 namespace TRotS.GamesStates.States.Overlays
 {
@@ -30,14 +31,14 @@ namespace TRotS.GamesStates.States.Overlays
             ToolboxWidth = 200;
             ToolboxHeight = _graphicsDevice.Viewport.Height;
             ToolboxX = _graphicsDevice.Viewport.Width - ToolboxWidth;
-            ToolboxY = 0;
+            ToolboxY = 20;
             ToolboxRec = new Rectangle(ToolboxX, ToolboxY, ToolboxWidth, ToolboxHeight);
         }
 
         // Load all content here
         public override void LoadContent(ContentManager content)
         {
-            LevelsRooms.Add(new Room(content.Load<Texture2D>("Rooms/Test_Room"), ToolboxX + 10, 10, 50, 50));
+            LevelsRooms.Add(new BasicRoom(ToolboxX + 10, ToolboxY + 10, 50, 50));
         }
 
         // Unload any content here
@@ -50,8 +51,7 @@ namespace TRotS.GamesStates.States.Overlays
         {
             foreach (Room room in LevelsRooms)
             {
-                room.MouseMove();
-                //room.SetRect(Grid.Instance.PlaceInSlot(room));
+                room.Update();
             }
 
             StateManager.Instance._screens.Skip(1).First().Update(gameTime);

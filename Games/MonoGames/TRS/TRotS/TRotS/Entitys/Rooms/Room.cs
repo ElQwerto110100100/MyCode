@@ -13,6 +13,15 @@ namespace TRotS.GamesStates
     {
         public Rectangle Rec;
         public bool draging = false;
+        public List<Room> copies = new List<Room>();
+
+
+        public Texture2D Sprite;
+        public int OrginalPosX;
+        public int OrginalPosY;
+        public int Width;
+        public int Height;
+        public bool PlaceDown;
 
         public Room(int posX, int posY, int width, int height)
         {
@@ -21,14 +30,8 @@ namespace TRotS.GamesStates
             Width = width;
             Height = height;
             Rec = new Rectangle(OrginalPosX, OrginalPosY, Width, Height);
+            copies.Add(this);
         }
-
-        public Texture2D Sprite { get; set; }
-        public int OrginalPosX { get; set; }
-        public int OrginalPosY { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public bool PlaceDown { get; set; }
 
         public void OrignalRect()
         {
@@ -41,32 +44,32 @@ namespace TRotS.GamesStates
             PlaceDown = true;
         }
 
-        public void Update()
+        public void BaseUpdate()
         {
-            if (MouseClass.Instance.GetState().LeftButton != ButtonState.Pressed)
-            {
-                draging = false;
-            }
-            if ((MouseClass.Instance.GetRect().Intersects(Rec) | draging) && 
-                MouseClass.Instance.GetState().LeftButton == ButtonState.Pressed)
-            {
-                draging = true;
-                //if it was allready place down return to orignal size and centre on curosr
-                if (PlaceDown == true)
+                if (MouseClass.Instance.GetState().LeftButton != ButtonState.Pressed)
                 {
-                    OrignalRect();
-                    ResetSize();
-                    PlaceDown = false;
+                    draging = false;
                 }
-            }
+                if ((MouseClass.Instance.GetRect().Intersects(Rec) | draging) &&
+                    MouseClass.Instance.GetState().LeftButton == ButtonState.Pressed)
+                {
+                    draging = true;
+                    //if it was allready place down return to orignal size and centre on curosr
+                    if (PlaceDown == true)
+                    {
+                        OrignalRect();
+                        ResetSize();
+                        PlaceDown = false;
+                    }
+                }
 
-            else if (!Grid.Instance.IsInSlot(this))
-            {
-                Rec.X = OrginalPosX;
-                Rec.Y = OrginalPosY;
-                OrignalRect();
-            }
-            SetRect(Grid.Instance.PlaceInSlot(this));
+                else if (!Grid.Instance.IsInSlot(this))
+                {
+                    Rec.X = OrginalPosX;
+                    Rec.Y = OrginalPosY;
+                    OrignalRect();
+                } 
+                SetRect(Grid.Instance.PlaceInSlot(this));
         }
 
         public void ResetSize()
@@ -77,7 +80,10 @@ namespace TRotS.GamesStates
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Sprite, Rec, Color.White);
+            foreach (Room room in copies)
+            {
+                spriteBatch.Draw(room.Sprite, room.Rec, Color.White);
+            }
         }
     }
 }

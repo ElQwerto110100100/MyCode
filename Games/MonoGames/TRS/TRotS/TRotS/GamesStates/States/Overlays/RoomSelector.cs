@@ -49,9 +49,15 @@ namespace TRotS.GamesStates.States.Overlays
         // Updates the game
         public override void Update(GameTime gameTime)
         {
-            foreach (Room room in LevelsRooms)
+            Room newRoom = null;
+            foreach (BasicRoom room in LevelsRooms)
             {
-                room.Update();
+                newRoom = room.Update();
+            }
+
+            if (newRoom != null)
+            {
+                LevelsRooms.Add(newRoom);
             }
 
             StateManager.Instance._screens.Skip(1).First().Update(gameTime);

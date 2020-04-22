@@ -57,6 +57,7 @@ namespace TRotS
             // TODO: use this.Content to load your game content here
             StateManager.Instance.SetContent(this.Content);
             //StateManager.Instance.AddScreen(new StartMenu(GraphicsDevice, graphics));
+            StateManager.Instance.AddScreen(new IntroScreen(GraphicsDevice, graphics));
 
             this.backfroundMusic = Content.Load<Song>("Sounds/Music/cupheadOST");
             MediaPlayer.Play(backfroundMusic);

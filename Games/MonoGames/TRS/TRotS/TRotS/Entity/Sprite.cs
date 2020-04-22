@@ -114,10 +114,12 @@ namespace MarkTut1.Resources
             return sourceRectangle;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Color? spriteColor = null)
+        public void Draw(SpriteBatch spriteBatch, SpriteEffects spriteEx, Color? spriteColor = null)
         {
             Vector2 topLeftOfSprite = new Vector2(this.PosX, this.PosY);
-            spriteBatch.Draw(SheetTexture, topLeftOfSprite, sourceRectangle, spriteColor ?? Color.White);
+            //spriteBatch.Draw(SheetTexture, topLeftOfSprite, null ,sourceRectangle, spriteColor, spriteEx, 0);
+            spriteBatch.Draw(SheetTexture, position: topLeftOfSprite, sourceRectangle: sourceRectangle, color: spriteColor, rotation: 0f, origin: new Vector2(0,0), scale: new Vector2(1,1), effects: spriteEx, layerDepth: 0f);
+
 
             //since all entitys use the sprite calss it will be easier to attach it here
             if (borderOn) RC_Framework.LineBatch.drawLineRectangle(spriteBatch, new Rectangle(this.PosX, this.PosY, sourceRectangle.Width, sourceRectangle.Height), Color.Red);

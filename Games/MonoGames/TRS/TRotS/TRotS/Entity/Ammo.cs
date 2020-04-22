@@ -59,7 +59,7 @@ namespace TRotS.Entity
 
         public void EnemyDraw(SpriteBatch spriteBatch)
         {
-            Draw(spriteBatch);
+            Draw(spriteBatch, SpriteEffects.None);
         }
     }
 }

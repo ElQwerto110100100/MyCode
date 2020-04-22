@@ -136,7 +136,7 @@ namespace TRotS.GamesStates.States.Levels
                 enemy.EnemyDraw(spriteBatch);
             }
 
-            AmmoCrates.Draw(spriteBatch);
+            AmmoCrates.Draw(spriteBatch, SpriteEffects.None);
 
             spriteBatch.DrawString(font, 
                 "Score: " + MainPlayer.score.ToString() + 

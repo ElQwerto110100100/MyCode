@@ -117,13 +117,13 @@ namespace TRotS.Entity
             if (health != 0) health--; //prevents it from going negtive
         }
 
-        public void PlayerDraw(SpriteBatch spriteBatch)
+        public void PlayerDraw(SpriteBatch spriteBatch, SpriteEffects spriteEx = SpriteEffects.None)
         {
-            Draw(spriteBatch, planeColor);
+            Draw(spriteBatch, spriteEx, planeColor);
 
             foreach (Sprite bullet in bullets)
             {
-                bullet.Draw(spriteBatch);
+                bullet.Draw(spriteBatch, SpriteEffects.None);
             }
         }
     }

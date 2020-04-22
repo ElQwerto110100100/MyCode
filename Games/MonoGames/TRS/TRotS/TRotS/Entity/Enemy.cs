@@ -111,10 +111,10 @@ namespace TRotS.Entity
 
         public void EnemyDraw(SpriteBatch spriteBatch)
         {
-            Draw(spriteBatch);
+            Draw(spriteBatch, SpriteEffects.None);
             if (Exsplosion != null)
             {
-                Exsplosion.Draw(spriteBatch);
+                Exsplosion.Draw(spriteBatch, SpriteEffects.None);
             }
         }
     }

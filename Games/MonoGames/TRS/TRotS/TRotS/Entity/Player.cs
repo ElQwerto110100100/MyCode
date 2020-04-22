@@ -114,7 +114,7 @@ namespace TRotS.Entity
         {
             Hit = true;
             waitTimer = 60 * 3;
-            health--;
+            if (health != 0) health--; //prevents it from going negtive
         }
 
         public void PlayerDraw(SpriteBatch spriteBatch)

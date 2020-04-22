@@ -65,10 +65,16 @@ namespace TRotS
             return (float)sprite.Height;
         }
 
+        public Rectangle GetSpriteRec(string spriteName)
+        {
+            SpriteXml sprite = spriteList.Find(x => x.Name == spriteName);
+            return sprite.GetRect();
+        }
+
         public void Draw(SpriteBatch spriteBatch, Vector2 pos, Vector2 imgScale, string spriteName, Color? color = null)
         {
             SpriteXml sprite = spriteList.Find(x => x.Name == spriteName);
-            spriteBatch.Draw(texture: GetSpriteSheet(), position: pos, sourceRectangle: sprite.GetRect() ,scale: imgScale);
+            spriteBatch.Draw(texture: GetSpriteSheet(), position: pos, sourceRectangle: sprite.GetRect() ,scale: imgScale, color: color);
         }
         public void ReadXml(string xmlPath)
         {

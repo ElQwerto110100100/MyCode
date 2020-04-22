@@ -22,6 +22,7 @@ namespace TRotS
         public Vector2 Pos;
         public Vector2 BottomPos;
         int textOffset = 5;
+        Rectangle rec;
         SpriteFont fontstyle;
 
         public Button(ContentManager content, string spriteTextureName, string message, int width, int height, Vector2 pos, string fontName)
@@ -34,21 +35,42 @@ namespace TRotS
             this.Pos = pos;
             fontstyle = content.Load<SpriteFont>("Fonts/menuFont_20");
             BottomPos = new Vector2(pos.X + width, pos.Y + height);
+            rec = new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);
         }
 
-        public void Draw(SpriteBatch spriteBatch, Color? color = null)
+        public void Draw(SpriteBatch spriteBatch, Color? color = null, float? alpha = null)
         {
             if (visable == true)
             {
+                //eye candy feature to look like button is pressed
+                if (MouseClass.Instance.GetState().LeftButton == ButtonState.Pressed &&
+                    MouseClass.Instance.GetRect().Intersects(rec))
+                {
+                    if (!SpriteTextureName.Contains("_pressed.png"))
+                    {
+                        SpriteTextureName = SpriteTextureName.Replace(".png", "_pressed.png");
+                        //color = Color.TransparentBlack;
+                        textOffset = 0;
+                    }
+                }
+
                 Vector2 scale = new Vector2(Width / SpriteSheet.Instance.GetSpritWidth(this.SpriteTextureName), Height / SpriteSheet.Instance.GetSpritHeight(this.SpriteTextureName));
 
                 Vector2 stringMeasurement = fontstyle.MeasureString(Message);
                 //makeing the text size and positon relative to the button object
                 Vector2 centre = new Vector2((Width / 2), (Height / 2 - textOffset)) - (stringMeasurement / 2) + Pos;
 
-                SpriteSheet.Instance.Draw(spriteBatch, Pos, scale, SpriteTextureName, color);
+                SpriteSheet.Instance.Draw(spriteBatch, Pos, scale, SpriteTextureName, new Color(color ?? Color.White, alpha ?? 1f));
                 spriteBatch.DrawString(fontstyle, Message, centre, Color.White);
-            } else
+
+                //eye candy fature so its notices if selected
+                if (MouseClass.Instance.GetRect().Intersects(rec))
+                {
+                    RC_Framework.LineBatch.drawLineRectangleOuter(spriteBatch, rec, Color.White, 3);
+                }
+
+            }
+            else
             {
                 //dont draw it
             }
@@ -61,22 +83,11 @@ namespace TRotS
 
         public bool IsPressed(MouseState currentMouseState, MouseState previousMouseState)
         {
-            if (previousMouseState.LeftButton != ButtonState.Pressed &&
-                currentMouseState.LeftButton == ButtonState.Pressed && 
-                currentMouseState.X >= Pos.X && 
-                currentMouseState.X <= (Width + Pos.X) && 
-                currentMouseState.Y >= Pos.Y && 
-                currentMouseState.Y <= (Height + Pos.Y))
-            {
-                if (!SpriteTextureName.Contains("_pressed.png"))
-                {
-                    SpriteTextureName = SpriteTextureName.Replace(".png", "_pressed.png");
-                    textOffset = 0;
-                    return true;
-                } else
-                {
-                    return true;
-                }
+            //return true on release
+            if (previousMouseState.LeftButton == ButtonState.Pressed &&
+                currentMouseState.LeftButton != ButtonState.Pressed &&
+                MouseClass.Instance.GetRect().Intersects(rec)) {
+                return true;
             }
             else
             {

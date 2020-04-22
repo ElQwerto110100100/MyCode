@@ -13,8 +13,6 @@ namespace TRotS.GamesStates.States
     class LevelSelect : GameState
     {
         Button level1;
-        private object previouseKeyboardState;
-        private object currentKeyboardState;
 
         public LevelSelect(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager) : base(graphicsDevice, graphicsDeviceManager)
         {
@@ -30,7 +28,7 @@ namespace TRotS.GamesStates.States
         public override void LoadContent(ContentManager content)
         {
             //need a more effectient solution, somehow in a list
-            level1 = new Button(content, "buttonLong_beige.png", "Level1", 200, 100, new Vector2((_graphicsDevice.Viewport.Width / 2) - 100, 50), "menuFont");
+            level1 = new Button(content, "buttonLong_beige.png", "Level 1", 200, 100, new Vector2((_graphicsDevice.Viewport.Width / 2) - 100, 50), "menuFont");
         }
 
         // Unload any content here

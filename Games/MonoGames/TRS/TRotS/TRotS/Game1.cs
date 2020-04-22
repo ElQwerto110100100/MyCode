@@ -22,6 +22,8 @@ namespace TRotS
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 900;
+            graphics.PreferredBackBufferHeight = 700;
         }
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -31,6 +33,8 @@ namespace TRotS
         /// </summary>
         protected override void Initialize()
         {
+
+
             // TODO: Add your initialization logic here
             //this will load in kenny's sprites and automatically be able to find them and refrence them by name
             RC_Framework.LineBatch.init(GraphicsDevice);
@@ -52,7 +56,7 @@ namespace TRotS
 
             // TODO: use this.Content to load your game content here
             StateManager.Instance.SetContent(this.Content);
-            StateManager.Instance.AddScreen(new StartMenu(GraphicsDevice, graphics));
+            //StateManager.Instance.AddScreen(new StartMenu(GraphicsDevice, graphics));
 
             this.backfroundMusic = Content.Load<Song>("Sounds/Music/cupheadOST");
             MediaPlayer.Play(backfroundMusic);

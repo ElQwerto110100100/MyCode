@@ -51,6 +51,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="GamesStates\GameStates.cs" />
     <Compile Include="GamesStates\States\GameOver.cs" />
+    <Compile Include="GamesStates\States\IntroScreen.cs" />
     <Compile Include="GamesStates\States\Pause.cs" />
     <Compile Include="Rooms.cs" />
     <Compile Include="Grid.cs" />

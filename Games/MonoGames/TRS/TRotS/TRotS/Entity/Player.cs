@@ -70,23 +70,7 @@ namespace TRotS.Entity
 
             if (currentKeyState.IsKeyDown(Keys.Space) && !previousKeyState.IsKeyDown(Keys.Space))
             {
-                Sprite newBullet = new Sprite(graphicsDevice, RC_Framework.Util.texFromFile(graphicsDevice, @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\plane-bullet.png"));
-
-                if (ammunation != 0)
-                {
-                    if (occurances != 3)
-                    {
-                        occurances += 1;
-                        soundEffects[0].Play();
-                        occurances -= 1;
-                    }
-                    newBullet.AddAnimation("fire", 28, 12, 1, 0, 0.01, false);
-                    newBullet.SetAnimation("fire");
-                    newBullet.SetPosXY(this.PosX + this.sourceRectangle.Width, this.PosY + this.sourceRectangle.Height - 12);
-                    newBullet.borderOn = this.borderOn;
-                    bullets.Add(newBullet);
-                    ammunation -= 1;
-                }
+                Fire();
             }
 
             if (Hit)
@@ -108,6 +92,27 @@ namespace TRotS.Entity
                 bullet.PosX += bulletSpeed;
             }
             bullets.RemoveAll(bullet => bullet.PosX > graphicsDevice.Viewport.Width);
+        }
+
+        private void Fire()
+        {
+            Sprite newBullet = new Sprite(graphicsDevice, RC_Framework.Util.texFromFile(graphicsDevice, @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\plane-bullet.png"));
+
+            if (ammunation != 0)
+            {
+                if (occurances != 3)
+                {
+                    occurances += 1;
+                    soundEffects[0].Play();
+                    occurances -= 1;
+                }
+                newBullet.AddAnimation("fire", 28, 12, 1, 0, 0.01, false);
+                newBullet.SetAnimation("fire");
+                newBullet.SetPosXY(this.PosX + this.sourceRectangle.Width, this.PosY + this.sourceRectangle.Height - 12);
+                newBullet.borderOn = this.borderOn;
+                bullets.Add(newBullet);
+                ammunation -= 1;
+            }
         }
 
         public void PlaneHit()

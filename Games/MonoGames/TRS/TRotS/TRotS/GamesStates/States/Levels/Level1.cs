@@ -86,6 +86,12 @@ namespace TRotS.GamesStates.States.Levels
                     freeze = !freeze;
                 }
 
+                if (MouseClass.Instance.GetKeyState().IsKeyDown(Keys.H))
+                {
+                    StateManager.Instance.AddScreen(new HelpScreen(_graphicsDevice, _graphicsDeviceManager));
+                    freeze = !freeze;
+                }
+
                 MainPlayer.UpdatePlayer(gameTime);
 
                 foreach (Enemy enemy in Enemies)

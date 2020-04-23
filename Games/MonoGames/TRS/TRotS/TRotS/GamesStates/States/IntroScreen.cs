@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Input;
 
 namespace TRotS.GamesStates.States
 {
@@ -57,10 +58,10 @@ namespace TRotS.GamesStates.States
             );
 
             PlayerPlane.PosX = -20;
-            PlayerPlane.PosY = _graphicsDevice.Viewport.Height / 2 + PlayerPlane.sourceRectangle.Height / 2 + margin;
+            PlayerPlane.PosY = _graphicsDevice.Viewport.Height / 2 + PlayerPlane.sourceRectangle.Height / 2 + (margin * 2);
 
-            CovidSpore.PosX = -100;
-            CovidSpore.PosY = _graphicsDevice.Viewport.Height / 2 + CovidSpore.sourceRectangle.Height / 2 + margin * 2;
+            CovidSpore.PosX = -300;
+            CovidSpore.PosY = _graphicsDevice.Viewport.Height / 2 + CovidSpore.sourceRectangle.Height / 2 + (margin * 2);
         }
 
         // Load all content here
@@ -111,12 +112,17 @@ namespace TRotS.GamesStates.States
             if (phase2)
             {
                 planeEx = SpriteEffects.FlipHorizontally;
-                if (CovidSpore.PosX != -100)
+                if (PlayerPlane.PosX != -150)
                 {
                     PlayerPlane.Update(gameTime);
                     PlayerPlane.PosX -= 5;
                     CovidSpore.Update(gameTime);
                     CovidSpore.PosX -= 5;
+                }
+                else
+                {
+                    phase1 = false;
+                    phase2 = false;
                 }
 
                 if (CovidSpore.PosX < assighmentStrLength.X  && assighmentStrColor.A < 225)
@@ -124,13 +130,19 @@ namespace TRotS.GamesStates.States
                     assighmentStrColor.A += 3;
                 }
             }
+            //adding a skip gives it more of a complete feel
+            if (!phase1 && !phase2 || MouseClass.Instance.IsKeyPressed(Keys.Space))
+            {
+                //once intro is over start the game
+                StateManager.Instance.AddScreen(new StartMenu(_graphicsDevice, _graphicsDeviceManager));
+            }
         }
 
         // Draws the game
         public override void Draw(SpriteBatch spriteBatch)
         {
             _graphicsDevice.Clear(Color.White);
-            PlayerPlane.PlayerDraw(spriteBatch);
+            spriteBatch.DrawString(font, "Please Space to skip", new Vector2(10,10), Color.Black);
             spriteBatch.DrawString(font, creditString, creditFontPos, introColor);
             spriteBatch.DrawString(font, assighmentString, assighmentFontPos, assighmentStrColor);
             PlayerPlane.PlayerDraw(spriteBatch, planeEx);

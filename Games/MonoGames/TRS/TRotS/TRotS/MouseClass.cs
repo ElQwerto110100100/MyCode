@@ -74,6 +74,18 @@ namespace TRotS
             mouseTexture = MouseTexture;
         }
 
+        public bool IsKeyPressed(Keys key)
+        {
+            if (GetKeyState().IsKeyDown(key) && !GetPrevKeyState().IsKeyDown(key))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(mouseTexture, new Vector2(currentMouseState.X, currentMouseState.Y), null, Color.White, 0.0f, Vector2.Zero, 1, SpriteEffects.None, 0.0f);

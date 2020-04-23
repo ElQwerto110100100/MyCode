@@ -51,7 +51,6 @@ namespace TRotS.GamesStates.States
         // Load all content here
         public override void LoadContent(ContentManager content)
         {
-            font = content.Load<SpriteFont>("Fonts/menuFont_20");
             fontPos = new Vector2(boxPosX - font.MeasureString(message).X / 2, boxPosY + margin);
             quit = new Button(content, "buttonLong_beige.png", "Quit", 200, 100, new Vector2(_graphicsDevice.Viewport.Width / 2 - 100, boxPosY + 100), "menuFont");
         }

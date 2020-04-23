@@ -18,12 +18,16 @@ namespace TRotS
         public int Height;
         public bool isPressed = false;
         public bool visable = true;
+
         string FontName;
         public Vector2 Pos;
         public Vector2 BottomPos;
         int textOffset = 5;
+
         Rectangle rec;
         SpriteFont fontstyle;
+
+        string attachSpriteName;
 
         public Button(ContentManager content, string spriteTextureName, string message, int width, int height, Vector2 pos, string fontName)
         {
@@ -38,6 +42,11 @@ namespace TRotS
             rec = new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);
         }
 
+        public void AttachSprite(string spriteName)
+        {
+            attachSpriteName = spriteName;
+        }
+
         public void Draw(SpriteBatch spriteBatch, Color? color = null, float? alpha = null)
         {
             if (visable == true)
@@ -49,7 +58,6 @@ namespace TRotS
                     if (!SpriteTextureName.Contains("_pressed.png"))
                     {
                         SpriteTextureName = SpriteTextureName.Replace(".png", "_pressed.png");
-                        //color = Color.TransparentBlack;
                         textOffset = 0;
                     }
                 }
@@ -62,6 +70,20 @@ namespace TRotS
 
                 SpriteSheet.Instance.Draw(spriteBatch, Pos, scale, SpriteTextureName, new Color(color ?? Color.White, alpha ?? 1f));
                 spriteBatch.DrawString(fontstyle, Message, centre, Color.White);
+
+                if (attachSpriteName != null)
+                {
+                    Vector2 buttonCentre = new Vector2((Width / 2), (Height / 2 ));
+                    buttonCentre.X -= SpriteSheet.Instance.GetSpritWidth(attachSpriteName) / 2;
+                    buttonCentre.Y -= SpriteSheet.Instance.GetSpritHeight(attachSpriteName) / 2;
+                    SpriteSheet.Instance.Draw(
+                        spriteBatch, 
+                        buttonCentre, 
+                        scale, 
+                        SpriteTextureName, 
+                        new Color(color ?? Color.White, alpha ?? 1f)
+                        );
+                }
 
                 //eye candy fature so its notices if selected
                 if (MouseClass.Instance.GetRect().Intersects(rec))

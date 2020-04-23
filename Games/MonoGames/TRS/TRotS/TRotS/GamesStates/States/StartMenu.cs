@@ -15,6 +15,9 @@ namespace TRotS.GamesStates.States
         SpriteFont fontstyle;
         Button start;
 
+        string title = "Shoot down COVID-19!!!!";
+        Vector2 titlePos;
+
         public StartMenu(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager) : base(graphicsDevice, graphicsDeviceManager)
         {
             Name = "StartMenu";
@@ -22,6 +25,7 @@ namespace TRotS.GamesStates.States
 
         public override void Initialize()
         {
+            titlePos = new Vector2(_graphicsDevice.Viewport.Width, 50);
         }
 
         public override void LoadContent(ContentManager content)
@@ -33,6 +37,7 @@ namespace TRotS.GamesStates.States
             start = new Button(content, "buttonLong_beige.png", "START", 200, 100, new Vector2((_graphicsDevice.Viewport.Width/ 2) - 100 , (_graphicsDevice.Viewport.Height / 2) - 50), "menuFont");
             fontstyle = content.Load<SpriteFont>("Fonts/menuFont_20");
 
+            titlePos.X -= fontstyle.MeasureString(title).X/2;
         }
 
         public override void UnloadContent()
@@ -51,7 +56,7 @@ namespace TRotS.GamesStates.States
         {
             _graphicsDevice.Clear(Color.Black);
             start.Draw(spriteBatch);
-            spriteBatch.DrawString(fontstyle, "Shoot down COVID-19!!!!", new Vector2(50, 50), Color.White);
+            spriteBatch.DrawString(fontstyle, title, new Vector2(50, 50), Color.White);
             
         }
     }

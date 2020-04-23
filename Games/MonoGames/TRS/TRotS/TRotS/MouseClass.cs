@@ -66,7 +66,8 @@ namespace TRotS
 
         public Rectangle GetRect()
         {
-            return new Rectangle(currentMouseState.Position.X, currentMouseState.Position.Y, mouseTexture.Width, mouseTexture.Height);
+            //it doesnt matter the rectangle size as we wont right at the tip of the finger point
+            return new Rectangle(currentMouseState.Position.X, currentMouseState.Position.Y, 1, 1);
         }
 
         public void SetTexture(Texture2D MouseTexture)

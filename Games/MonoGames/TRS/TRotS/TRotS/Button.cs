@@ -17,12 +17,11 @@ namespace TRotS
         public int Width;
         public int Height;
         public bool isPressed = false;
-        public bool visable = true;
 
         string FontName;
         public Vector2 Pos;
         public Vector2 BottomPos;
-        int textOffset = 5;
+        static int textOffset = 5;
 
         Rectangle rec;
         SpriteFont fontstyle;
@@ -30,6 +29,8 @@ namespace TRotS
         string attachSpriteName;
         float attachSprtireRotation = 0;
         Vector2 buttonCentre;
+
+        public bool disabled { get; set; } = false;
 
         public Button(ContentManager content, string spriteTextureName, string message, int width, int height, Vector2 pos, string fontName)
         {
@@ -54,47 +55,17 @@ namespace TRotS
 
         public void Draw(SpriteBatch spriteBatch, Color? color = null, float? alpha = null)
         {
-            if (visable == true)
+            if (!disabled)
             {
                 //eye candy feature to look like button is pressed
                 if (MouseClass.Instance.GetState().LeftButton == ButtonState.Pressed &&
                     MouseClass.Instance.GetRect().Intersects(rec))
                 {
-                    if (!SpriteTextureName.Contains("_pressed.png"))
-                    {
-                        SpriteTextureName = SpriteTextureName.Replace(".png", "_pressed.png");
-                        textOffset = 0;
-                        isPressed = true;
-                    }
+                    SetToPressed();
                 }
                 else
                 {
-                    this.SpriteTextureName = this.SpriteTextureName.Replace("_pressed.png", ".png");
-                    textOffset = 5;
-                    isPressed = false;
-                }
-
-                Vector2 scale = new Vector2(Width / SpriteSheet.Instance.GetSpritWidth(this.SpriteTextureName), Height / SpriteSheet.Instance.GetSpritHeight(this.SpriteTextureName));
-
-                Vector2 stringMeasurement = fontstyle.MeasureString(Message);
-                //makeing the text size and positon relative to the button object
-                Vector2 centre = new Vector2((Width / 2), (Height / 2 - textOffset)) - (stringMeasurement / 2) + Pos;
-
-                SpriteSheet.Instance.Draw(spriteBatch, Pos, scale, SpriteTextureName, new Color(color ?? Color.White, alpha ?? 1f));
-                spriteBatch.DrawString(fontstyle, Message, centre, Color.White);
-
-                if (attachSpriteName != null)
-                {
-                    //nudge the arrow down to show movement of the button press
-                    SpriteSheet.Instance.Draw(
-                        spriteBatch, 
-                        buttonCentre, 
-                        new Vector2(1,1), 
-                        attachSpriteName, 
-                        new Color(color ?? Color.White, alpha ?? 1f),
-                        attachSprtireRotation, 
-                        true
-                        );
+                    SetToUnpressed();
                 }
 
                 //eye candy fature so its notices if selected
@@ -102,17 +73,50 @@ namespace TRotS
                 {
                     RC_Framework.LineBatch.drawLineRectangleOuter(spriteBatch, rec, Color.White, 3);
                 }
-
             }
-            else
+
+            //very inefficent should re work so it doesnt have to be done twice
+
+            Vector2 scale = new Vector2(Width / SpriteSheet.Instance.GetSpritWidth(this.SpriteTextureName), Height / SpriteSheet.Instance.GetSpritHeight(this.SpriteTextureName));
+
+            Vector2 stringMeasurement = fontstyle.MeasureString(Message);
+            //makeing the text size and positon relative to the button object
+            Vector2 centre = new Vector2((Width / 2), (Height / 2 - textOffset)) - (stringMeasurement / 2) + Pos;
+
+            SpriteSheet.Instance.Draw(spriteBatch, Pos, scale, SpriteTextureName, new Color(color ?? (isPressed ? Color.BlanchedAlmond : Color.White), alpha ?? 1f));
+            spriteBatch.DrawString(fontstyle, Message, centre, Color.White);
+
+            if (attachSpriteName != null)
             {
-                //dont draw it
+                //nudge the arrow down to show movement of the button pres
+                SpriteSheet.Instance.Draw(
+                    spriteBatch,
+                    isPressed ? new Vector2(buttonCentre.X, (buttonCentre.Y + 5)) : buttonCentre,
+                    new Vector2(1, 1),
+                    attachSpriteName,
+                    new Color(color ?? Color.White, alpha ?? 1f),
+                    attachSprtireRotation,
+                    true
+                    );
+            }
+
+        }
+
+        public void SetToPressed()
+        {
+            if (!SpriteTextureName.Contains("_pressed.png"))
+            {
+                SpriteTextureName = SpriteTextureName.Replace(".png", "_pressed.png");
+                textOffset = 0;
+                isPressed = true;
             }
         }
 
-        public void IsVisable(bool flag)
+        public void SetToUnpressed()
         {
-            visable = flag;
+            SpriteTextureName = SpriteTextureName.Replace("_pressed.png", ".png");
+            textOffset = 5;
+            isPressed = false;
         }
 
         public bool IsPressed(MouseState currentMouseState, MouseState previousMouseState)

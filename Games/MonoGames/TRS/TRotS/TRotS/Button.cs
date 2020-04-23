@@ -28,6 +28,8 @@ namespace TRotS
         SpriteFont fontstyle;
 
         string attachSpriteName;
+        float attachSprtireRotation = 0;
+        Vector2 buttonCentre;
 
         public Button(ContentManager content, string spriteTextureName, string message, int width, int height, Vector2 pos, string fontName)
         {
@@ -42,9 +44,12 @@ namespace TRotS
             rec = new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);
         }
 
-        public void AttachSprite(string spriteName)
+        public void AttachSprite(string spriteName, float rot = 0)
         {
+            attachSprtireRotation = rot;
             attachSpriteName = spriteName;
+            buttonCentre = new Vector2((Width / 2), (Height / 2));
+            buttonCentre += Pos;
         }
 
         public void Draw(SpriteBatch spriteBatch, Color? color = null, float? alpha = null)
@@ -59,7 +64,14 @@ namespace TRotS
                     {
                         SpriteTextureName = SpriteTextureName.Replace(".png", "_pressed.png");
                         textOffset = 0;
+                        isPressed = true;
                     }
+                }
+                else
+                {
+                    this.SpriteTextureName = this.SpriteTextureName.Replace("_pressed.png", ".png");
+                    textOffset = 5;
+                    isPressed = false;
                 }
 
                 Vector2 scale = new Vector2(Width / SpriteSheet.Instance.GetSpritWidth(this.SpriteTextureName), Height / SpriteSheet.Instance.GetSpritHeight(this.SpriteTextureName));
@@ -73,15 +85,15 @@ namespace TRotS
 
                 if (attachSpriteName != null)
                 {
-                    Vector2 buttonCentre = new Vector2((Width / 2), (Height / 2 ));
-                    buttonCentre.X -= SpriteSheet.Instance.GetSpritWidth(attachSpriteName) / 2;
-                    buttonCentre.Y -= SpriteSheet.Instance.GetSpritHeight(attachSpriteName) / 2;
+                    //nudge the arrow down to show movement of the button press
                     SpriteSheet.Instance.Draw(
                         spriteBatch, 
                         buttonCentre, 
-                        scale, 
-                        SpriteTextureName, 
-                        new Color(color ?? Color.White, alpha ?? 1f)
+                        new Vector2(1,1), 
+                        attachSpriteName, 
+                        new Color(color ?? Color.White, alpha ?? 1f),
+                        attachSprtireRotation, 
+                        true
                         );
                 }
 
@@ -109,12 +121,14 @@ namespace TRotS
             if (previousMouseState.LeftButton == ButtonState.Pressed &&
                 currentMouseState.LeftButton != ButtonState.Pressed &&
                 MouseClass.Instance.GetRect().Intersects(rec)) {
+                isPressed = true;
                 return true;
             }
             else
             {
                 this.SpriteTextureName = this.SpriteTextureName.Replace("_pressed.png", ".png");
                 textOffset = 5;
+                isPressed = false;
                 return false;
             }
         }

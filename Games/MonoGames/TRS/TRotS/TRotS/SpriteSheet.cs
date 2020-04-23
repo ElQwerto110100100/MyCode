@@ -71,10 +71,13 @@ namespace TRotS
             return sprite.GetRect();
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 pos, Vector2 imgScale, string spriteName, Color? color = null)
+        public void Draw(SpriteBatch spriteBatch, Vector2 pos, Vector2 imgScale, string spriteName, Color? color = null, float rot = 0, bool centrePlace = false)
         {
             SpriteXml sprite = spriteList.Find(x => x.Name == spriteName);
-            spriteBatch.Draw(texture: GetSpriteSheet(), position: pos, sourceRectangle: sprite.GetRect() ,scale: imgScale, color: color);
+            Vector2 centre;
+            if (centrePlace) centre = new Vector2(sprite.Width / 2, sprite.Height / 2); else centre = new Vector2(0, 0);
+            Color defColor = color ?? Color.White;
+            spriteBatch.Draw(GetSpriteSheet(), pos, sprite.GetRect(), defColor, rot, centre, imgScale, SpriteEffects.None, 0.0f);
         }
         public void ReadXml(string xmlPath)
         {

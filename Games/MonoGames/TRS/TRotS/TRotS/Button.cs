@@ -21,7 +21,7 @@ namespace TRotS
         string FontName;
         public Vector2 Pos;
         public Vector2 BottomPos;
-        static int textOffset = 5;
+        int textOffset = 5;
 
         Rectangle rec;
         SpriteFont fontstyle;
@@ -40,7 +40,7 @@ namespace TRotS
             this.Height = height;
             this.FontName = fontName;
             this.Pos = pos;
-            fontstyle = content.Load<SpriteFont>("Fonts/menuFont_20");
+            fontstyle = content.Load<SpriteFont>("Fonts/" + fontName);
             BottomPos = new Vector2(pos.X + width, pos.Y + height);
             rec = new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);
         }
@@ -91,7 +91,7 @@ namespace TRotS
                 //nudge the arrow down to show movement of the button pres
                 SpriteSheet.Instance.Draw(
                     spriteBatch,
-                    isPressed ? new Vector2(buttonCentre.X, (buttonCentre.Y + 5)) : buttonCentre,
+                    isPressed ? new Vector2(buttonCentre.X, (buttonCentre.Y + 2)) : buttonCentre,
                     new Vector2(1, 1),
                     attachSpriteName,
                     new Color(color ?? Color.White, alpha ?? 1f),

@@ -124,11 +124,7 @@ namespace TRotS.GamesStates.States.Levels
 
                 AmmoCrates.AmmoUpdate(gameTime);
             }
-            else if (StateManager.Instance._screens.Peek().Name != "Pause")
-            {
-                //do nthing and wait for the pause to finish
-                freeze = !freeze;
-            }
+            freeze = false;
         }
 
         // Draws the game

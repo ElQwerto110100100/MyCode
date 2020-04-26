@@ -42,7 +42,7 @@ namespace TRotS.Entity
             AddAnimation("movement",100,60,5,0);
             SetAnimation("movement");
 
-            SetPosXY(100, 100);
+            SetPosXY(100, graphicsDevice.Viewport.Height / 2);
         }
 
         public void UpdatePlayer(GameTime gametime)
@@ -87,14 +87,10 @@ namespace TRotS.Entity
                 if (waitTimer == 0) Hit = false;
             }
 
-            foreach (Sprite bullet in bullets) {
-                bullet.Update(gametime);
-                bullet.PosX += bulletSpeed;
-            }
-            bullets.RemoveAll(bullet => bullet.PosX > graphicsDevice.Viewport.Width);
+            BulletUpdate(gametime);
         }
 
-        private void Fire()
+        public void Fire()
         {
             Sprite newBullet = new Sprite(graphicsDevice, RC_Framework.Util.texFromFile(graphicsDevice, @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\plane-bullet.png"));
 
@@ -103,7 +99,7 @@ namespace TRotS.Entity
                 if (occurances != 3)
                 {
                     occurances += 1;
-                    soundEffects[0].Play();
+                     soundEffects[0].Play();
                     occurances -= 1;
                 }
                 newBullet.AddAnimation("fire", 28, 12, 1, 0, 0.01, false);
@@ -113,6 +109,15 @@ namespace TRotS.Entity
                 bullets.Add(newBullet);
                 ammunation -= 1;
             }
+        }
+
+        public void BulletUpdate(GameTime gametime) {
+            foreach (Sprite bullet in bullets)
+            {
+                bullet.Update(gametime);
+                bullet.PosX += bulletSpeed;
+            }
+            bullets.RemoveAll(bullet => bullet.PosX > graphicsDevice.Viewport.Width);
         }
 
         public void PlaneHit()

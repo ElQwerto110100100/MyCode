@@ -52,8 +52,8 @@ namespace TRotS.GamesStates.States
         public override void LoadContent(ContentManager content)
         {
             font = content.Load<SpriteFont>("Fonts/menuFont_20");
-            resume = new Button(content, "buttonLong_beige.png", "Resume", 200, 100, new Vector2(boxPosX + margin, font.LineSpacing + fontPos.Y + margin), "menuFont");
-            quit = new Button(content, "buttonLong_beige.png", "Exit level", 200, 100, new Vector2(boxPosX + margin, resume.BottomPos.Y + margin), "menuFont");
+            resume = new Button(content, "buttonLong_beige.png", "Resume", 200, 100, new Vector2(boxPosX + margin, font.LineSpacing + fontPos.Y + margin), "menuFont_20");
+            quit = new Button(content, "buttonLong_beige.png", "Exit level", 200, 100, new Vector2(boxPosX + margin, resume.BottomPos.Y + margin), "menuFont_20");
         }
 
         // Unload any content here

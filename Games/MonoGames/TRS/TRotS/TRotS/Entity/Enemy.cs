@@ -45,6 +45,8 @@ namespace TRotS.Entity
 
         public void EnemyUpdate(GameTime gameTime)
         {
+            Update(gameTime);
+
             if (waitTimer == 0)
             {
                 this.PosX -= movementSpeed;
@@ -71,8 +73,6 @@ namespace TRotS.Entity
                     Exsplosion.Update(gameTime);
                 }
             }
-
-            Update(gameTime);
         }
 
         public void Damage(List<Sprite> bullets)

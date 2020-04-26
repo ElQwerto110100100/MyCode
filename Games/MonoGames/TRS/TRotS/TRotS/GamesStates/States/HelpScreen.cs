@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MarkTut1.Resources;
 using TRotS.Entity;
+using Microsoft.Xna.Framework.Input;
 
 namespace TRotS.GamesStates.States
 {
@@ -17,11 +18,13 @@ namespace TRotS.GamesStates.States
         Player HelpPlayer;
         Enemy HelpCovid;
         Ammo HelpAmmo;
+        Sprite DemoBullet;
 
         private Texture2D background;
         Rectangle BackgroundRec;
         Rectangle HelpMoveRec;
         Rectangle HelpAvoidRec;
+        Rectangle HelpSuppliesRec;
 
         Rectangle HelpMenu;
         int HelpMenuWidth;
@@ -49,7 +52,8 @@ namespace TRotS.GamesStates.States
             HelpMenu = new Rectangle(HelpMenuWidth / 2, 0, HelpMenuWidth, _graphicsDevice.Viewport.Height);
 
             HelpMoveRec = new Rectangle((HelpMenuWidth / 2) + (margin / 2), margin, 200, 150);
-            HelpAvoidRec = new Rectangle((HelpMenuWidth / 2) + (margin / 2), HelpMoveRec.Bottom + margin, 200, 150);
+            HelpAvoidRec = new Rectangle(HelpMoveRec.X, HelpMoveRec.Bottom + margin, HelpMoveRec.Width, HelpMoveRec.Height);
+            HelpSuppliesRec = new Rectangle(HelpAvoidRec.X, HelpAvoidRec.Bottom + margin, HelpMoveRec.Width, HelpMoveRec.Height);
 
             HelpPlayer = new Player(_graphicsDevice, RC_Framework.Util.texFromFile(
                 _graphicsDevice,
@@ -70,6 +74,7 @@ namespace TRotS.GamesStates.States
                 _graphicsDevice,
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\SkyBg.jpeg"
                 );
+
             BackgroundRec = new Rectangle(100, 100, HelpMoveRec.Width, HelpMoveRec.Height);
         }
 
@@ -118,20 +123,24 @@ namespace TRotS.GamesStates.States
             HelpPlayer.Update(gameTime);
             HelpCovid.Update(gameTime);
             HelpAmmo.Update(gameTime);
-
-            HelpCovid.PosX = HelpAvoidRec.Left + HelpAvoidRec.Width / 4 - HelpCovid.tempRect.Width / 2;
-            HelpCovid.PosY = HelpAvoidRec.Top + (HelpAvoidRec.Height / 2) - (HelpCovid.sourceRectangle.Height / 2);
+            if (DemoBullet != null) DemoBullet.Update(gameTime);
 
             if (CloseButton.isPressed)
             {
                 StateManager.Instance.RemoveScreen();
             }
 
-            //start phase of movement tutorial
+            //since i have to use the parent draw method, i muse intilise positions in update.
             if (Phase1)
             {
                 HelpPlayer.PosX = HelpMoveRec.X + (HelpMoveRec.Width / 2) - (HelpPlayer.sourceRectangle.Width / 2);
                 HelpPlayer.PosY = HelpMoveRec.Y + (HelpMoveRec.Height / 2) - (HelpPlayer.sourceRectangle.Height / 2);
+
+                HelpCovid.PosX = HelpAvoidRec.Left + HelpAvoidRec.Width / 4 - HelpCovid.sourceRectangle.Width / 2;
+                HelpCovid.PosY = HelpAvoidRec.Top + (HelpAvoidRec.Height / 2) - (HelpCovid.sourceRectangle.Height / 2);
+
+                HelpAmmo.PosX = HelpSuppliesRec.Left + HelpSuppliesRec.Width / 4 - HelpAmmo.sourceRectangle.Width / 2;
+                HelpAmmo.PosY = HelpSuppliesRec.Top + (HelpSuppliesRec.Height / 2) - (HelpAmmo.sourceRectangle.Height / 2);
                 Phase1 = false;
             }           
 
@@ -158,19 +167,33 @@ namespace TRotS.GamesStates.States
                 HelpButtons["DownArrow"].SetToPressed();
                 HelpPlayer.PosY++;
             }
-            else if (waitTimer >= waitSec *6 && waitTimer <= waitSec * 7)
+            else if (waitTimer >= waitSec * 6 && waitTimer <= (waitSec * 6) + 1)
             {
                 HelpButtons["DownArrow"].SetToUnpressed();
+                HelpButtons["SpaceBar"].SetToPressed();
+                DemoBullet = HelpPlayer.Fire();
+                DemoBullet.PosX = HelpPlayer.PosX + HelpPlayer.sourceRectangle.Width;
+                DemoBullet.PosY = HelpPlayer.PosY + HelpPlayer.sourceRectangle.Height - 12;
+            }
+            else if (waitTimer >= waitSec * 6 && waitTimer <= waitSec * 7)
+            {
+                if (DemoBullet != null)
+                {
+                    DemoBullet.PosX += 2;
+                    if (DemoBullet.PosX + DemoBullet.sourceRectangle.Width >= HelpMoveRec.Right)
+                    {
+                        DemoBullet.PosX = -100;
+                        DemoBullet = null;
+                    }
+                }
+            }
+            else if (waitTimer >= waitSec *7 && waitTimer <= waitSec * 8)
+            {
+                HelpButtons["SpaceBar"].SetToUnpressed();
                 HelpButtons["RightArrow"].SetToPressed();
                 HelpPlayer.PosX++;
             }
-            else if (waitTimer >= waitSec * 7 && waitTimer <= waitSec * 8)
-            {
-                HelpButtons["RightArrow"].SetToUnpressed();
-                HelpButtons["SpaceBar"].SetToPressed();
-                HelpPlayer.Fire();
-                HelpPlayer.Update(gameTime);
-            }
+
             else if (waitTimer >= waitSec * 9)
             {
                 waitTimer = 0;
@@ -192,15 +215,23 @@ namespace TRotS.GamesStates.States
 
             spriteBatch.Draw(background, HelpMoveRec, BackgroundRec, Color.White);
             spriteBatch.Draw(background, HelpAvoidRec, BackgroundRec, Color.White);
+            spriteBatch.DrawString(font, "AVOID!!!", new Vector2(HelpAvoidRec.Right + margin, HelpAvoidRec.Center.Y - 20), Color.White);
+
+            spriteBatch.Draw(background, HelpSuppliesRec, BackgroundRec, Color.White);
+            spriteBatch.DrawString(font, "Collect", new Vector2(HelpSuppliesRec.Right + margin, HelpSuppliesRec.Center.Y - 20), Color.White);
 
             foreach (KeyValuePair<string, Button> butt in HelpButtons)
             {
                 butt.Value.Draw(spriteBatch);
             }
-
             CloseButton.Draw(spriteBatch);
             HelpPlayer.PlayerDraw(spriteBatch);
             HelpCovid.EnemyDraw(spriteBatch);
+            HelpAmmo.AmmoDraw(spriteBatch);
+            if (DemoBullet != null)
+            {
+                DemoBullet.Draw(spriteBatch, SpriteEffects.None);
+            }
         }
     }
 }

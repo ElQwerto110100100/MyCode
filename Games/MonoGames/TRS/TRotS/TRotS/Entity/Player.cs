@@ -90,12 +90,11 @@ namespace TRotS.Entity
             BulletUpdate(gametime);
         }
 
-        public void Fire()
+        public Sprite Fire()
         {
-            Sprite newBullet = new Sprite(graphicsDevice, RC_Framework.Util.texFromFile(graphicsDevice, @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\plane-bullet.png"));
-
-            if (ammunation != 0)
+           if (ammunation != 0)
             {
+                Sprite newBullet = new Sprite(graphicsDevice, RC_Framework.Util.texFromFile(graphicsDevice, @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\plane-bullet.png"));
                 if (occurances != 3)
                 {
                     occurances += 1;
@@ -108,7 +107,10 @@ namespace TRotS.Entity
                 newBullet.borderOn = this.borderOn;
                 bullets.Add(newBullet);
                 ammunation -= 1;
+
+                return newBullet;
             }
+            return null;
         }
 
         public void BulletUpdate(GameTime gametime) {

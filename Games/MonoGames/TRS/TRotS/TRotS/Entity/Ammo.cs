@@ -57,7 +57,7 @@ namespace TRotS.Entity
             waitTimer = rand.Next(300, 500);
         }
 
-        public void EnemyDraw(SpriteBatch spriteBatch)
+        public void AmmoDraw(SpriteBatch spriteBatch)
         {
             Draw(spriteBatch, SpriteEffects.None);
         }

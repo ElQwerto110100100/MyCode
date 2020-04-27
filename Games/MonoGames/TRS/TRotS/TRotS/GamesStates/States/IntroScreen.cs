@@ -51,6 +51,7 @@ namespace TRotS.GamesStates.States
                 _graphicsDevice,
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\plane.png")
             );
+            PlayerPlane.health = 0;
 
             CovidSpore = new Enemy(_graphicsDevice, RC_Framework.Util.texFromFile(
                 _graphicsDevice,

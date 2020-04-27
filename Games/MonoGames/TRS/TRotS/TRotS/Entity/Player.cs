@@ -30,6 +30,8 @@ namespace TRotS.Entity
         static List<SoundEffect> soundEffects;
         static int occurances = 0;
 
+        Dictionary<string, List<Rectangle>> healthBar = new Dictionary<string, List<Rectangle>>();
+
         public Player(GraphicsDevice graphicsDevice, Texture2D charSheet) : base(graphicsDevice, charSheet)
         {
             this.graphicsDevice = graphicsDevice;
@@ -43,6 +45,28 @@ namespace TRotS.Entity
             SetAnimation("movement");
 
             SetPosXY(100, graphicsDevice.Viewport.Height / 2);
+
+            List<Rectangle> temp = new List<Rectangle>();
+            temp.Add(SpriteSheet.Instance.GetSpriteRec("barGreen_verticalTop.png"));
+            temp.Add(SpriteSheet.Instance.GetSpriteRec("barGreen_verticalMid.png"));
+            temp.Add(SpriteSheet.Instance.GetSpriteRec("barGreen_verticalMid.png"));
+            temp.Add(SpriteSheet.Instance.GetSpriteRec("barGreen_verticalMid.png"));
+            temp.Add(SpriteSheet.Instance.GetSpriteRec("barGreen_verticalBottom.png"));
+            healthBar.Add("GreenBar", temp);
+
+            temp = new List<Rectangle>();
+            temp.Add(SpriteSheet.Instance.GetSpriteRec("barYellow_verticalTop.png"));
+            temp.Add(SpriteSheet.Instance.GetSpriteRec("barYellow_verticalMid.png"));
+            temp.Add(SpriteSheet.Instance.GetSpriteRec("barYellow_verticalMid.png"));
+            temp.Add(SpriteSheet.Instance.GetSpriteRec("barYellow_verticalBottom.png"));
+            healthBar.Add("YellowBar", temp);
+
+            temp = new List<Rectangle>();
+            temp.Add(SpriteSheet.Instance.GetSpriteRec("barRed_verticalTop.png"));
+            temp.Add(SpriteSheet.Instance.GetSpriteRec("barRed_verticalMid.png"));
+            temp.Add(SpriteSheet.Instance.GetSpriteRec("barRed_verticalBottom.png"));
+            healthBar.Add("RedBar", temp);
+
         }
 
         public void UpdatePlayer(GameTime gametime)
@@ -133,9 +157,48 @@ namespace TRotS.Entity
         {
             Draw(spriteBatch, spriteEx, planeColor);
 
+            if (health == 3)
+            {
+                DrawHealthBar(spriteBatch, healthBar["GreenBar"], spriteEx);
+
+            }
+            else if (health == 2)
+            {
+                DrawHealthBar(spriteBatch, healthBar["YellowBar"], spriteEx);
+            }
+            else if (health == 1)
+            {
+                DrawHealthBar(spriteBatch, healthBar["RedBar"], spriteEx);
+            }
+            else
+            {
+                //draw nothing
+            }
+
             foreach (Sprite bullet in bullets)
             {
                 bullet.Draw(spriteBatch, SpriteEffects.None);
+            }
+        }
+
+        private void DrawHealthBar(SpriteBatch spriteBatch, List<Rectangle> rects, SpriteEffects spriteEx = SpriteEffects.None)
+        {
+            int totalLength = 0;
+            for (int i = 0; i < rects.Count; i++)
+            {
+                spriteBatch.Draw(
+                    SpriteSheet.Instance.GetSpriteSheet(), 
+                    new Vector2(PosX - rects[i].Width, PosY + totalLength), 
+                    null,
+                    rects[i], 
+                    null,
+                    0,
+                    null,
+                    Color.White,
+                    spriteEx,
+                    0
+                    );
+                totalLength += rects[i].Height;
             }
         }
     }

@@ -33,8 +33,9 @@ namespace TRotS
         /// </summary>
         protected override void Initialize()
         {
-
-
+            SpriteSheet.Instance.AddSpriteSheet(
+                @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\uipack_rpg_sheet.png",
+                @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\uipack_rpg_sheet.xml");
             // TODO: Add your initialization logic here
             //this will load in kenny's sprites and automatically be able to find them and refrence them by name
             RC_Framework.LineBatch.init(GraphicsDevice);
@@ -60,7 +61,7 @@ namespace TRotS
             StateManager.Instance.AddScreen(new IntroScreen(GraphicsDevice, graphics));
 
             this.backfroundMusic = Content.Load<Song>("Sounds/Music/cupheadOST");
-            MediaPlayer.Play(backfroundMusic);
+            //MediaPlayer.Play(backfroundMusic);
             //  Uncomment the following line will also loop the song
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 0.2f;

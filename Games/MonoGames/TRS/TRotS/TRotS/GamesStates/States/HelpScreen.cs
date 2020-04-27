@@ -193,7 +193,6 @@ namespace TRotS.GamesStates.States
                 HelpButtons["RightArrow"].SetToPressed();
                 HelpPlayer.PosX++;
             }
-
             else if (waitTimer >= waitSec * 9)
             {
                 waitTimer = 0;
@@ -224,6 +223,7 @@ namespace TRotS.GamesStates.States
             {
                 butt.Value.Draw(spriteBatch);
             }
+
             CloseButton.Draw(spriteBatch);
             HelpPlayer.PlayerDraw(spriteBatch);
             HelpCovid.EnemyDraw(spriteBatch);

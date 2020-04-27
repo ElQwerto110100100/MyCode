@@ -142,8 +142,6 @@ namespace TRotS.GamesStates.States.Levels
 
             spriteBatch.DrawString(font, 
                 "Score: " + MainPlayer.score.ToString() + 
-                " Health: " +
-                new String('#', MainPlayer.health) + 
                 "\nAmmunation: " + 
                 MainPlayer.ammunation.ToString(), new Vector2(0,0), Color.White);
         }

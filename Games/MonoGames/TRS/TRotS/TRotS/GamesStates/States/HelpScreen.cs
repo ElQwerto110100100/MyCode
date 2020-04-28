@@ -60,6 +60,8 @@ namespace TRotS.GamesStates.States
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\plane.png")
             );
 
+            HelpPlayer.health = 0;
+
             HelpCovid = new Enemy(_graphicsDevice, RC_Framework.Util.texFromFile(
                 _graphicsDevice,
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\COVID-19.png")
@@ -193,7 +195,7 @@ namespace TRotS.GamesStates.States
                 HelpButtons["RightArrow"].SetToPressed();
                 HelpPlayer.PosX++;
             }
-            else if (waitTimer >= waitSec * 9)
+            else if (waitTimer >= waitSec * 8+1)
             {
                 waitTimer = 0;
                 foreach (KeyValuePair<string, Button> butt in HelpButtons)
@@ -210,7 +212,7 @@ namespace TRotS.GamesStates.States
         {
             //keep previous screen's layer
             StateManager.Instance._screens.Skip(1).First().Draw(spriteBatch);
-            RC_Framework.LineBatch.drawFillRectangle(spriteBatch,HelpMenu, Color.DarkGoldenrod);
+            RC_Framework.LineBatch.drawFillRectangle(spriteBatch,HelpMenu, Color.DarkViolet);
 
             spriteBatch.Draw(background, HelpMoveRec, BackgroundRec, Color.White);
             spriteBatch.Draw(background, HelpAvoidRec, BackgroundRec, Color.White);

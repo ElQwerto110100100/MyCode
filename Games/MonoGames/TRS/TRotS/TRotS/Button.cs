@@ -17,18 +17,20 @@ namespace TRotS
         public int Width;
         public int Height;
         public bool isPressed = false;
+        Vector2 scale;
 
         string FontName;
         public Vector2 Pos;
         public Vector2 BottomPos;
-        int textOffset = 5;
 
         Rectangle rec;
         SpriteFont fontstyle;
+        Vector2 stringMeasurement;
 
         string attachSpriteName;
         float attachSprtireRotation = 0;
         Vector2 buttonCentre;
+        Vector2 centre;
 
         public bool disabled { get; set; } = false;
 
@@ -40,9 +42,13 @@ namespace TRotS
             this.Height = height;
             this.FontName = fontName;
             this.Pos = pos;
+
             fontstyle = content.Load<SpriteFont>("Fonts/" + fontName);
             BottomPos = new Vector2(pos.X + width, pos.Y + height);
             rec = new Rectangle((int)Pos.X, (int)Pos.Y, Width, Height);
+            stringMeasurement = fontstyle.MeasureString(Message);
+            scale = new Vector2(Width / SpriteSheet.Instance.GetSpritWidth(this.SpriteTextureName), Height / SpriteSheet.Instance.GetSpritHeight(this.SpriteTextureName));
+            centre = new Vector2((Width / 2), (Height / 2) - 5) - (stringMeasurement / 2) + Pos;
         }
 
         public void AttachSprite(string spriteName, float rot = 0)
@@ -74,17 +80,8 @@ namespace TRotS
                     RC_Framework.LineBatch.drawLineRectangleOuter(spriteBatch, rec, Color.White, 3);
                 }
             }
-
-            //very inefficent should re work so it doesnt have to be done twice
-
-            Vector2 scale = new Vector2(Width / SpriteSheet.Instance.GetSpritWidth(this.SpriteTextureName), Height / SpriteSheet.Instance.GetSpritHeight(this.SpriteTextureName));
-
-            Vector2 stringMeasurement = fontstyle.MeasureString(Message);
-            //makeing the text size and positon relative to the button object
-            Vector2 centre = new Vector2((Width / 2), (Height / 2 - textOffset)) - (stringMeasurement / 2) + Pos;
-
             SpriteSheet.Instance.Draw(spriteBatch, Pos, scale, SpriteTextureName, new Color(color ?? (isPressed ? Color.BlanchedAlmond : Color.White), alpha ?? 1f));
-            spriteBatch.DrawString(fontstyle, Message, centre, Color.White);
+            spriteBatch.DrawString(fontstyle, Message, isPressed ? new Vector2(centre.X, centre.Y + 5) : centre, Color.White);
 
             if (attachSpriteName != null)
             {
@@ -106,17 +103,22 @@ namespace TRotS
         {
             if (!SpriteTextureName.Contains("_pressed.png"))
             {
-                SpriteTextureName = SpriteTextureName.Replace(".png", "_pressed.png");
-                textOffset = 0;
-                isPressed = true;
+                if (!isPressed)
+                {
+                    SpriteTextureName = SpriteTextureName.Replace(".png", "_pressed.png");
+                    scale = new Vector2(Width / SpriteSheet.Instance.GetSpritWidth(this.SpriteTextureName), Height / SpriteSheet.Instance.GetSpritHeight(this.SpriteTextureName));
+                    isPressed = true;
+                }
             }
         }
 
         public void SetToUnpressed()
         {
-            SpriteTextureName = SpriteTextureName.Replace("_pressed.png", ".png");
-            textOffset = 5;
-            isPressed = false;
+            if (isPressed)
+            {
+                SpriteTextureName = SpriteTextureName.Replace("_pressed.png", ".png");
+                isPressed = false;
+            }
         }
 
         public bool IsPressed(MouseState currentMouseState, MouseState previousMouseState)
@@ -131,7 +133,6 @@ namespace TRotS
             else
             {
                 this.SpriteTextureName = this.SpriteTextureName.Replace("_pressed.png", ".png");
-                textOffset = 5;
                 isPressed = false;
                 return false;
             }

@@ -22,7 +22,7 @@ namespace MarkTut1.Resources
 
         public Rectangle sourceRectangle;
         public Rectangle tempRect;
-        public bool borderOn = false;
+        static public bool borderOn = false;
 
         public string Direction { get; set; }
         //set a charctersheet for sprite
@@ -38,14 +38,9 @@ namespace MarkTut1.Resources
             
         }
 
-        public void SetPosXY(int x, int y)
+        public void SetPosXY(int x, int y, int extraX = 0, int extraY = 0)
         {
-            //the screen itself has a rectanlge to check functions
-            tempRect = sourceRectangle;
-            tempRect.X = PosX + x;
-            tempRect.Y = PosY + y;
-
-            if (GraphicsDevice.ScissorRectangle.Contains(tempRect))
+            if (GraphicsDevice.ScissorRectangle.Contains(new Rectangle(this.PosX + x + extraX, this.PosY + y + extraY, sourceRectangle.Width, sourceRectangle.Height)))
             {
                 PosX += x;
                 PosY += y;
@@ -99,14 +94,18 @@ namespace MarkTut1.Resources
         {
             CurrentAnimation.Update(gameTime);
             sourceRectangle = CurrentAnimation.CurrentRectangle;
-            tempRect = sourceRectangle;
-            tempRect.X = PosX;
-            tempRect.Y = PosY;
 
             if (TRotS.MouseClass.Instance.GetKeyState().IsKeyDown(Keys.B) && !TRotS.MouseClass.Instance.GetPrevKeyState().IsKeyDown(Keys.B))
             {
                 borderOn = !borderOn;
             }
+
+            tempRect = GetSpriteRec();
+        }
+
+        public Rectangle GetSpriteRec()
+        {
+            return new Rectangle(this.PosX, this.PosY, sourceRectangle.Width, sourceRectangle.Height);
         }
 
         public Rectangle GetRectBorder()
@@ -116,13 +115,17 @@ namespace MarkTut1.Resources
 
         public void Draw(SpriteBatch spriteBatch, SpriteEffects spriteEx, Color? spriteColor = null)
         {
-            Vector2 topLeftOfSprite = new Vector2(this.PosX, this.PosY);
-            //spriteBatch.Draw(SheetTexture, topLeftOfSprite, null ,sourceRectangle, spriteColor, spriteEx, 0);
-            spriteBatch.Draw(SheetTexture, position: topLeftOfSprite, sourceRectangle: sourceRectangle, color: spriteColor, rotation: 0f, origin: new Vector2(0,0), scale: new Vector2(1,1), effects: spriteEx, layerDepth: 0f);
+            //only draw it if its on screen, should help with lag iissues
+            if (GraphicsDevice.ScissorRectangle.Intersects(tempRect))
+            {
+                Vector2 topLeftOfSprite = new Vector2(this.PosX, this.PosY);
+                //spriteBatch.Draw(SheetTexture, topLeftOfSprite, null ,sourceRectangle, spriteColor, spriteEx, 0);
+                spriteBatch.Draw(SheetTexture, position: topLeftOfSprite, sourceRectangle: sourceRectangle, color: spriteColor, rotation: 0f, origin: null, scale: null, effects: spriteEx, layerDepth: 0f);
 
 
-            //since all entitys use the sprite calss it will be easier to attach it here
-            if (borderOn) RC_Framework.LineBatch.drawLineRectangle(spriteBatch, new Rectangle(this.PosX, this.PosY, sourceRectangle.Width, sourceRectangle.Height), Color.Red);
+                //since all entitys use the sprite calss it will be easier to attach it here
+                if (borderOn) RC_Framework.LineBatch.drawLineRectangle(spriteBatch, tempRect, Color.Red);
+            }
         }
     }
 }

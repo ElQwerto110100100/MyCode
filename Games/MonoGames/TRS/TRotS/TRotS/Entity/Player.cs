@@ -77,7 +77,7 @@ namespace TRotS.Entity
 
             if (currentKeyState.IsKeyDown(Keys.Down))
             {
-                SetPosXY(0, moveSpeed);
+                SetPosXY(0, moveSpeed, 0, 10);
             }
             if (currentKeyState.IsKeyDown(Keys.Up))
             {
@@ -85,7 +85,8 @@ namespace TRotS.Entity
             }
             if (currentKeyState.IsKeyDown(Keys.Left))
             {
-                SetPosXY(-moveSpeed, 0);
+                //added extra padding to compensat for health bar
+                SetPosXY(-moveSpeed, 0, -18);
             }
             if (currentKeyState.IsKeyDown(Keys.Right))
             {
@@ -128,7 +129,6 @@ namespace TRotS.Entity
                 newBullet.AddAnimation("fire", 28, 12, 1, 0, 0.01, false);
                 newBullet.SetAnimation("fire");
                 newBullet.SetPosXY(this.PosX + this.sourceRectangle.Width, this.PosY + this.sourceRectangle.Height - 12);
-                newBullet.borderOn = this.borderOn;
                 bullets.Add(newBullet);
                 ammunation -= 1;
 

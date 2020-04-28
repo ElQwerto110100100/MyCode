@@ -61,7 +61,7 @@ namespace TRotS
             StateManager.Instance.AddScreen(new IntroScreen(GraphicsDevice, graphics));
 
             this.backfroundMusic = Content.Load<Song>("Sounds/Music/cupheadOST");
-            //MediaPlayer.Play(backfroundMusic);
+            MediaPlayer.Play(backfroundMusic);
             //  Uncomment the following line will also loop the song
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 0.2f;

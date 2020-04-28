@@ -39,6 +39,9 @@ namespace TRotS.GamesStates.States
         private bool Phase1 = true;
 
         private SpriteFont font;
+        //http://rbwhitaker.wikidot.com/render-to-texture
+        // Create a new render target
+        RenderTarget2D renderTarget;
 
         public HelpScreen(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager) : base(graphicsDevice, graphicsDeviceManager)
         {
@@ -78,6 +81,17 @@ namespace TRotS.GamesStates.States
                 );
 
             BackgroundRec = new Rectangle(100, 100, HelpMoveRec.Width, HelpMoveRec.Height);
+
+            //this will reduce the lag caused from drawing the pervious screen by saveing it as a imagine dureing start up of this class
+            renderTarget = new RenderTarget2D(
+                _graphicsDevice,
+                _graphicsDevice.PresentationParameters.BackBufferWidth,
+                _graphicsDevice.PresentationParameters.BackBufferHeight,
+                false,
+                _graphicsDevice.PresentationParameters.BackBufferFormat,
+                DepthFormat.Depth24);
+
+            DrawSceneToTexture(renderTarget, StateManager.Instance._spriteBatch);
         }
 
         // Load all content here
@@ -210,8 +224,10 @@ namespace TRotS.GamesStates.States
         // Draws the game
         public override void Draw(SpriteBatch spriteBatch)
         {
+            
+            spriteBatch.Draw(renderTarget, _graphicsDevice.ScissorRectangle, Color.White);
             //keep previous screen's layer
-            StateManager.Instance._screens.Skip(1).First().Draw(spriteBatch);
+            //StateManager.Instance._screens.Skip(1).First().Draw(spriteBatch);
             RC_Framework.LineBatch.drawFillRectangle(spriteBatch,HelpMenu, Color.DarkViolet);
 
             spriteBatch.Draw(background, HelpMoveRec, BackgroundRec, Color.White);
@@ -234,6 +250,25 @@ namespace TRotS.GamesStates.States
             {
                 DemoBullet.Draw(spriteBatch, SpriteEffects.None);
             }
+        }
+
+        protected void DrawSceneToTexture(RenderTarget2D renderTarget, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend,
+                SamplerState.LinearClamp, DepthStencilState.Default,
+                RasterizerState.CullNone);
+            // Set the render target
+            _graphicsDevice.SetRenderTarget(renderTarget);
+
+            _graphicsDevice.DepthStencilState = new DepthStencilState() { DepthBufferEnable = true };
+
+            // Draw the scene
+            _graphicsDevice.Clear(Color.CornflowerBlue);
+            StateManager.Instance._screens.Skip(1).First().Draw(spriteBatch);
+
+            spriteBatch.End();
+            // Drop the render target
+            _graphicsDevice.SetRenderTarget(null);
         }
     }
 }

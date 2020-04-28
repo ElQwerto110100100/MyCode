@@ -112,7 +112,9 @@ namespace TRotS
         protected override void Draw(GameTime gameTime)
         {
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, 
+                SamplerState.LinearClamp, DepthStencilState.Default, 
+                RasterizerState.CullNone);
             StateManager.Instance.Draw(spriteBatch);
             MouseClass.Instance.Draw(spriteBatch);
             spriteBatch.End();

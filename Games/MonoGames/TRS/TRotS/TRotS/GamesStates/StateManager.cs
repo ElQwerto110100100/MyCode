@@ -16,6 +16,7 @@ namespace TRotS.GamesStates
         // Instance of the game state manager     
         private static StateManager _instance;
         public ContentManager _content;
+        public SpriteBatch _spriteBatch;
 
         //this will tell the draw comnand in the first sprtie batch either to draw the next screen.
         private bool drawNext = false;
@@ -102,6 +103,7 @@ namespace TRotS.GamesStates
         {
             if (_screens.Count > 0)
             {
+                _spriteBatch = spriteBatch;
                 _screens.Peek().Draw(spriteBatch);
             }
         }

@@ -18,7 +18,7 @@ namespace TRotS.Entity
         static public Texture2D CharSheet;
         static private Random rand = new Random();
         private int movementSpeed;
-        private int fallSpeed = 0;
+        private int fallSpeed = 3;
         private int waitTimer = 0;
         private Color ballColor = Color.White;
 
@@ -33,18 +33,20 @@ namespace TRotS.Entity
             CharSheet = charSheet;
 
             AddAnimation("movement", 96, 96, 7, 0);
+            AddAnimation("reflect", 96, 96, 7, 1,1, true);
             SetAnimation("movement");
             this.PosX = GraphicsDevice.Viewport.Width + 50;
             this.PosY = rand.Next(0, GraphicsDevice.Viewport.Height - 50);
             movementSpeed = rand.Next(6, 10);
         }
 
-        public void EnemyUpdate(GameTime gameTime)
+        public void SpikeBallUpdate(GameTime gameTime)
         {
             Update(gameTime);
 
             if (waitTimer == 0)
             {
+                SetAnimation("movement");
                 this.PosX -= movementSpeed;
                 this.PosY += fallSpeed;
 
@@ -52,10 +54,23 @@ namespace TRotS.Entity
                 {
                     Reset();
                 }
+
+                if (PosY >= GraphicsDevice.Viewport.Height - this.sourceRectangle.Height || PosY <= 0)
+                {
+                    fallSpeed = -fallSpeed;
+                }
             }
             else
             {
                 waitTimer -= 1;
+            }
+        }
+
+        public void Reflect()
+        {
+            if (CurrentAnimation.AniamtionName.Any(x => !x.Equals("reflect")))
+            {
+                SetAnimation("reflect");
             }
         }
 

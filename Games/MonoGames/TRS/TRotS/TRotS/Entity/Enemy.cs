@@ -19,7 +19,7 @@ namespace TRotS.Entity
         static private Random rand = new Random();
         private Sprite Exsplosion;
         private int movementSpeed;
-        private int fallSpeed = 2;
+        private int fallSpeed = 0;
         private int waitTimer = 0;
 
         public bool Hit { get; private set; }
@@ -35,7 +35,6 @@ namespace TRotS.Entity
             soundEffects = new List<SoundEffect>();
             soundEffects.Add(MouseClass.Instance._content.Load<SoundEffect>("Exsplosion"));
             SoundEffect.MasterVolume = 0.01f;
-
             AddAnimation("movement", 78, 78, 4, 0);
             SetAnimation("movement");
             this.PosX = GraphicsDevice.Viewport.Width + 50;
@@ -55,11 +54,6 @@ namespace TRotS.Entity
                 if (this.PosX < -80 || this.PosY > GraphicsDevice.Viewport.Height)
                 {
                     Reset(this);
-                }
-
-                if (PosY >= GraphicsDevice.Viewport.Height || PosY <= 0)
-                {
-                    fallSpeed = -fallSpeed; 
                 }
             }
             else

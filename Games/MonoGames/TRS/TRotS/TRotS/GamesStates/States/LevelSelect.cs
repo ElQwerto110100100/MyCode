@@ -13,6 +13,7 @@ namespace TRotS.GamesStates.States
     class LevelSelect : GameState
     {
         Button level1;
+        Button level2;
 
         public LevelSelect(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager) : base(graphicsDevice, graphicsDeviceManager)
         {
@@ -29,6 +30,7 @@ namespace TRotS.GamesStates.States
         {
             //need a more effectient solution, somehow in a list
             level1 = new Button(content, "buttonLong_beige.png", "Level 1", 200, 100, new Vector2((_graphicsDevice.Viewport.Width / 2) - 100, 50), "menuFont_20");
+            level2 = new Button(content, "buttonLong_beige.png", "Level 2", 200, 100, new Vector2((_graphicsDevice.Viewport.Width / 2) - 100, 250), "menuFont_20");
         }
 
         // Unload any content here
@@ -43,6 +45,10 @@ namespace TRotS.GamesStates.States
             {
                 StateManager.Instance.AddScreen(new Levels.Level1(_graphicsDevice, _graphicsDeviceManager));
             }
+            if (level2.IsPressed(MouseClass.Instance.GetState(), MouseClass.Instance.GetPrevState()))
+            {
+                StateManager.Instance.AddScreen(new Levels.Level2(_graphicsDevice, _graphicsDeviceManager));
+            }
 
         }
 
@@ -51,6 +57,7 @@ namespace TRotS.GamesStates.States
         {
             _graphicsDevice.Clear(Color.Aqua);
             level1.Draw(spriteBatch);
+            level2.Draw(spriteBatch);
         }
     }
 }

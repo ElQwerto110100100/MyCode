@@ -148,9 +148,17 @@ namespace TRotS.Entity
 
         public void PlaneHit()
         {
-            Hit = true;
-            waitTimer = 60 * 3;
-            if (health != 0) health--; //prevents it from going negtive
+            if (Hit)
+            {
+                //no damage period
+            }
+            else
+            {
+                Hit = true;
+                waitTimer = 60 * 1;
+                if (health != 0) health--; //prevents it from going negtive
+            }
+
         }
 
         public void PlayerDraw(SpriteBatch spriteBatch, SpriteEffects spriteEx = SpriteEffects.None)

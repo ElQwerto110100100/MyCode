@@ -19,11 +19,11 @@ namespace TRotS.GamesStates.States.Levels
 
         Player MainPlayer;
         List<Enemy> Enemies = new List<Enemy>();
+        List<SpikeBall> spikeBalls = new List<SpikeBall>();
         int numOfEnemies = 5;
 
         List<Sprite> tempList = new List<Sprite>();
         Ammo AmmoCrates;
-        SpikeBall SpikeBall;
         TolietPaper TolietPaper;
         private SpriteFont font;
 
@@ -40,16 +40,16 @@ namespace TRotS.GamesStates.States.Levels
                     _graphicsDevice,
                     @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\COVID-19.png")
                     ));
+
+                spikeBalls.Add(new SpikeBall(_graphicsDevice, RC_Framework.Util.texFromFile(
+                    _graphicsDevice,
+                    @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\SpikeBall.png")
+                    ));
             }
 
             AmmoCrates = new Ammo(_graphicsDevice, RC_Framework.Util.texFromFile(
                 _graphicsDevice,
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\AmmoCrate.png")
-                );
-
-            SpikeBall = new SpikeBall(_graphicsDevice, RC_Framework.Util.texFromFile(
-                _graphicsDevice,
-                @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\SpikeBall.png")
                 );
 
             TolietPaper = new TolietPaper(_graphicsDevice, RC_Framework.Util.texFromFile(
@@ -105,6 +105,21 @@ namespace TRotS.GamesStates.States.Levels
 
                 MainPlayer.UpdatePlayer(gameTime);
 
+
+                foreach (SpikeBall spikeball in spikeBalls)
+                {
+                    spikeball.SpikeBallUpdate(gameTime);
+                    if (spikeball.tempRect.Intersects(MainPlayer.tempRect))
+                    {
+                        MainPlayer.PlaneHit();
+                        spikeball.Reflect();
+                    }
+                    if (MainPlayer.bullets.Any(bullets => bullets.tempRect.Intersects(spikeball.tempRect))){
+                        spikeball.Reflect();
+                        MainPlayer.bullets.RemoveAll(bullets => bullets.tempRect.Intersects(spikeball.tempRect));
+                    }
+                }
+
                 foreach (Enemy enemy in Enemies)
                 {
                     enemy.EnemyUpdate(gameTime);
@@ -147,6 +162,11 @@ namespace TRotS.GamesStates.States.Levels
             foreach (Enemy enemy in Enemies)
             {
                 enemy.EnemyDraw(spriteBatch);
+            }
+
+            foreach (SpikeBall spikeball in spikeBalls)
+            {
+                spikeball.SpikeBallDraw(spriteBatch);
             }
 
             AmmoCrates.Draw(spriteBatch, SpriteEffects.None);

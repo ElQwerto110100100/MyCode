@@ -18,6 +18,8 @@ namespace TRotS.GamesStates.States
         Player HelpPlayer;
         Enemy HelpCovid;
         Ammo HelpAmmo;
+        TolietPaper HelpTolietPaper;
+        SpikeBall HelpSpikeBall;
         Sprite DemoBullet;
 
         private Texture2D background;
@@ -73,6 +75,16 @@ namespace TRotS.GamesStates.States
             HelpAmmo = new Ammo(_graphicsDevice, RC_Framework.Util.texFromFile(
                 _graphicsDevice,
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\AmmoCrate.png")
+                );
+
+            HelpSpikeBall = new SpikeBall(_graphicsDevice, RC_Framework.Util.texFromFile(
+                _graphicsDevice,
+                @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\SpikeBall.png")
+                );
+
+            HelpTolietPaper = new TolietPaper(_graphicsDevice, RC_Framework.Util.texFromFile(
+                _graphicsDevice,
+                @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\Toliet Paper.png")
                 );
 
             background = RC_Framework.Util.texFromFile(
@@ -139,6 +151,8 @@ namespace TRotS.GamesStates.States
             HelpPlayer.Update(gameTime);
             HelpCovid.Update(gameTime);
             HelpAmmo.Update(gameTime);
+            HelpTolietPaper.Update(gameTime);
+            HelpSpikeBall.Update(gameTime);
             if (DemoBullet != null) DemoBullet.Update(gameTime);
 
             if (CloseButton.isPressed)
@@ -155,8 +169,15 @@ namespace TRotS.GamesStates.States
                 HelpCovid.PosX = HelpAvoidRec.Left + HelpAvoidRec.Width / 4 - HelpCovid.sourceRectangle.Width / 2;
                 HelpCovid.PosY = HelpAvoidRec.Top + (HelpAvoidRec.Height / 2) - (HelpCovid.sourceRectangle.Height / 2);
 
+                HelpSpikeBall.PosX = HelpAvoidRec.Right - HelpAvoidRec.Width / 4 - HelpSpikeBall.sourceRectangle.Width / 2;
+                HelpSpikeBall.PosY = HelpAvoidRec.Top + (HelpAvoidRec.Height / 2) - (HelpSpikeBall.sourceRectangle.Height / 2);
+
                 HelpAmmo.PosX = HelpSuppliesRec.Left + HelpSuppliesRec.Width / 4 - HelpAmmo.sourceRectangle.Width / 2;
                 HelpAmmo.PosY = HelpSuppliesRec.Top + (HelpSuppliesRec.Height / 2) - (HelpAmmo.sourceRectangle.Height / 2);
+
+                HelpTolietPaper.PosX = HelpSuppliesRec.Right - HelpSuppliesRec.Width / 4 - HelpTolietPaper.sourceRectangle.Width / 2;
+                HelpTolietPaper.PosY = HelpSuppliesRec.Top + (HelpSuppliesRec.Height / 2) - (HelpTolietPaper.sourceRectangle.Height / 2);
+
                 Phase1 = false;
             }           
 
@@ -246,14 +267,18 @@ namespace TRotS.GamesStates.States
             HelpPlayer.PlayerDraw(spriteBatch);
             HelpCovid.EnemyDraw(spriteBatch);
             HelpAmmo.AmmoDraw(spriteBatch);
+            HelpTolietPaper.TolietPaperDraw(spriteBatch);
+            HelpSpikeBall.SpikeBallDraw(spriteBatch);
             if (DemoBullet != null)
             {
                 DemoBullet.Draw(spriteBatch, SpriteEffects.None);
             }
         }
 
+        //http://rbwhitaker.wikidot.com/render-to-texture
         protected void DrawSceneToTexture(RenderTarget2D renderTarget, SpriteBatch spriteBatch)
         {
+            //outputs all the draw methods to one image to save time on repating the draw command of the previous state
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend,
                 SamplerState.LinearClamp, DepthStencilState.Default,
                 RasterizerState.CullNone);

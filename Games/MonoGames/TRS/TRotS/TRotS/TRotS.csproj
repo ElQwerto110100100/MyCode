@@ -47,13 +47,16 @@
     <Compile Include="Entity\Animations.cs" />
     <Compile Include="Entity\Enemy.cs" />
     <Compile Include="Entity\Player.cs" />
+    <Compile Include="Entity\SpikeBall.cs" />
     <Compile Include="Entity\Sprite.cs" />
+    <Compile Include="Entity\TolietPaper.cs" />
     <Compile Include="FrameRate.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GamesStates\GameStates.cs" />
     <Compile Include="GamesStates\States\GameOver.cs" />
     <Compile Include="GamesStates\States\HelpScreen.cs" />
     <Compile Include="GamesStates\States\IntroScreen.cs" />
+    <Compile Include="GamesStates\States\Levels\Level2.cs" />
     <Compile Include="GamesStates\States\Pause.cs" />
     <Compile Include="Rooms.cs" />
     <Compile Include="Grid.cs" />
@@ -113,7 +116,9 @@
     <Content Include="Resource\plane-bullet.png" />
     <Content Include="Resource\plane.png" />
     <Content Include="Resource\SkyBg.jpeg" />
+    <Content Include="Resource\SpikeBall.png" />
     <Content Include="Resource\Test_Room.png" />
+    <Content Include="Resource\Toliet Paper.png" />
     <Content Include="Resource\uipack_rpg_sheet.png" />
     <Content Include="Resource\uipack_rpg_sheet.xml" />
   </ItemGroup>

@@ -50,6 +50,12 @@ namespace TRotS.Entity
             Update(gameTime);
         }
 
+        public void Collected()
+        {
+            Reset();
+            SoundLib.Instance.PlaySound("AmmoCollect", 1f);
+        }
+
         public void Reset()
         {
             this.PosX = GraphicsDevice.Viewport.Width + 50;

@@ -25,15 +25,14 @@ namespace TRotS.GamesStates.States
 
         public override void Initialize()
         {
-            titlePos = new Vector2(_graphicsDevice.Viewport.Width, 50);
+           
         }
 
         public override void LoadContent(ContentManager content)
         {
             start = new Button(content, "buttonLong_beige.png", "START", 200, 100, new Vector2((_graphicsDevice.Viewport.Width/ 2) - 100 , (_graphicsDevice.Viewport.Height / 2) - 50), "menuFont_20");
             fontstyle = content.Load<SpriteFont>("Fonts/menuFont_20");
-
-            titlePos.X -= fontstyle.MeasureString(title).X/2;
+            titlePos = new Vector2(_graphicsDevice.Viewport.Width / 2 - fontstyle.MeasureString(title).X / 2, 50);
         }
 
         public override void UnloadContent()
@@ -52,8 +51,11 @@ namespace TRotS.GamesStates.States
         {
             _graphicsDevice.Clear(Color.Black);
             start.Draw(spriteBatch);
-            spriteBatch.DrawString(fontstyle, title, new Vector2(50, 50), Color.White);
-            
+            spriteBatch.DrawString(fontstyle, title, titlePos, Color.White);
+            spriteBatch.DrawString(fontstyle, "Press 'H' for Help", new Vector2(0, 50) + titlePos, Color.White);
+            spriteBatch.DrawString(fontstyle, "Press 'P' to pause", new Vector2(0, 100) + titlePos, Color.White);
+            spriteBatch.DrawString(fontstyle, "Press 'esc' to quit", new Vector2(0, 150) + titlePos, Color.White);
+
         }
     }
 }

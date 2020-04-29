@@ -50,7 +50,6 @@
     <Compile Include="Entity\SpikeBall.cs" />
     <Compile Include="Entity\Sprite.cs" />
     <Compile Include="Entity\TolietPaper.cs" />
-    <Compile Include="FrameRate.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GamesStates\GameStates.cs" />
     <Compile Include="GamesStates\States\GameOver.cs" />
@@ -58,8 +57,6 @@
     <Compile Include="GamesStates\States\IntroScreen.cs" />
     <Compile Include="GamesStates\States\Levels\Level2.cs" />
     <Compile Include="GamesStates\States\Pause.cs" />
-    <Compile Include="Rooms.cs" />
-    <Compile Include="Grid.cs" />
     <Compile Include="GamesStates\IGameState.cs" />
     <Compile Include="GamesStates\StateManager.cs" />
     <Compile Include="GamesStates\States\LevelSelect.cs" />
@@ -98,6 +95,7 @@
     <Compile Include="RcFramework\RC_Utils3.cs" />
     <Compile Include="RcFramework\RC_UtilText.cs" />
     <Compile Include="RcFramework\RC_Waypoint.cs" />
+    <Compile Include="SoundLib.cs" />
     <Compile Include="SpriteXml.cs" />
     <Compile Include="SpriteSheet.cs" />
   </ItemGroup>

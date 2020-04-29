@@ -69,11 +69,23 @@
 /processorParam:TextureFormat=Color
 /build:Rooms/Test_Room.png
 
+#begin Sounds/Effects/AmmoCollect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Effects/AmmoCollect.wav
+
 #begin Sounds/Effects/planeGun.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/Effects/planeGun.wav
+
+#begin Sounds/Effects/Reflect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Effects/Reflect.wav
 
 #begin Sounds/Music/cupheadOST.mp3
 /importer:Mp3Importer

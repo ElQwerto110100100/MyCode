@@ -24,9 +24,6 @@ namespace TRotS.Entity
 
         public bool Hit { get; private set; }
 
-        static List<SoundEffect> soundEffects;
-        static int occurances = 0;
-
         public SpikeBall(GraphicsDevice graphicsDevice, Texture2D charSheet) : base(graphicsDevice, charSheet)
         {
             GraphicsDevice = graphicsDevice;
@@ -47,6 +44,7 @@ namespace TRotS.Entity
             if (waitTimer == 0)
             {
                 SetAnimation("movement");
+                ballColor = Color.White;
                 this.PosX -= movementSpeed;
                 this.PosY += fallSpeed;
 
@@ -70,7 +68,9 @@ namespace TRotS.Entity
         {
             if (CurrentAnimation.AniamtionName.Any(x => !x.Equals("reflect")))
             {
+                ballColor = Color.Aqua;
                 SetAnimation("reflect");
+                SoundLib.Instance.PlaySound("Reflect", 1f);
             }
         }
 

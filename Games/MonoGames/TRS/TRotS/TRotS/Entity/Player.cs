@@ -128,6 +128,7 @@ namespace TRotS.Entity
                 }
                 newBullet.AddAnimation("fire", 28, 12, 1, 0, 0.01, false);
                 newBullet.SetAnimation("fire");
+                SoundLib.Instance.PlaySound("PlaneGun", 0.2f);
                 newBullet.SetPosXY(this.PosX + this.sourceRectangle.Width, this.PosY + this.sourceRectangle.Height - 12);
                 bullets.Add(newBullet);
                 ammunation -= 1;

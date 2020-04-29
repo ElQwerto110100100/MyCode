@@ -64,7 +64,7 @@ namespace TRotS
             MediaPlayer.Play(backfroundMusic);
             //  Uncomment the following line will also loop the song
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume = 0.2f;
+            MediaPlayer.Volume = 0.3f;
         }
 
         /// <summary>

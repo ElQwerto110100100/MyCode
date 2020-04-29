@@ -114,7 +114,7 @@ namespace TRotS.GamesStates.States.Levels
 
                 if (MainPlayer.tempRect.Intersects(AmmoCrates.tempRect))
                 {
-                    AmmoCrates.Reset();
+                    AmmoCrates.Collected();
                     MainPlayer.ammunation += AmmoCrates.ammoRefill;
                     if (MainPlayer.ammunation > 20)
                     {

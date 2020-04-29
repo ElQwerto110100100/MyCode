@@ -29,6 +29,7 @@ namespace TRotS.GamesStates.States
         private Vector2 fontPos;
         private string message = "GameOver :(";
         Button quit;
+        Button LevelSelect;
 
         public GameOver(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager) : base(graphicsDevice, graphicsDeviceManager)
         {
@@ -53,7 +54,8 @@ namespace TRotS.GamesStates.States
         {
             font = content.Load<SpriteFont>("Fonts/menuFont_20");
             fontPos = new Vector2(boxPosX - font.MeasureString(message).X / 2, boxPosY + margin);
-            quit = new Button(content, "buttonLong_beige.png", "Quit", 200, 100, new Vector2(_graphicsDevice.Viewport.Width / 2 - 100, boxPosY + 100), "menuFont_20");
+            quit = new Button(content, "buttonLong_beige.png", "Quit", 200, 100, new Vector2(_graphicsDevice.Viewport.Width / 2 - 100, boxPosY + 50), "menuFont_20");
+            LevelSelect = new Button(content, "buttonLong_beige.png", "Level Select", 300, 100, new Vector2(_graphicsDevice.Viewport.Width / 2 - 150, boxPosY + 125 + 50), "menuFont_20");
         }
 
         // Unload any content here
@@ -106,6 +108,7 @@ namespace TRotS.GamesStates.States
             RC_Framework.LineBatch.drawFillRectangle(spriteBatch, pauseMenuBox_1, Color.Coral);
             spriteBatch.DrawString(font, message, fontPos, Color.White);
             quit.Draw(spriteBatch, Color.White);
+            LevelSelect.Draw(spriteBatch, Color.White);
         }
     }
 }

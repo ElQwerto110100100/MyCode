@@ -24,17 +24,10 @@ namespace TRotS.Entity
 
         public bool Hit { get; private set; }
 
-        static List<SoundEffect> soundEffects;
-        static int occurances = 0;
-
         public Enemy(GraphicsDevice graphicsDevice, Texture2D charSheet) : base(graphicsDevice, charSheet)
         {
             GraphicsDevice = graphicsDevice;
             CharSheet = charSheet;
-
-            soundEffects = new List<SoundEffect>();
-            soundEffects.Add(MouseClass.Instance._content.Load<SoundEffect>("Exsplosion"));
-            SoundEffect.MasterVolume = 0.01f;
             AddAnimation("movement", 78, 78, 4, 0);
             SetAnimation("movement");
             this.PosX = GraphicsDevice.Viewport.Width + 50;
@@ -97,15 +90,9 @@ namespace TRotS.Entity
             Exsplosion = new Sprite(GraphicsDevice, CharSheet);
             Exsplosion.AddAnimation("explosion", 78, 78, 4, 1, 0.1, true);
             Exsplosion.SetAnimation("explosion");
+            SoundLib.Instance.PlaySound("Exsplosion", 1f);
             Exsplosion.PosX = this.PosX;
             Exsplosion.PosY = this.PosY;
-
-            if (occurances != 3)
-            {
-                occurances += 1;
-                soundEffects[0].Play();
-                occurances -= 1;
-            }
         }
 
         public void EnemyDraw(SpriteBatch spriteBatch)

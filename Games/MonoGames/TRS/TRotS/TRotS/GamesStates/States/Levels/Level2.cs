@@ -20,7 +20,7 @@ namespace TRotS.GamesStates.States.Levels
         Player MainPlayer;
         List<Enemy> Enemies = new List<Enemy>();
         List<SpikeBall> spikeBalls = new List<SpikeBall>();
-        int numOfEnemies = 5;
+        int numOfEnemies = 3;
 
         List<Sprite> tempList = new List<Sprite>();
         Ammo AmmoCrates;
@@ -40,13 +40,15 @@ namespace TRotS.GamesStates.States.Levels
                     _graphicsDevice,
                     @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\COVID-19.png")
                     ));
+            }
+            for (int i = 0; i <= 2; i++)
+            {
 
                 spikeBalls.Add(new SpikeBall(_graphicsDevice, RC_Framework.Util.texFromFile(
                     _graphicsDevice,
                     @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\SpikeBall.png")
                     ));
             }
-
             AmmoCrates = new Ammo(_graphicsDevice, RC_Framework.Util.texFromFile(
                 _graphicsDevice,
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\AmmoCrate.png")
@@ -111,8 +113,11 @@ namespace TRotS.GamesStates.States.Levels
                     spikeball.SpikeBallUpdate(gameTime);
                     if (spikeball.tempRect.Intersects(MainPlayer.tempRect))
                     {
-                        MainPlayer.PlaneHit();
-                        spikeball.Reflect();
+                        if (!MainPlayer.Hit)
+                        {
+                            MainPlayer.PlaneHit();
+                            spikeball.Reflect();
+                        }
                     }
                     if (MainPlayer.bullets.Any(bullets => bullets.tempRect.Intersects(spikeball.tempRect))){
                         spikeball.Reflect();
@@ -140,7 +145,7 @@ namespace TRotS.GamesStates.States.Levels
 
                 if (MainPlayer.tempRect.Intersects(AmmoCrates.tempRect))
                 {
-                    AmmoCrates.Reset();
+                    AmmoCrates.Collected();
                     MainPlayer.ammunation += AmmoCrates.ammoRefill;
                     if (MainPlayer.ammunation > 20)
                     {

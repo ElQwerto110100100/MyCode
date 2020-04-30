@@ -144,7 +144,7 @@ namespace TRotS.Entity
                 bullet.Update(gametime);
                 bullet.PosX += bulletSpeed;
             }
-            bullets.RemoveAll(bullet => bullet.PosX > graphicsDevice.Viewport.Width);
+            bullets.RemoveAll(bullet => bullet.PosX + bullet.tempRect.Width > graphicsDevice.Viewport.Width);
         }
 
         public void PlaneHit()

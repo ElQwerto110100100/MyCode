@@ -33,17 +33,14 @@ namespace TRotS
             soundEffects.Add("Reflect", MouseClass.Instance._content.Load<SoundEffect>("Sounds/Effects/Reflect"));
         }
 
-        public void PlaySound(string soundName, float volume = 0.1f)
+        public Dictionary<string, SoundEffect> GetLib()
         {
-            if (true)
-            {
-                soundEffects[soundName].Play(volume,0, 0);
-                occurance++;
-            }
-            else
-            {
-                if (occurance > 0) occurance--;
-            }
+            return soundEffects;
+        }
+
+        public bool PlaySound(string soundName, float volume = 0.1f)
+        {
+            return soundEffects[soundName].Play(volume,0, 0);
         }
     }
 }

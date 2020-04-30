@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using MarkTut1.Resources;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -64,7 +65,7 @@ namespace TRotS
             MediaPlayer.Play(backfroundMusic);
             //  Uncomment the following line will also loop the song
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume = 0.3f;
+            MediaPlayer.Volume = 0.1f;
         }
 
         /// <summary>
@@ -83,6 +84,11 @@ namespace TRotS
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            if (TRotS.MouseClass.Instance.GetKeyState().IsKeyDown(Keys.B) && !TRotS.MouseClass.Instance.GetPrevKeyState().IsKeyDown(Keys.B))
+            {
+                Sprite.borderOn = !Sprite.borderOn;
+            }
+
             if (StateManager.Instance._screens.Count == 0) Exit();
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))

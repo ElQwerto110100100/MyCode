@@ -64,6 +64,7 @@ namespace TRotS.GamesStates
             if (_screens.Count > 0)
             {
                 var screen = _screens.Peek();
+                _screens.Peek().UnloadContent();
                 _screens.Pop();
             }
         }

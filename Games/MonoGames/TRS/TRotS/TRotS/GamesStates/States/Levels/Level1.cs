@@ -28,6 +28,7 @@ namespace TRotS.GamesStates.States.Levels
 
         public Level1(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager) : base(graphicsDevice, graphicsDeviceManager)
         {
+            Name = "Level1";
         }
 
         // Initialize the game settings here      
@@ -66,7 +67,7 @@ namespace TRotS.GamesStates.States.Levels
         // Unload any content here
         public override void UnloadContent()
         {
-            StateManager.Instance.RemoveScreen();
+            ScoreBoard.Instance.AddScore(Name, MainPlayer.score);
         }
 
         // Updates the game
@@ -142,8 +143,8 @@ namespace TRotS.GamesStates.States.Levels
 
             spriteBatch.DrawString(font, 
                 "Score: " + MainPlayer.score.ToString() + 
-                "\nAmmunation: " + 
-                MainPlayer.ammunation.ToString(), new Vector2(0,0), Color.White);
+                "\nAmmunation: " + MainPlayer.ammunation.ToString(), 
+                new Vector2(0,0), Color.White);
         }
     }
 }

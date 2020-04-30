@@ -249,7 +249,8 @@ namespace TRotS.GamesStates.States
             spriteBatch.Draw(renderTarget, _graphicsDevice.ScissorRectangle, Color.White);
             //keep previous screen's layer
             //StateManager.Instance._screens.Skip(1).First().Draw(spriteBatch);
-            RC_Framework.LineBatch.drawFillRectangle(spriteBatch,HelpMenu, Color.DarkViolet);
+            RC_Framework.LineBatch.drawFillRectangle(spriteBatch,HelpMenu, Color.Black);
+            RC_Framework.LineBatch.drawLetterbox(spriteBatch, HelpMenu, 3, Color.White);
 
             spriteBatch.Draw(background, HelpMoveRec, BackgroundRec, Color.White);
             spriteBatch.Draw(background, HelpAvoidRec, BackgroundRec, Color.White);

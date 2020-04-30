@@ -20,9 +20,10 @@ namespace TRotS.Entity
         private int movementSpeed;
         private int fallSpeed = 3;
         private int waitTimer = 0;
+        private int reflectTimer = 0;
         private Color ballColor = Color.White;
 
-        public bool Hit { get; private set; }
+        public bool Hit { get; private set; } = false;
 
         public SpikeBall(GraphicsDevice graphicsDevice, Texture2D charSheet) : base(graphicsDevice, charSheet)
         {
@@ -33,7 +34,7 @@ namespace TRotS.Entity
             AddAnimation("reflect", 96, 96, 7, 1,1, true);
             SetAnimation("movement");
             this.PosX = GraphicsDevice.Viewport.Width + 50;
-            this.PosY = rand.Next(0, GraphicsDevice.Viewport.Height - 50);
+            this.PosY = rand.Next(0, GraphicsDevice.Viewport.Height/2);
             movementSpeed = rand.Next(6, 10);
         }
 
@@ -53,7 +54,7 @@ namespace TRotS.Entity
                     Reset();
                 }
 
-                if (PosY >= GraphicsDevice.Viewport.Height - this.sourceRectangle.Height || PosY <= 0)
+                if (PosY + this.sourceRectangle.Height > GraphicsDevice.Viewport.Height || PosY < 0)
                 {
                     fallSpeed = -fallSpeed;
                 }
@@ -62,15 +63,18 @@ namespace TRotS.Entity
             {
                 waitTimer -= 1;
             }
+            if (reflectTimer > 0) reflectTimer--;
         }
 
         public void Reflect()
         {
-            if (CurrentAnimation.AniamtionName.Any(x => !x.Equals("reflect")))
+            if (reflectTimer <= 0)
             {
+
                 ballColor = Color.Aqua;
                 SetAnimation("reflect");
-                SoundLib.Instance.PlaySound("Reflect", 1f);
+                SoundLib.Instance.PlaySound("Reflect", 0.4f);
+                reflectTimer = 10;
             }
         }
 

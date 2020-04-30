@@ -29,6 +29,7 @@ namespace TRotS.GamesStates.States.Levels
 
         public Level2(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager) : base(graphicsDevice, graphicsDeviceManager)
         {
+            Name = "Level2";
         }
 
         // Initialize the game settings here      
@@ -66,7 +67,7 @@ namespace TRotS.GamesStates.States.Levels
 
             background = RC_Framework.Util.texFromFile(
                 _graphicsDevice,
-                @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\SkyBg.jpeg"
+                @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\level2BG.jpg"
                 );
         }
 
@@ -79,7 +80,7 @@ namespace TRotS.GamesStates.States.Levels
         // Unload any content here
         public override void UnloadContent()
         {
-            StateManager.Instance.RemoveScreen();
+            ScoreBoard.Instance.AddScore(Name, MainPlayer.score);
         }
 
         // Updates the game
@@ -116,8 +117,9 @@ namespace TRotS.GamesStates.States.Levels
                         if (!MainPlayer.Hit)
                         {
                             MainPlayer.PlaneHit();
-                            spikeball.Reflect();
+
                         }
+                        spikeball.Reflect();
                     }
                     if (MainPlayer.bullets.Any(bullets => bullets.tempRect.Intersects(spikeball.tempRect))){
                         spikeball.Reflect();

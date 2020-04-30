@@ -95,11 +95,6 @@ namespace MarkTut1.Resources
             CurrentAnimation.Update(gameTime);
             sourceRectangle = CurrentAnimation.CurrentRectangle;
 
-            if (TRotS.MouseClass.Instance.GetKeyState().IsKeyDown(Keys.B) && !TRotS.MouseClass.Instance.GetPrevKeyState().IsKeyDown(Keys.B))
-            {
-                borderOn = !borderOn;
-            }
-
             tempRect = GetSpriteRec();
         }
 

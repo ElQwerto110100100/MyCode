@@ -44,7 +44,6 @@ namespace TRotS.GamesStates.States
             boxPosX = (_graphicsDevice.Viewport.Width / 2) - (boxWidth / 2);
             boxPosY = (_graphicsDevice.Viewport.Height / 2) - (boxHeight / 2);
 
-            fontPos = new Vector2(boxPosX + margin, boxPosY + margin);
             pauseMenuBox = new Rectangle(boxPosX, boxPosY, boxWidth, boxHeight);
         }
 
@@ -52,14 +51,14 @@ namespace TRotS.GamesStates.States
         public override void LoadContent(ContentManager content)
         {
             font = content.Load<SpriteFont>("Fonts/menuFont_20");
-            resume = new Button(content, "buttonLong_beige.png", "Resume", 200, 100, new Vector2(boxPosX + margin, font.LineSpacing + fontPos.Y + margin), "menuFont_20");
-            quit = new Button(content, "buttonLong_beige.png", "Exit level", 200, 100, new Vector2(boxPosX + margin, resume.BottomPos.Y + margin), "menuFont_20");
+            fontPos = new Vector2(boxPosX + boxWidth / 2 - font.MeasureString("Pause").X / 2, boxPosY + margin);
+            resume = new Button(content, "buttonLong_beige.png", "Resume", 200, 100, new Vector2(boxPosX + boxWidth/2 - 100, font.LineSpacing + fontPos.Y + margin), "menuFont_20");
+            quit = new Button(content, "buttonLong_beige.png", "Exit level", 200, 100, new Vector2(boxPosX + boxWidth / 2 - 100, resume.BottomPos.Y + margin), "menuFont_20");
         }
 
         // Unload any content here
         public override void UnloadContent()
         {
-            StateManager.Instance.RemoveScreen();
         }
 
         // Updates the game
@@ -75,7 +74,9 @@ namespace TRotS.GamesStates.States
 
             if (resume.IsPressed(MouseClass.Instance.GetState(), MouseClass.Instance.GetPrevState()))
             {
-                StateManager.Instance.RemoveScreen();
+                //return to previous screen
+                StateManager.Instance._screens.Skip(1).First().UnloadContent();
+                StateManager.Instance.ChangeScreen(StateManager.Instance._screens.Skip(2).First());
             }
 
             if (quit.IsPressed(MouseClass.Instance.GetState(), MouseClass.Instance.GetPrevState()))
@@ -96,6 +97,7 @@ namespace TRotS.GamesStates.States
             spriteBatch.DrawString(font, "Pause", fontPos, Color.White);
             resume.Draw(spriteBatch);
             quit.Draw(spriteBatch);
+            RC_Framework.LineBatch.drawLetterbox(spriteBatch,pauseMenuBox, 3, Color.White);
         }
     }
 }

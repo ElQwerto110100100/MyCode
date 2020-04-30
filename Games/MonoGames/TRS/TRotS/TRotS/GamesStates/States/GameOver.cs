@@ -61,7 +61,6 @@ namespace TRotS.GamesStates.States
         // Unload any content here
         public override void UnloadContent()
         {
-            StateManager.Instance.RemoveScreen();
         }
 
         // Updates the game
@@ -69,11 +68,6 @@ namespace TRotS.GamesStates.States
         {
             previouseKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
-
-            if (Keyboard.GetState().IsKeyDown(Keys.R))
-            {
-                StateManager.Instance.RemoveScreen();
-            }
 
             if (_graphicsDevice.ScissorRectangle.Contains(pauseMenuBox_1))
             {
@@ -95,6 +89,13 @@ namespace TRotS.GamesStates.States
             {
                 //get rid of previous screen
                 StateManager.Instance.ClearScreens();
+            }
+
+            if (LevelSelect.IsPressed(MouseClass.Instance.GetState(), MouseClass.Instance.GetPrevState()))
+            {
+                //return to previous screen
+                StateManager.Instance._screens.Skip(1).First().UnloadContent();
+                StateManager.Instance.ChangeScreen(StateManager.Instance._screens.Skip(2).First());
             }
         }
 

@@ -124,6 +124,8 @@ namespace TRotS.GamesStates.States.Levels
                     if (MainPlayer.bullets.Any(bullets => bullets.tempRect.Intersects(spikeball.tempRect))){
                         spikeball.Reflect();
                         MainPlayer.bullets.RemoveAll(bullets => bullets.tempRect.Intersects(spikeball.tempRect));
+                        //give you something for the trouble
+                        MainPlayer.score += 20;
                     }
                 }
 
@@ -153,6 +155,7 @@ namespace TRotS.GamesStates.States.Levels
                     {
                         MainPlayer.ammunation = 20;
                     }
+                    MainPlayer.score += 50;
                 }
 
                 AmmoCrates.AmmoUpdate(gameTime);

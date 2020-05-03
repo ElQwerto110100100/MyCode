@@ -90,7 +90,7 @@ namespace TRotS.Entity
             Exsplosion = new Sprite(GraphicsDevice, CharSheet);
             Exsplosion.AddAnimation("explosion", 78, 78, 4, 1, 0.1, true);
             Exsplosion.SetAnimation("explosion");
-            SoundLib.Instance.PlaySound("Exsplosion", 1f);
+            SoundLib.Instance.PlaySound("Exsplosion", 0.5f);
             Exsplosion.PosX = this.PosX;
             Exsplosion.PosY = this.PosY;
         }

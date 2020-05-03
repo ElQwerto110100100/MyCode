@@ -12,23 +12,24 @@ using TRotS.Entity;
 
 namespace TRotS.GamesStates.States.Levels
 {
-    class Level1 : GameState
+    class Level3 : GameState
     {
         bool freeze = false;
         Texture2D background;
 
         Player MainPlayer;
         List<Enemy> Enemies = new List<Enemy>();
-        int numOfEnemies = 3;
+        List<SpikeBall> spikeBalls = new List<SpikeBall>();
+        int numOfEnemies = 5;
 
         List<Sprite> tempList = new List<Sprite>();
         Ammo AmmoCrates;
-
+        TolietPaper TolietPaper;
         private SpriteFont font;
 
-        public Level1(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager) : base(graphicsDevice, graphicsDeviceManager)
+        public Level3(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager) : base(graphicsDevice, graphicsDeviceManager)
         {
-            Name = "Level1";
+            Name = "Level3";
         }
 
         // Initialize the game settings here      
@@ -41,20 +42,32 @@ namespace TRotS.GamesStates.States.Levels
                     @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\COVID-19.png")
                     ));
             }
+            for (int i = 0; i < 2; i++)
+            {
 
+                spikeBalls.Add(new SpikeBall(_graphicsDevice, RC_Framework.Util.texFromFile(
+                    _graphicsDevice,
+                    @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\SpikeBall.png")
+                    ));
+            }
             AmmoCrates = new Ammo(_graphicsDevice, RC_Framework.Util.texFromFile(
-                _graphicsDevice, 
+                _graphicsDevice,
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\AmmoCrate.png")
                 );
 
+            TolietPaper = new TolietPaper(_graphicsDevice, RC_Framework.Util.texFromFile(
+                _graphicsDevice,
+                @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\Toliet Paper.png")
+                );
+
             MainPlayer = new Player(_graphicsDevice, RC_Framework.Util.texFromFile(
-                _graphicsDevice, 
+                _graphicsDevice,
                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\plane.png")
                 );
 
             background = RC_Framework.Util.texFromFile(
-                _graphicsDevice, 
-                @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\SkyBg.jpeg"
+                _graphicsDevice,
+                @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\Level3BG.jpg"
                 );
         }
 
@@ -95,8 +108,29 @@ namespace TRotS.GamesStates.States.Levels
 
                 MainPlayer.UpdatePlayer(gameTime);
 
+
+                foreach (SpikeBall spikeball in spikeBalls)
+                {
+                    spikeball.SpikeBallUpdate(gameTime);
+                    if (spikeball.tempRect.Intersects(MainPlayer.tempRect))
+                    {
+                        if (!MainPlayer.Hit)
+                        {
+                            MainPlayer.PlaneHit();
+
+                        }
+                        spikeball.Reflect();
+                    }
+                    if (MainPlayer.bullets.Any(bullets => bullets.tempRect.Intersects(spikeball.tempRect))){
+                        spikeball.Reflect();
+                        MainPlayer.bullets.RemoveAll(bullets => bullets.tempRect.Intersects(spikeball.tempRect));
+                        //give you something for the trouble
+                        MainPlayer.score += 20;
+                    }
+                }
+
                 foreach (Enemy enemy in Enemies)
-                { 
+                {
                     enemy.EnemyUpdate(gameTime);
                     tempList = MainPlayer.bullets.FindAll(bullets => bullets.tempRect.Intersects(enemy.tempRect));
                     MainPlayer.bullets.RemoveAll(bullets => bullets.tempRect.Intersects(enemy.tempRect));
@@ -116,14 +150,43 @@ namespace TRotS.GamesStates.States.Levels
                 if (MainPlayer.tempRect.Intersects(AmmoCrates.tempRect))
                 {
                     AmmoCrates.Collected();
-                    MainPlayer.ammunation += AmmoCrates.ammoRefill;
+                    MainPlayer.ammunation += 10;
                     if (MainPlayer.ammunation > 20)
                     {
                         MainPlayer.ammunation = 20;
                     }
+                    MainPlayer.score += 50;
                 }
 
+                if (MainPlayer.tempRect.Intersects(TolietPaper.tempRect))
+                {
+                    TolietPaper.Collected();
+                    MainPlayer.health = 3;
+                    MainPlayer.score += 500;
+                    foreach(Enemy enemy in Enemies)
+                    {
+                        //remove all enemies on screen
+                        if (enemy.tempRect.Intersects(_graphicsDevice.ScissorRectangle))
+                        {
+                            enemy.Exsplosed();
+                            enemy.Reset(enemy);
+                            MainPlayer.score += 100;
+                        }
+                    }
+                    foreach (SpikeBall spike in spikeBalls)
+                    {
+                        if (spike.tempRect.Intersects(_graphicsDevice.ScissorRectangle))
+                        {
+                            spike.Exsplosed();
+                            spike.Reset();
+                            MainPlayer.score += 200;
+                        }
+                    }
+                }
+
+
                 AmmoCrates.AmmoUpdate(gameTime);
+                TolietPaper.TolietPaperUpdate(gameTime);
             }
             freeze = false;
         }
@@ -132,18 +195,25 @@ namespace TRotS.GamesStates.States.Levels
         public override void Draw(SpriteBatch spriteBatch)
         {
             _graphicsDevice.Clear(Color.Brown);
-            spriteBatch.Draw(background, new Rectangle(0,0,_graphicsDevice.Viewport.Width,_graphicsDevice.Viewport.Height),Color.White);
+            spriteBatch.Draw(background, new Rectangle(0, 0, _graphicsDevice.Viewport.Width, _graphicsDevice.Viewport.Height), Color.White);
             MainPlayer.PlayerDraw(spriteBatch);
             foreach (Enemy enemy in Enemies)
             {
                 enemy.EnemyDraw(spriteBatch);
             }
 
+            foreach (SpikeBall spikeball in spikeBalls)
+            {
+                spikeball.SpikeBallDraw(spriteBatch);
+            }
+
             AmmoCrates.Draw(spriteBatch, SpriteEffects.None);
-            spriteBatch.DrawString(font, 
-                "Score: " + MainPlayer.score.ToString() + 
-                "\nAmmunation: " + MainPlayer.ammunation.ToString(),
-                new Vector2(0,0), Color.White);
+            TolietPaper.TolietPaperDraw(spriteBatch);
+
+            spriteBatch.DrawString(font,
+                "Score: " + MainPlayer.score.ToString() +
+                "\nAmmunation: " +
+                MainPlayer.ammunation.ToString(), new Vector2(0, 0), Color.White);
         }
     }
 }

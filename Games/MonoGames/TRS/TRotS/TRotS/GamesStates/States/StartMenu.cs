@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using TRotS.Entity;
 
 namespace TRotS.GamesStates.States
 {
@@ -14,6 +15,9 @@ namespace TRotS.GamesStates.States
     {
         SpriteFont fontstyle;
         Button start;
+
+        Enemy Spore;
+        Enemy Spore2;
 
         string title = "Shoot down COVID-19!!!!";
         Vector2 titlePos;
@@ -38,6 +42,16 @@ namespace TRotS.GamesStates.States
 
             //useing a background to fill the splash screen requirment
             bg = RC_Framework.Util.texFromFile(_graphicsDevice, @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\startMenuBG.jpg");
+
+            Spore = new Enemy(_graphicsDevice, RC_Framework.Util.texFromFile(
+                _graphicsDevice, 
+                @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\COVID-19.png"
+            ));
+
+            Spore2 = new Enemy(_graphicsDevice, RC_Framework.Util.texFromFile(
+                _graphicsDevice,
+                 @"C:\Users\joshy\Desktop\Github\MyCode\Games\MonoGames\TRS\TRotS\TRotS\Resource\COVID-19.png"
+            ));
         }
 
         public override void UnloadContent()
@@ -46,6 +60,13 @@ namespace TRotS.GamesStates.States
 
         public override void Update(GameTime gameTime)
         {
+            Spore.Update(gameTime);
+            Spore.PosY = (int)titlePos.Y - Spore.tempRect.Height / 2;
+            Spore.PosX = (int)titlePos.X - Spore.tempRect.Width - 10;
+
+            Spore2.Update(gameTime);
+            Spore2.PosY = (int)titlePos.Y - Spore.tempRect.Height / 2;
+            Spore2.PosX = (int)titlePos.X + (int)fontstyle.MeasureString(title).X + 10;
             if (start.IsPressed(MouseClass.Instance.GetState(), MouseClass.Instance.GetPrevState()))
             {
                 StateManager.Instance.AddScreen(new LevelSelect(_graphicsDevice, _graphicsDeviceManager));
@@ -64,6 +85,9 @@ namespace TRotS.GamesStates.States
             spriteBatch.DrawString(fontstyle, "Press 'esc' to quit", new Vector2(_graphicsDevice.Viewport.Width / 2 - fontstyle.MeasureString("Press 'esc' to quit").X / 2, titlePos.Y + 150), Color.White);
             //didnt want to use any special background so a simplist one with a nice border should be fine
             RC_Framework.LineBatch.drawLetterbox(spriteBatch, _graphicsDevice.ScissorRectangle, 3, Color.White);
+
+            Spore.EnemyDraw(spriteBatch);
+            Spore2.EnemyDraw(spriteBatch);
 
         }
     }

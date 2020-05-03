@@ -31,6 +31,7 @@ namespace TRotS
             soundEffects.Add("Exsplosion", MouseClass.Instance._content.Load<SoundEffect>("Exsplosion"));
             soundEffects.Add("AmmoCollect", MouseClass.Instance._content.Load<SoundEffect>("Sounds/Effects/AmmoCollect"));
             soundEffects.Add("Reflect", MouseClass.Instance._content.Load<SoundEffect>("Sounds/Effects/Reflect"));
+            soundEffects.Add("Fart", MouseClass.Instance._content.Load<SoundEffect>("Sounds/Effects/Fart"));
         }
 
         public Dictionary<string, SoundEffect> GetLib()

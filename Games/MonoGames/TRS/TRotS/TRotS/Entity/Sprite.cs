@@ -47,7 +47,7 @@ namespace MarkTut1.Resources
             }
         }
 
-        //add animations to it
+        //add animations to the sprite
         public void AddAnimation(string animeName, int frameX, int frameY, double numOfFrames, int animationLine, double timeSpaceing = .15, bool playOnce = false)
         {
             Animations newAnime = new Animations(animeName);

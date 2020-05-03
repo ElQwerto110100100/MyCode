@@ -15,6 +15,7 @@ namespace TRotS.GamesStates.States
     {
         Button level1;
         Button level2;
+        Button level3;
 
         int MenuBoxWidth = 700;
         Rectangle MenuBox;
@@ -39,7 +40,7 @@ namespace TRotS.GamesStates.States
             //need a more effectient solution, somehow in a list
             level1 = new Button(content, "buttonLong_beige.png", "Level 1", 200, 100, new Vector2((_graphicsDevice.Viewport.Width / 2) - 100, 50), "menuFont_20");
             level2 = new Button(content, "buttonLong_beige.png", "Level 2", 200, 100, new Vector2((_graphicsDevice.Viewport.Width / 2) - 100, 250), "menuFont_20");
-
+            level3 = new Button(content, "buttonLong_beige.png", "Level 3", 200, 100, new Vector2((_graphicsDevice.Viewport.Width / 2) - 100, 450), "menuFont_20");
             MenuBox = new Rectangle(_graphicsDevice.Viewport.Width / 2 - MenuBoxWidth / 2, 0, MenuBoxWidth, _graphicsDevice.Viewport.Height);
         }
 
@@ -59,7 +60,10 @@ namespace TRotS.GamesStates.States
             {
                 StateManager.Instance.AddScreen(new Levels.Level2(_graphicsDevice, _graphicsDeviceManager));
             }
-
+            if (level3.IsPressed(MouseClass.Instance.GetState(), MouseClass.Instance.GetPrevState()))
+            {
+                StateManager.Instance.AddScreen(new Levels.Level3(_graphicsDevice, _graphicsDeviceManager));
+            }
         }
 
         // Draws the game
@@ -69,6 +73,7 @@ namespace TRotS.GamesStates.States
             spriteBatch.Draw(bg, _graphicsDevice.ScissorRectangle, Color.White);
             RC_Framework.LineBatch.drawFillRectangle(spriteBatch, MenuBox, new Color(0,0,0,150));
             RC_Framework.LineBatch.drawLetterbox(spriteBatch, MenuBox, 3, Color.White);
+
             level1.Draw(spriteBatch);
             spriteBatch.DrawString(font, "Level1 Highscore: " + ScoreBoard.Instance.GetScore("Level1"), 
                 new Vector2(_graphicsDevice.Viewport.Width / 2 - font.MeasureString("Level1 Highscore: " + ScoreBoard.Instance.GetScore("Level1")).X / 2, level1.Pos.Y + 110), Color.White);
@@ -76,6 +81,11 @@ namespace TRotS.GamesStates.States
             level2.Draw(spriteBatch);
             spriteBatch.DrawString(font, "Level2 Highscore: " + ScoreBoard.Instance.GetScore("Level2"), 
                 new Vector2(_graphicsDevice.Viewport.Width / 2 - font.MeasureString("Level2 Highscore: " + ScoreBoard.Instance.GetScore("Level2")).X / 2, level2.Pos.Y + 110), Color.White);
+
+
+            level3.Draw(spriteBatch);
+            spriteBatch.DrawString(font, "Level3 Highscore: " + ScoreBoard.Instance.GetScore("Level3"),
+                new Vector2(_graphicsDevice.Viewport.Width / 2 - font.MeasureString("Level3 Highscore: " + ScoreBoard.Instance.GetScore("Level3")).X / 2, level3.Pos.Y + 110), Color.White);
 
         }
     }

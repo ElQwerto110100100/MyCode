@@ -75,6 +75,12 @@
 /processorParam:Quality=Best
 /build:Sounds/Effects/AmmoCollect.wav
 
+#begin Sounds/Effects/Fart.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Effects/Fart.wav
+
 #begin Sounds/Effects/planeGun.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

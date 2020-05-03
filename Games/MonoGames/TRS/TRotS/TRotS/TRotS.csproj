@@ -47,6 +47,7 @@
     <Compile Include="Entity\Animations.cs" />
     <Compile Include="Entity\Enemy.cs" />
     <Compile Include="Entity\Player.cs" />
+    <Compile Include="GamesStates\States\Levels\Level3.cs" />
     <Compile Include="ScoreBoard.cs" />
     <Compile Include="Entity\SpikeBall.cs" />
     <Compile Include="Entity\Sprite.cs" />
@@ -114,6 +115,7 @@
     <Content Include="Resource\cloud.png" />
     <Content Include="Resource\COVID-19.png" />
     <Content Include="Resource\level2BG.jpg" />
+    <Content Include="Resource\Level3BG.jpg" />
     <Content Include="Resource\levelSelectBG.jpg" />
     <Content Include="Resource\plane-bullet.png" />
     <Content Include="Resource\plane.png" />

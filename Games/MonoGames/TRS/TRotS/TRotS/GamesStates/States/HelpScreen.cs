@@ -126,7 +126,7 @@ namespace TRotS.GamesStates.States
             temp.AttachSprite("arrowSilver_right.png", ((float)Math.PI / 2.0f)); // down
             HelpButtons.Add("DownArrow",temp);
 
-            temp = new Button(content, "buttonLong_grey.png", "SPACE BAR", 150, 50, new Vector2((HelpMenu.Right - temp.Width * 3 - margin), margin + temp.Height * 3), "menuFont_12");
+            temp = new Button(content, "buttonLong_grey.png", "SPACE BAR", 150, 50, new Vector2((HelpMenu.Right - temp.Width * 3 - margin), margin + temp.Height * 3 + 3), "menuFont_12");
             HelpButtons.Add("SpaceBar", temp);
 
             foreach (KeyValuePair<string, Button> butt in HelpButtons)
@@ -134,7 +134,7 @@ namespace TRotS.GamesStates.States
                 butt.Value.disabled = true;  
             }
 
-            CloseButton = new Button(content, "buttonSquare_grey.png", "", 40, 40, new Vector2((HelpMenu.Right) - 40, 0), "menuFont_20");
+            CloseButton = new Button(content, "buttonSquare_grey.png", "", 40, 40, new Vector2((HelpMenu.Right) - 43, 3), "menuFont_20");
             CloseButton.AttachSprite("iconCross_blue.png", 0);
 
             font = content.Load<SpriteFont>("Fonts/menuFont_20");
@@ -220,6 +220,7 @@ namespace TRotS.GamesStates.States
                     if (DemoBullet.PosX + DemoBullet.sourceRectangle.Width >= HelpMoveRec.Right)
                     {
                         DemoBullet.PosX = -100;
+                        DemoBullet.tempRect.X = -100;
                         DemoBullet = null;
                     }
                 }

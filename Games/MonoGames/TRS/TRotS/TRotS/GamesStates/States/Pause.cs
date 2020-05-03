@@ -74,17 +74,14 @@ namespace TRotS.GamesStates.States
 
             if (resume.IsPressed(MouseClass.Instance.GetState(), MouseClass.Instance.GetPrevState()))
             {
-                //return to previous screen
-                StateManager.Instance._screens.Skip(1).First().UnloadContent();
-                StateManager.Instance.ChangeScreen(StateManager.Instance._screens.Skip(2).First());
+                StateManager.Instance.RemoveScreen();
             }
 
             if (quit.IsPressed(MouseClass.Instance.GetState(), MouseClass.Instance.GetPrevState()))
             {
-                //get rid of previous screen
+                //return to previous screen
                 StateManager.Instance._screens.Skip(1).First().UnloadContent();
-                //then get rid of itself
-                StateManager.Instance.RemoveScreen();
+                StateManager.Instance.ChangeScreen(StateManager.Instance._screens.Skip(2).First());
             }
         }
 

@@ -121,11 +121,7 @@ namespace TRotS
 
         public static Texture2D texFromFile(GraphicsDevice gd, string fName)
         {
-            // note needs :using System.IO;
-            Stream fs = new FileStream(fName, FileMode.Open);
-            Texture2D rc = Texture2D.FromStream(gd, fs);
-            fs.Close();
-            return rc;
+            return RC_Framework.Util.texFromFile(gd, fName);
         }
     }
 }

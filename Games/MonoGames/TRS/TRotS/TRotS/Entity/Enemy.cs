@@ -16,7 +16,6 @@ namespace TRotS.Entity
     {
         static public GraphicsDevice GraphicsDevice;
         static public Texture2D CharSheet;
-        static private Random rand = new Random();
         private Sprite Exsplosion;
         private int movementSpeed;
         private int fallSpeed = 0;
@@ -31,7 +30,7 @@ namespace TRotS.Entity
             AddAnimation("movement", 78, 78, 4, 0);
             SetAnimation("movement");
             this.PosX = GraphicsDevice.Viewport.Width + 50;
-            this.PosY = rand.Next(0, GraphicsDevice.Viewport.Height - 50);
+            this.PosY = rand.Next(0, GraphicsDevice.Viewport.Height - 78);
             movementSpeed = rand.Next(6, 10);
         }
 
@@ -90,7 +89,7 @@ namespace TRotS.Entity
             Exsplosion = new Sprite(GraphicsDevice, CharSheet);
             Exsplosion.AddAnimation("explosion", 78, 78, 4, 1, 0.1, true);
             Exsplosion.SetAnimation("explosion");
-            SoundLib.Instance.PlaySound("Exsplosion", 0.5f);
+            SoundLib.Instance.PlaySound("Exsplosion", 0.2f);
             Exsplosion.PosX = this.PosX;
             Exsplosion.PosY = this.PosY;
         }

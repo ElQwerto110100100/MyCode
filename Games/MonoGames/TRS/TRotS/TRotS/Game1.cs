@@ -65,7 +65,7 @@ namespace TRotS
             MediaPlayer.Play(backfroundMusic);
             //  Uncomment the following line will also loop the song
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume = 0.1f;
+            MediaPlayer.Volume = 0.03f;
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace TRotS
             //the mouse will be use universally accross the whole game
             MouseClass.Instance.Update();
             StateManager.Instance.Update(gameTime);
-
+            SoundLib.Instance.Update();
             if (MouseClass.Instance.GetState().LeftButton == ButtonState.Pressed)
             {
                 MouseClass.Instance.SetTexture(this.Content.Load<Texture2D>("cursorHand_blue"));

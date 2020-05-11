@@ -16,7 +16,7 @@ namespace TRotS.Entity
     {
         static public GraphicsDevice GraphicsDevice;
         static public Texture2D CharSheet;
-        static private Random rand = new Random();
+        
         private int movementSpeed;
         private int fallSpeed = 3;
         private int waitTimer = 0;
@@ -35,9 +35,9 @@ namespace TRotS.Entity
             AddAnimation("reflect", 96, 96, 7, 1, 1, true);
             SetAnimation("movement");
             this.PosX = GraphicsDevice.Viewport.Width + 50;
-            this.PosY = rand.Next(10, GraphicsDevice.Viewport.Height/2);
-            movementSpeed = rand.Next(6, 10);
-            fallSpeed = rand.Next(1, 4);
+            this.PosY = rand.Next(10, GraphicsDevice.Viewport.Height - 100);
+            movementSpeed = rand.Next(4, 10);
+            fallSpeed = rand.Next(1, 6);
         }
 
         public void SpikeBallUpdate(GameTime gameTime)
@@ -85,7 +85,7 @@ namespace TRotS.Entity
             Exsplosion = new Sprite(GraphicsDevice, CharSheet);
             Exsplosion.AddAnimation("explosion", 96, 96, 4, 2, 0.1, true);
             Exsplosion.SetAnimation("explosion");
-            SoundLib.Instance.PlaySound("Exsplosion", 0.5f);
+            SoundLib.Instance.PlaySound("Exsplosion", 0.2f);
             Exsplosion.PosX = PosX;
             Exsplosion.PosY = PosY;
         }
@@ -97,7 +97,7 @@ namespace TRotS.Entity
 
                 ballColor = Color.Aqua;
                 SetAnimation("reflect");
-                SoundLib.Instance.PlaySound("Reflect", 0.6f);
+                SoundLib.Instance.PlaySound("Reflect", 0.3f);
                 reflectTimer = 30;
             }
         }

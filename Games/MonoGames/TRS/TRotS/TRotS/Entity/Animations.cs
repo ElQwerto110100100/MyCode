@@ -88,7 +88,7 @@ namespace MarkTut1
                 }
 
                 // If we found a frame, return its rectangle, otherwise
-                // return an empty rectangle (one with no width or height)
+                // return an empty rectangle
                 if (currentFrame != null)
                 {
                     if (currentFrame.Playonce)

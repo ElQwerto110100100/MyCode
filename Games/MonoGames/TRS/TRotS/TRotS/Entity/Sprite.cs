@@ -25,6 +25,8 @@ namespace MarkTut1.Resources
         static public bool borderOn = false;
 
         public string Direction { get; set; }
+
+        static public Random rand = new Random();
         //set a charctersheet for sprite
         public Sprite(GraphicsDevice graphicsDevice, Texture2D charSheet)
         {
@@ -113,13 +115,13 @@ namespace MarkTut1.Resources
             //only draw it if its on screen, should help with lag iissues
             if (GraphicsDevice.ScissorRectangle.Intersects(tempRect))
             {
+                //since all entitys use the sprite calss it will be easier to attach it here
+                if (borderOn) RC_Framework.LineBatch.drawLineRectangle(spriteBatch, tempRect, Color.Red);
+
                 Vector2 topLeftOfSprite = new Vector2(this.PosX, this.PosY);
                 //spriteBatch.Draw(SheetTexture, topLeftOfSprite, null ,sourceRectangle, spriteColor, spriteEx, 0);
                 spriteBatch.Draw(SheetTexture, position: topLeftOfSprite, sourceRectangle: sourceRectangle, color: spriteColor, rotation: 0f, origin: null, scale: null, effects: spriteEx, layerDepth: 0f);
 
-
-                //since all entitys use the sprite calss it will be easier to attach it here
-                if (borderOn) RC_Framework.LineBatch.drawLineRectangle(spriteBatch, tempRect, Color.Red);
             }
         }
     }

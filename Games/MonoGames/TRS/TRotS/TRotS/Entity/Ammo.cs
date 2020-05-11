@@ -16,7 +16,6 @@ namespace TRotS.Entity
         static public Texture2D CharSheet;
         private int waitTimer = 0;
         private int movementSpeed;
-        static private Random rand = new Random();
         public int ammoRefill = 5;
 
         public Ammo(GraphicsDevice graphicsDevice, Texture2D charSheet) : base(graphicsDevice, charSheet)
@@ -53,7 +52,7 @@ namespace TRotS.Entity
         public void Collected()
         {
             Reset();
-            SoundLib.Instance.PlaySound("AmmoCollect", 1f);
+            SoundLib.Instance.PlaySound("AmmoCollect", 0.8f);
         }
 
         public void Reset()

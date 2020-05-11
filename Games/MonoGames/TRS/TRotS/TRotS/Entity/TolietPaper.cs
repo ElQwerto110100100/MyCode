@@ -15,7 +15,6 @@ namespace TRotS.Entity
         static public Texture2D CharSheet;
         private int waitTimer = 0;
         private int movementSpeed;
-        static private Random rand = new Random();
 
         public TolietPaper(GraphicsDevice graphicsDevice, Texture2D charSheet) : base(graphicsDevice, charSheet)
         {

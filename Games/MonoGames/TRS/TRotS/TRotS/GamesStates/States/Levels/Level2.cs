@@ -125,7 +125,7 @@ namespace TRotS.GamesStates.States.Levels
                         spikeball.Reflect();
                         MainPlayer.bullets.RemoveAll(bullets => bullets.tempRect.Intersects(spikeball.tempRect));
                         //give you something for the trouble
-                        MainPlayer.score += 20;
+                        if (MainPlayer.score != Int32.MaxValue) MainPlayer.score += 20;
                     }
                 }
 
@@ -137,7 +137,7 @@ namespace TRotS.GamesStates.States.Levels
                     enemy.Damage(tempList);
 
                     // update score for every hit
-                    MainPlayer.score += 100 * tempList.Count;
+                    if (MainPlayer.score != Int32.MaxValue) MainPlayer.score += 100 * tempList.Count;
 
                     if (MainPlayer.tempRect.Intersects(enemy.tempRect))
                     {
@@ -155,7 +155,7 @@ namespace TRotS.GamesStates.States.Levels
                     {
                         MainPlayer.ammunation = 20;
                     }
-                    MainPlayer.score += 50;
+                    if (MainPlayer.score != Int32.MaxValue) MainPlayer.score += 50;
                 }
 
                 AmmoCrates.AmmoUpdate(gameTime);

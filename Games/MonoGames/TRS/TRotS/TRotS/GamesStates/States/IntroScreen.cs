@@ -71,14 +71,14 @@ namespace TRotS.GamesStates.States
             font = content.Load<SpriteFont>("Fonts/menuFont_20");
             creditFontPos = new Vector2(
                 _graphicsDevice.Viewport.Width / 2 - font.MeasureString(creditString).X / 2, 
-                _graphicsDevice.Viewport.Height / 2 - font.MeasureString(creditString).Y / 2
+                _graphicsDevice.Viewport.Height / 2 - font.MeasureString(creditString).Y-10 / 2
                 );
 
             assighmentStrLength = font.MeasureString(assighmentString);
 
             assighmentFontPos = new Vector2(
                 _graphicsDevice.Viewport.Width / 2 - assighmentStrLength.X / 2,
-                _graphicsDevice.Viewport.Height / 2 - assighmentStrLength.Y / 2 + margin * 13
+                _graphicsDevice.Viewport.Height / 2 - assighmentStrLength.Y / 2 + margin * 11
                 );
 
         }

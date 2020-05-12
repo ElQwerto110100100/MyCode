@@ -32,7 +32,8 @@ namespace TRotS.Entity
         {
             if (scoreBoard.ContainsKey(level))
             {
-                if (scoreBoard[level] < score) scoreBoard[level] = score;
+                //prevent buffer overflow
+                if (scoreBoard[level] < score && scoreBoard[level] != Int32.MaxValue) scoreBoard[level] = score;
             }
             else
             {

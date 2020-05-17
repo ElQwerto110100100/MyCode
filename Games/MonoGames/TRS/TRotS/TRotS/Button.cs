@@ -20,6 +20,7 @@ namespace TRotS
         Vector2 scale;
 
         string FontName;
+        Color FontColor;
         public Vector2 Pos;
         public Vector2 BottomPos;
 
@@ -34,7 +35,7 @@ namespace TRotS
 
         public bool disabled { get; set; } = false;
 
-        public Button(ContentManager content, string spriteTextureName, string message, int width, int height, Vector2 pos, string fontName)
+        public Button(ContentManager content, string spriteTextureName, string message, int width, int height, Vector2 pos, string fontName, Color? fontcolor = null)
         {
             this.SpriteTextureName = spriteTextureName;
             this.Message = message;
@@ -42,6 +43,7 @@ namespace TRotS
             this.Height = height;
             this.FontName = fontName;
             this.Pos = pos;
+            this.FontColor = fontcolor ?? Color.White;
 
             fontstyle = content.Load<SpriteFont>("Fonts/" + fontName);
             BottomPos = new Vector2(pos.X + width, pos.Y + height);
@@ -81,7 +83,7 @@ namespace TRotS
                 }
             }
             SpriteSheet.Instance.Draw(spriteBatch, Pos, scale, SpriteTextureName, new Color(color ?? (isPressed ? Color.BlanchedAlmond : Color.White), alpha ?? 1f));
-            spriteBatch.DrawString(fontstyle, Message, isPressed ? new Vector2(centre.X, centre.Y + 5) : centre, Color.White);
+            spriteBatch.DrawString(fontstyle, Message, isPressed ? new Vector2(centre.X, centre.Y + 5) : centre, FontColor);
 
             if (attachSpriteName != null)
             {

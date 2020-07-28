@@ -6,6 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'yeold goon squad';
-  yeetWord = 'YEEEEEEEET';
+  title: string;
+  yeetWord: string;
+
+
+  constructor() {
+    this.title = "YEET"
+    this.yeetWord = "memememememem"
+  }
 }

@@ -15,22 +15,25 @@ namespace OpenTk_test
     // This is called an Element Buffer Object. This tutorial will be all about how to set one up.
     public class Game : GameWindow
     {
-        float[] _vertices =
+        // Because we're adding a texture, we modify the vertex array to include texture coordinates.
+        // Texture coordinates range from 0.0 to 1.0, with (0.0, 0.0) representing the bottom left, and (1.0, 1.0) representing the top right
+        // The new layout is three floats to create a vertex, then two floats to create the coordinates
+        private readonly float[] _vertices =
         {
-            //Position          Texture coordinates
+            // Position         Texture coordinates
              0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // top right
              0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // bottom right
             -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left
             -0.5f,  0.5f, 0.0f, 0.0f, 1.0f  // top left
         };
-        // Then, we create a new array: indices.
-        // This array controls how the EBO will use those vertices to create triangles
+
         private readonly uint[] _indices =
         {
-            // Note that indices start at 0!
-            0, 1, 3, // The first triangle will be the bottom-right half of the triangle
-            1, 2, 3  // Then the second will be the top-right half of the triangle
+            0, 1, 3,
+            1, 2, 3
         };
+
+        private int _elementBufferObject;
 
         private int _vertexBufferObject;
 
@@ -38,12 +41,14 @@ namespace OpenTk_test
 
         private Shader _shader;
 
-        // Add a handle for the EBO
-        private int _elementBufferObject;
-
-        Texture tex;
+        // For documentation on this, check Texture.cs
+        private Texture _texture;
         Texture texture2;
-        public Game(int width, int height, string title) : base(width, height, GraphicsMode.Default, title) { }
+
+        public Game(int width, int height, string title)
+            : base(width, height, GraphicsMode.Default, title)
+        {
+        }
 
         protected override void OnLoad(EventArgs e)
         {
@@ -53,42 +58,42 @@ namespace OpenTk_test
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
             GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
 
-            // We create/bind the EBO the same way as the VBO, just with a different BufferTarget.
             _elementBufferObject = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, _elementBufferObject);
-
-            // We also buffer data to the EBO the same way.
             GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
 
+            // The shaders have been modified to include the texture coordinates, check them out after finishing the OnLoad function.
             _shader = new Shader(@"C:\Users\joshy\Desktop\Github\MyCode\C#\OpenTK\OpenTk test\shader.vert", @"C:\Users\joshy\Desktop\Github\MyCode\C#\OpenTK\OpenTk test\shader.frag");
             _shader.Use();
 
+            _texture = new Texture(@"C:\Users\joshy\Desktop\Github\MyCode\C#\OpenTK\OpenTk test\Resources\container.png");
+            _texture.Use();
+
+            texture2 = new Texture(@"C:\Users\joshy\Desktop\Github\MyCode\C#\OpenTK\OpenTk test\Resources\awesomeface.png");
+            texture2.Use();
+
+            _shader.SetInt("texture1", 0);
+            _shader.SetInt("texture2", 1);
             _vertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(_vertexArrayObject);
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
-
-            // We bind the EBO here too, just like with the VBO in the previous tutorial.
-            // Now, the EBO will be bound when we bind the VAO.
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, _elementBufferObject);
 
-            // The EBO has now been properly setup. Go to the Render function to see how we draw our rectangle now!
+            // Because there's now 5 floats between the start of the first vertex and the start of the second,
+            // we modify this from 3 * sizeof(float) to 5 * sizeof(float).
+            // This will now pass the new vertex array to the buffer.
+            var vertexLocation = _shader.GetAttribLocation("aPosition");
+            GL.EnableVertexAttribArray(vertexLocation);
+            GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
 
-            GL.VertexAttribPointer(_shader.GetAttribLocation("aPosition"), 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
-
-            int texCoordLocation = _shader.GetAttribLocation("aTexCoord");
+            // Next, we also setup texture coordinates. It works in much the same way.
+            // We add an offset of 3, since the first vertex coordinate comes after the first vertex
+            // and change the amount of data to 2 because there's only 2 floats for vertex coordinates
+            var texCoordLocation = _shader.GetAttribLocation("aTexCoord");
             GL.EnableVertexAttribArray(texCoordLocation);
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
-            GL.EnableVertexAttribArray(0);
 
-
-            tex = new Texture(@"C:\Users\joshy\Desktop\Github\MyCode\C#\OpenTK\OpenTk test\Resources\awesomeface.png");
-            tex.Use();
-            texture2 = new Texture(@"C:\Users\joshy\Desktop\Github\MyCode\C#\OpenTK\OpenTk test\Resources\container.png");
-            texture2.Use(TextureUnit.Texture1);
-
-            _shader.SetInt("texture1", 0);
-            _shader.SetInt("texture2", 1);
             base.OnLoad(e);
         }
 
@@ -97,7 +102,7 @@ namespace OpenTk_test
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.BindVertexArray(_vertexArrayObject);
 
-            tex.Use(TextureUnit.Texture0);
+            _texture.Use(TextureUnit.Texture0);
             texture2.Use(TextureUnit.Texture1);
             _shader.Use();
 
@@ -129,15 +134,15 @@ namespace OpenTk_test
         protected override void OnUnload(EventArgs e)
         {
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
             GL.BindVertexArray(0);
             GL.UseProgram(0);
 
             GL.DeleteBuffer(_vertexBufferObject);
-            GL.DeleteBuffer(_elementBufferObject);
             GL.DeleteVertexArray(_vertexArrayObject);
 
-            _shader.Dispose();
+            GL.DeleteProgram(_shader.Handle);
+            // Don't forget to dispose of the texture too!
+            GL.DeleteTexture(_texture.Handle);
             base.OnUnload(e);
         }
     }

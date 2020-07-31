@@ -4,15 +4,22 @@ using System.Drawing.Imaging;
 using OpenTK.Graphics.OpenGL4;
 using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 namespace OpenTk_test
-{
-    class Texture
+{ // A helper class, much like Shader, meant to simplify loading textures.
+    public class Texture
     {
-        int Handle;
+        public readonly int Handle;
 
-        public Texture(String path)
+        // Create texture from path.
+        public Texture(string path)
         {
+            // Generate handle
             Handle = GL.GenTexture();
+
+            // Bind the handle
             Use();
+
+            // For this example, we're going to use .NET's built-in System.Drawing library to load textures.
+
             // Load the image
             using (var image = new Bitmap(path))
             {
@@ -24,12 +31,11 @@ namespace OpenTk_test
                 //   we only need ReadOnly.
                 //   Next is the pixel format we want our pixels to be in. In this case, ARGB will suffice.
                 //   We have to fully qualify the name because OpenTK also has an enum named PixelFormat.
-                image.RotateFlip(RotateFlipType.RotateNoneFlipY);
                 var data = image.LockBits(
                     new Rectangle(0, 0, image.Width, image.Height),
                     ImageLockMode.ReadOnly,
                     System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                
+
                 // Now that our pixels are prepared, it's time to generate a texture. We do this with GL.TexImage2D
                 // Arguments:
                 //   The type of texture we're generating. There are various different types of textures, but the only one we need right now is Texture2D.

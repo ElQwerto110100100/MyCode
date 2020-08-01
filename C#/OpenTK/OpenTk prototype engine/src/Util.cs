@@ -17,13 +17,16 @@ namespace OpenTk_prototype_engine.src
         //class will need to be made for each unqie shader
         static public Shader DefaultShader { get; set; }
         static public Loader Loader { get; set; }
+
+        static public string basePath = @"C:\Users\joshy\Desktop\Github\MyCode\C#\OpenTK\OpenTk prototype engine\src\";
         static Util()
         {
             Loader = new Loader();
-            DefaultShader = new Shader("shader.vert", "shader.frag");
+            DefaultShader = new Shader(@"shaders\shader.vert", @"shaders\shader.frag");
         }
 
-        static public void FinishUp() {
+        static public void FinishUp()
+        {
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             GL.BindVertexArray(0);
             GL.UseProgram(0);

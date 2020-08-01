@@ -44,15 +44,20 @@
       <HintPath>packages\OpenTK.3.2\lib\net20\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="src\res\img2.png" />
+    <Content Include="src\res\img1.png" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
-    <Compile Include="src\Draw.cs" />
+    <Compile Include="src\Drawing.cs" />
     <Compile Include="src\Game.cs" />
+    <Compile Include="src\TextureLibary.cs" />
     <Compile Include="src\Util.cs" />
     <Compile Include="src\Loader.cs" />
-    <Compile Include="src\RawModle.cs" />
+    <Compile Include="src\RawModel.cs" />
     <Compile Include="src\Shader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

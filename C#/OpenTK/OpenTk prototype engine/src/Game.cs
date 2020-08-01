@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.ES30;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 using System;
 using System.Collections.Generic;
@@ -13,25 +13,34 @@ namespace OpenTk_prototype_engine.src
     class Game : GameWindow
     {
         float[] vertices = {
-             0.7f,  0.5f, 0.0f,  // top right
-             0.5f, -0.5f, 0.0f,  // bottom right
-            -0.5f, -0.5f, 0.0f,  // bottom left
-            -1f,  0.5f, 0.0f   // top left
+            -0.5f,  0.5f, 0.0f,  // top right
+            -0.5f, -0.5f, 0.0f,  // bottom right
+            0.5f, -0.5f, 0.0f,  // bottom left
+            0.5f,  0.5f, 0.0f   // top left
         };
         uint[] indices = {  // note that we start from 0!
             0, 1, 3,   // first triangle
-            1, 2, 3    // second triangle
+            3, 1, 2    // second triangle
         };
-        public RawModle triangle;
-        
+        float[] texCoords = {
+            0,0,
+            0,1,
+            1,1,
+            1,0
+        };
+        public RawModel triangle;
+        public Loader loader;
         public Game(int width, int height, string title) : base(width, height, GraphicsMode.Default, title) { }
 
         protected override void OnLoad(EventArgs e)
         {
-            
-            Util.DefaultShader = new Shader("shader.vert","shader.frag");
-            triangle = Util.Loader.LoadToVao(vertices, indices);
-            
+            loader = new Loader();
+            triangle = loader.LoadToVao(vertices, indices, texCoords);
+            TextureLibary.CreateTexture(@"res\img1.png", "image1");
+            TextureLibary.CreateTexture(@"res\img2.png", "image2");
+            Util.DefaultShader.SetInt("textureSampler", 0);
+            Util.DefaultShader.SetInt("textureSampler2", 1);
+
             base.OnLoad(e);
         }
         protected override void OnUpdateFrame(FrameEventArgs e)

@@ -13,25 +13,31 @@ namespace OpenTk_prototype_engine.src
     {
         private List<int> vaos = new List<int>();
         private List<int> vbos = new List<int>();
+        private List<int> texs = new List<int>();
 
         int VertexArrayObject;
-        public RawModle LoadToVao(float[] positions, uint[] indices)
+        public RawModel LoadToVao(float[] positions, uint[] indices, float[] texCoords = null)
         {
             VertexArrayObject = CreateVAO();//first make a VAO
-            CreateVBO(positions);//bind VBO to VAO
+            CreateVBO(0, positions, 3);//bind VBO to VAO
+            if (texCoords != null) CreateVBO(1, texCoords, 2);//bind tex VBO to VAO
             BindIndicesBuffer(indices);//bind EBO to VAO
-
             //finish off
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-            return new RawModle(VertexArrayObject, indices.Length);
+            return new RawModel(VertexArrayObject, indices.Length);
         }
 
-        private int CreateVBO(float[] data)
+        public void LoadTexture(int TexHandle)
+        {
+            texs.Add(TexHandle);
+        }
+
+        private int CreateVBO(int attrNumber, float[] data, int dataSize)
         {
             int vboId = GL.GenBuffer();
             vbos.Add(vboId);
             GL.BindBuffer(BufferTarget.ArrayBuffer, vboId);
             GL.BufferData(BufferTarget.ArrayBuffer, data.Length * sizeof(float), data, BufferUsageHint.StaticDraw);
+            GL.VertexAttribPointer(attrNumber, dataSize, VertexAttribPointerType.Float, false, 0, 0);
             return vboId;
         }
 
@@ -56,7 +62,7 @@ namespace OpenTk_prototype_engine.src
         {
             vbos.ForEach(vboId => GL.DeleteBuffer(vboId));
             vaos.ForEach(vaoId => GL.DeleteVertexArray(vaoId));
-            
+            texs.ForEach(texId => GL.DeleteTexture(texId));
         }
     }
 }

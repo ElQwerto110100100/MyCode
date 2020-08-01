@@ -8,16 +8,17 @@ using System.Threading.Tasks;
 
 namespace OpenTk_prototype_engine.src
 {
+    //needs away to access multiple diffrent types of shaders
     public class Shader
     {
         public int Handle;
         int VertexShader;
         int FragmentShader;
+        private readonly Dictionary<string, int> _uniformLocations;
 
-        string basePath = @"C:\Users\joshy\Desktop\Github\MyCode\C#\OpenTK\OpenTk prototype engine\src\shaders\";
         public Shader(string vertexPath, string fragmentPath)
         {
-            loadShaders(vertexPath, fragmentPath);
+            LoadShaders(vertexPath, fragmentPath);
             CompileShaders();
 
             Handle = GL.CreateProgram();
@@ -25,6 +26,24 @@ namespace OpenTk_prototype_engine.src
             GL.AttachShader(Handle, FragmentShader);
             GL.LinkProgram(Handle);
             GL.ValidateProgram(Handle);
+
+            GL.GetProgram(Handle, GetProgramParameterName.ActiveUniforms, out var numberOfUniforms);
+
+            // Next, allocate the dictionary to hold the locations.
+            _uniformLocations = new Dictionary<string, int>();
+
+            // Loop over all the uniforms,
+            for (var i = 0; i < numberOfUniforms; i++)
+            {
+                // get the name of this uniform,
+                var key = GL.GetActiveUniform(Handle, i, out _, out _);
+
+                // get the location,
+                var location = GL.GetUniformLocation(Handle, key);
+
+                // and then add it to the dictionary.
+                _uniformLocations.Add(key, location);
+            }
         }
         public void CompileShaders()
         {
@@ -41,18 +60,18 @@ namespace OpenTk_prototype_engine.src
             if (infoLogFrag != System.String.Empty)
                 System.Console.WriteLine(infoLogFrag);
         }
-        private void loadShaders(string vertexPath, string fragmentPath)
+        private void LoadShaders(string vertexPath, string fragmentPath)
         {
             string VertexShaderSource;
 
-            using (StreamReader reader = new StreamReader(basePath + vertexPath, Encoding.UTF8))
+            using (StreamReader reader = new StreamReader(Util.basePath + vertexPath, Encoding.UTF8))
             {
                 VertexShaderSource = reader.ReadToEnd();
             }
 
             string FragmentShaderSource;
 
-            using (StreamReader reader = new StreamReader(basePath + fragmentPath, Encoding.UTF8))
+            using (StreamReader reader = new StreamReader(Util.basePath + fragmentPath, Encoding.UTF8))
             {
                 FragmentShaderSource = reader.ReadToEnd();
             }
@@ -80,26 +99,11 @@ namespace OpenTk_prototype_engine.src
         {
             GL.UseProgram(0);
         }
-        //public int GetAttribLocation(string attribName)
-        //{
-        //    return GL.GetAttribLocation(Handle, attribName);
-        //}
 
-        //protected void BindAttributes(int attribute, string variableName)
-        //{
-        //    GL.BindAttribLocation(Handle, attribute, variableName);
-        //}
-
-        //private bool disposedValue = false;
-
-        //protected virtual void Dispose(bool disposing)
-        //{
-        //    if (!disposedValue)
-        //    {
-        //        GL.DeleteProgram(Handle);
-
-        //        disposedValue = true;
-        //    }
-        //}
+        public void SetInt(string name, int data)
+        {
+            GL.UseProgram(Handle);
+            GL.Uniform1(_uniformLocations[name], data);
+        }
     }
 }

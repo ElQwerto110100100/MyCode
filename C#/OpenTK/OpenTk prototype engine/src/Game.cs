@@ -36,10 +36,13 @@ namespace OpenTk_prototype_engine.src
         {
             loader = new Loader();
             triangle = loader.LoadToVao(vertices, indices, texCoords);
+            //create textures
             TextureLibary.CreateTexture(@"res\img1.png", "image1");
             TextureLibary.CreateTexture(@"res\img2.png", "image2");
-            TextureLibary.TexLibary["image1"].Use(TextureUnit.Texture0);
-            TextureLibary.TexLibary["image2"].Use(TextureUnit.Texture1);
+            //bind them to a texture unit
+            TextureLibary.TexLibary["image1"].Use(0);
+            TextureLibary.TexLibary["image2"].Use(1);
+            //bund the samplers to the texture units
             Util.DefaultShader.SetInt("textureSampler", 0);
             Util.DefaultShader.SetInt("textureSampler2", 1);
             base.OnLoad(e);

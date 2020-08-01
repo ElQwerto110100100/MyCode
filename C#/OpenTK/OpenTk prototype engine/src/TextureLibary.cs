@@ -26,7 +26,7 @@ namespace OpenTk_prototype_engine.src
                 // Generate handle
                 Handle = GL.GenTexture();
 
-                Use(TextureUnit.Texture0);
+                Use(0);
                 // Load the image
                 using (var image = new Bitmap(Util.basePath + path))
                 {
@@ -52,9 +52,9 @@ namespace OpenTk_prototype_engine.src
                 GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             }
 
-            public void Use(TextureUnit unit)
+            public void Use(int unit)
             {
-                GL.ActiveTexture(unit);
+                GL.ActiveTexture(TextureUnit.Texture0 + unit);
                 GL.BindTexture(TextureTarget.Texture2D, Handle);
             }
         }

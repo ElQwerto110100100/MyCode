@@ -9,5 +9,5 @@ uniform sampler2D textureSampler2;
 
 void main()
 {
-    out_Colour = mix(texture(textureSampler, pass_textureCoords), texture(textureSampler2, pass_textureCoords), 0.3)* vec4(Colour, 1.0);
+    out_Colour = mix(texture(textureSampler, pass_textureCoords), texture(textureSampler2, pass_textureCoords), 0.5)* vec4(Colour, 1.0);
 }

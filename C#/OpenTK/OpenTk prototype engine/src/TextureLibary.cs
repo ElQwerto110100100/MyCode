@@ -6,17 +6,7 @@ using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 
 namespace OpenTk_prototype_engine.src
 {
-    static class TextureLibary
-    {
-        static public Dictionary<string, Texture> TexLibary = new Dictionary<string, Texture>();
-
-        static public Texture CreateTexture(string path, string name) {
-            Texture newTex = new Texture(path);
-
-            TexLibary.Add(name, newTex);
-            return newTex;
-        }
-        public class Texture
+    class Texture
         {
             public int Handle { get; set; }
 
@@ -25,6 +15,8 @@ namespace OpenTk_prototype_engine.src
             {
                 // Generate handle
                 Handle = GL.GenTexture();
+
+                Use();
                 // Load the image
                 using (var image = new Bitmap(Util.basePath + path))
                 {
@@ -50,11 +42,11 @@ namespace OpenTk_prototype_engine.src
                 GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             }
 
-            public void Use(TextureUnit unit)
+            public void Use(TextureUnit unit = TextureUnit.Texture0)
             {
                 GL.ActiveTexture(unit);
                 GL.BindTexture(TextureTarget.Texture2D, Handle);
             }
         }
-    }
+    
 }

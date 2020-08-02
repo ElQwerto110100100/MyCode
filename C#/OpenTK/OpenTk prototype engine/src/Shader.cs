@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL;
+﻿using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +16,6 @@ namespace OpenTk_prototype_engine.src
         int VertexShader;
         int FragmentShader;
         private readonly Dictionary<string, int> _uniformLocations;
-
         public Shader(string vertexPath, string fragmentPath)
         {
             LoadShaders(vertexPath, fragmentPath);
@@ -100,10 +100,26 @@ namespace OpenTk_prototype_engine.src
             GL.UseProgram(0);
         }
 
-        public void SetInt(string name, int data)
+        //alos data givein from the code to a desginated uniform
+        public void SetData(string name, int data)
         {
             GL.UseProgram(Handle);
             GL.Uniform1(_uniformLocations[name], data);
+        }
+        public void SetData(string name, double data)
+        {
+            GL.UseProgram(Handle);
+            GL.Uniform1(_uniformLocations[name], data);
+        }
+        public void SetData(string name, float data)
+        {
+            GL.UseProgram(Handle);
+            GL.Uniform1(_uniformLocations[name], data);
+        }
+        public void SetData(string name, Matrix4 data)
+        {
+            GL.UseProgram(Handle);
+            GL.UniformMatrix4(_uniformLocations[name], false, ref data);
         }
     }
 }

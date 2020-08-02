@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace OpenTk_prototype_engine.src
 {
-    class Loader
+    static class Loader
     {
-        private List<int> vaos = new List<int>();
-        private List<int> vbos = new List<int>();
-        private List<int> texs = new List<int>();
+        static private List<int> vaos = new List<int>();
+        static private List<int> vbos = new List<int>();
+        static private List<int> texs = new List<int>();
 
-        int VertexArrayObject;
-        public RawModel LoadToVao(float[] positions, uint[] indices, float[] texCoords = null)
+        static int VertexArrayObject;
+        static public RawModel LoadToVao(float[] positions, uint[] indices, float[] texCoords = null)
         {
             VertexArrayObject = CreateVAO();//first make a VAO
             CreateVBO(0, positions, 3);//bind VBO to VAO
@@ -26,12 +26,12 @@ namespace OpenTk_prototype_engine.src
             return new RawModel(VertexArrayObject, indices.Length);
         }
 
-        public void LoadTexture(int TexHandle)
+        public static void LoadTexture(int TexHandle)
         {
             texs.Add(TexHandle);
         }
 
-        private int CreateVBO(int attrNumber, float[] data, int dataSize)
+        private static int CreateVBO(int attrNumber, float[] data, int dataSize)
         {
             int vboId = GL.GenBuffer();
             vbos.Add(vboId);
@@ -41,7 +41,7 @@ namespace OpenTk_prototype_engine.src
             return vboId;
         }
 
-        private int CreateVAO()
+        private static int CreateVAO()
         {
             int vaoId = GL.GenVertexArray();
             vaos.Add(vaoId);
@@ -50,7 +50,7 @@ namespace OpenTk_prototype_engine.src
             return vaoId;
         }
 
-        private void BindIndicesBuffer(uint[] indices)
+        private static void BindIndicesBuffer(uint[] indices)
         {
             int vboID = GL.GenBuffer();
             vbos.Add(vboID);
@@ -58,7 +58,7 @@ namespace OpenTk_prototype_engine.src
             GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
         }
 
-        public void CleanUp()
+        public static void CleanUp()
         {
             vbos.ForEach(vboId => GL.DeleteBuffer(vboId));
             vaos.ForEach(vaoId => GL.DeleteVertexArray(vaoId));

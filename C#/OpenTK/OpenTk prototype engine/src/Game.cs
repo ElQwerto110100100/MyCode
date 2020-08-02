@@ -29,32 +29,89 @@ namespace OpenTk_prototype_engine.src
             1,0
         };
         public RawModel triangle;
-        public Loader loader;
+
+        public Matrix4 trans;
+        public float xPos = 0;
+        public float yPos = 0;
+        private bool imageChanged = false;
+        KeyboardState previousKeyboard;
+        KeyboardState input;
         public Game(int width, int height, string title) : base(width, height, GraphicsMode.Default, title) { }
 
         protected override void OnLoad(EventArgs e)
         {
-            loader = new Loader();
-            triangle = loader.LoadToVao(vertices, indices, texCoords);
+            triangle = Loader.LoadToVao(vertices, indices, texCoords);
             //create textures
             TextureLibary.CreateTexture(@"res\img1.png", "image1");
             TextureLibary.CreateTexture(@"res\img2.png", "image2");
+
+
+
             //bind them to a texture unit
             TextureLibary.TexLibary["image1"].Use(0);
             TextureLibary.TexLibary["image2"].Use(1);
+
             //bund the samplers to the texture units
-            Util.DefaultShader.SetInt("textureSampler", 0);
-            Util.DefaultShader.SetInt("textureSampler2", 1);
+            Util.DefaultShader.SetData("textureSampler", 0);
+            Util.DefaultShader.SetData("textureSampler2", 1);
+            trans = Maths.CreateTransmatrix(new Vector3(xPos, yPos, 0));
+            Util.DefaultShader.SetData("transform", trans);
+            //transform model
             base.OnLoad(e);
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             //Get the state of the keyboard this frame
-            KeyboardState input = Keyboard.GetState();
-
+            previousKeyboard = input;
+            input = Keyboard.GetState();
+            
+            
             if (input.IsKeyDown(Key.Escape))
             {
                 Exit();
+            }
+            if (input.IsKeyDown(Key.Left))
+            {
+                xPos -= 0.05f;
+                trans = Maths.CreateTransmatrix(new Vector3(xPos, yPos, 0));
+                Util.DefaultShader.SetData("transform", trans);
+            }
+            if (input.IsKeyDown(Key.Right))
+            {
+                xPos += 0.05f;
+                trans = Maths.CreateTransmatrix(new Vector3(xPos, yPos, 0));
+                Util.DefaultShader.SetData("transform", trans);
+            }
+            if (input.IsKeyDown(Key.Up))
+            {
+                yPos += 0.05f;
+                trans = Maths.CreateTransmatrix(new Vector3(xPos, yPos, 0));
+                Util.DefaultShader.SetData("transform", trans);
+            }
+            if (input.IsKeyDown(Key.Down))
+            {
+                yPos -= 0.05f;
+                trans = Maths.CreateTransmatrix(new Vector3(xPos, yPos, 0));
+                Util.DefaultShader.SetData("transform", trans);
+            }
+            if (input.IsKeyDown(Key.Space) && previousKeyboard.IsKeyUp(Key.Space))
+            {
+                if (!imageChanged)
+                {
+                    Util.DefaultShader.SetData("textureSampler", 0);
+                    Util.DefaultShader.SetData("textureSampler2", 0);
+                    imageChanged = !imageChanged;
+                } else
+                {
+                    Util.DefaultShader.SetData("textureSampler", 1);
+                    Util.DefaultShader.SetData("textureSampler2", 1);
+                    imageChanged = !imageChanged;
+                }
+            }
+            if (input.IsKeyDown(Key.Q) && previousKeyboard.IsKeyUp(Key.Q))
+            {
+                Util.DefaultShader.SetData("textureSampler", 0);
+                Util.DefaultShader.SetData("textureSampler2", 1);
             }
             base.OnUpdateFrame(e);
         }

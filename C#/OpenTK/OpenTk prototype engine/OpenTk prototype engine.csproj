@@ -53,12 +53,14 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="src\Drawing.cs" />
+    <Compile Include="src\entity\Entity.cs" />
     <Compile Include="src\Game.cs" />
-    <Compile Include="src\TextureLibary.cs" />
+    <Compile Include="src\entity\TextureLibary.cs" />
     <Compile Include="src\Util.cs" />
-    <Compile Include="src\Loader.cs" />
-    <Compile Include="src\RawModel.cs" />
+    <Compile Include="src\entity\Loader.cs" />
+    <Compile Include="src\entity\RawModel.cs" />
     <Compile Include="src\Shader.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
